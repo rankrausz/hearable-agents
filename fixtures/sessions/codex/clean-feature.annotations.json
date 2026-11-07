@@ -1,0 +1,13 @@
+{
+  "agent": "codex",
+  "deprecated": false,
+  "durationMs": 11,
+  "events": [{ "atMs": 4, "kind": "turn_start" }, { "atMs": 11, "kind": "turn_complete" }],
+  "name": "clean-feature",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T11:00:00Z",
+  "struggleSegments": [],
+  "summary": "Scripted session posted through the live daemon pipeline (POST /events with the codex header into a hearable record daemon): the agent searches for TODO markers, runs the unit test suite, and finishes cleanly. Live Codex capture was impossible because the account usage limit blocked every model turn, so the scenario is invented and labelled synthetic.",
+  "summaryKind": "synthetic",
+  "synthetic": true
+}

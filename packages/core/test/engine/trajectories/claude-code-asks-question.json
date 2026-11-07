@@ -1,0 +1,272 @@
+{
+  "snapshots": [
+    {
+      "atMs": 0,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 1000,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 2000,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 2513,
+      "source": "event",
+      "eventKind": "turn.start",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2513,
+      "turnStartedAtMs": 2513,
+      "reasons": [
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 3000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2513,
+      "turnStartedAtMs": 2513,
+      "reasons": [
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 4000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2513,
+      "turnStartedAtMs": 2513,
+      "reasons": [
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 4913,
+      "source": "event",
+      "eventKind": "turn.end",
+      "lifecycle": "waiting",
+      "lifecycleConfidence": "inferred",
+      "waitingReason": "question",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 4913,
+      "reasons": [
+        {
+          "atMs": 4913,
+          "signal": "lifecycle",
+          "text": "Turn ended: lane is waiting (question)."
+        },
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 5000,
+      "source": "sample",
+      "lifecycle": "waiting",
+      "lifecycleConfidence": "inferred",
+      "waitingReason": "question",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 4913,
+      "reasons": [
+        {
+          "atMs": 4913,
+          "signal": "lifecycle",
+          "text": "Turn ended: lane is waiting (question)."
+        },
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 5625,
+      "source": "event",
+      "eventKind": "session.end",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 5625,
+      "reasons": [
+        {
+          "atMs": 5625,
+          "signal": "lifecycle",
+          "text": "Session ended: lane is idle."
+        },
+        {
+          "atMs": 4913,
+          "signal": "lifecycle",
+          "text": "Turn ended: lane is waiting (question)."
+        },
+        {
+          "atMs": 2513,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    }
+  ],
+  "final": {
+    "atMs": 5625,
+    "source": "event",
+    "eventKind": "session.end",
+    "lifecycle": "idle",
+    "lifecycleConfidence": "observed",
+    "displayedMode": "other",
+    "mode": {
+      "exploring": 0.25,
+      "editing": 0.25,
+      "testing": 0.25,
+      "other": 0.25
+    },
+    "activity": 0,
+    "progress": 0,
+    "struggle": 0,
+    "lastEventAtMs": 5625,
+    "reasons": [
+      {
+        "atMs": 5625,
+        "signal": "lifecycle",
+        "text": "Session ended: lane is idle."
+      },
+      {
+        "atMs": 4913,
+        "signal": "lifecycle",
+        "text": "Turn ended: lane is waiting (question)."
+      },
+      {
+        "atMs": 2513,
+        "signal": "lifecycle",
+        "text": "Turn started: lane is active."
+      }
+    ]
+  },
+  "summary": {
+    "strugglePeakInsideSegments": 0,
+    "strugglePeakOutsideSegments": 0,
+    "lifecycleTransitions": 3,
+    "displayedModeTransitions": 0,
+    "waitingLatenciesMs": [0]
+  }
+}

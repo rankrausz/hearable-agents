@@ -1,0 +1,16 @@
+{
+  "agent": "claude-code",
+  "deprecated": false,
+  "durationMs": 5625,
+  "events": [
+    { "atMs": 2513, "kind": "turn_start" },
+    { "atMs": 4913, "kind": "waiting", "reason": "question" }
+  ],
+  "name": "asks-question",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T10:41:00Z",
+  "struggleSegments": [],
+  "summary": "Real Claude Code session: the agent answers a factual question with no tool calls and ends the turn with a question to the user, which the adapter observes as turn.end with reason question.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

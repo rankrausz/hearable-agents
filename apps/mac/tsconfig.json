@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/types",
+    "rootDir": ".",
+    "types": ["node"],
+    "lib": ["ES2022", "DOM"]
+  },
+  "include": ["src", "test", "*.config.ts"],
+  "references": [
+    { "path": "../../packages/daemon" },
+    { "path": "../../packages/adapters/claude-code" },
+    { "path": "../../packages/adapters/codex" }
+  ]
+}

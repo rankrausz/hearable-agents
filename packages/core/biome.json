@@ -1,0 +1,53 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "extends": "//",
+  "linter": {
+    "rules": {
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "patterns": [
+              {
+                "group": [":NODE:"],
+                "message": "packages/core is pure and deterministic: node:* modules are forbidden here so the same code runs in daemon, tests and the browser (docs/ARCHITECTURE.md §packages/core, ADR 0004)."
+              },
+              {
+                "group": ["@hearable/*", "@hearable/**"],
+                "message": "packages/core is pure and imports nothing from the workspace: it must stay free of I/O and side effects (docs/ARCHITECTURE.md §packages/core, ADR 0004)."
+              }
+            ]
+          }
+        },
+        "noRestrictedGlobals": {
+          "level": "error",
+          "options": {
+            "deniedGlobals": {
+              "window": "packages/core is pure and runs in daemon, tests and the browser: it must not reference browser globals like window (docs/ARCHITECTURE.md §packages/core).",
+              "document": "packages/core is pure and runs in daemon, tests and the browser: it must not reference browser globals like document (docs/ARCHITECTURE.md §packages/core)."
+            }
+          }
+        }
+      },
+      "nursery": {
+        "noJsRestrictedProperties": {
+          "level": "error",
+          "options": {
+            "entries": [
+              {
+                "object": "Date",
+                "property": "now",
+                "message": "packages/core is pure and deterministic: time comes from event timestamps or an injected Clock, never Date.now() (docs/ARCHITECTURE.md §packages/core, ADR 0004)."
+              },
+              {
+                "object": "Math",
+                "property": "random",
+                "message": "packages/core is pure and deterministic: randomness comes from an injected seeded RNG, never Math.random() (docs/ARCHITECTURE.md §packages/core, ADR 0004)."
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

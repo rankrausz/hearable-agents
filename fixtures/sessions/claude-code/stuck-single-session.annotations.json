@@ -1,0 +1,19 @@
+{
+  "agent": "claude-code",
+  "deprecated": false,
+  "durationMs": 360256,
+  "events": [{ "atMs": 2500, "kind": "turn_start" }, { "atMs": 359137, "kind": "turn_complete" }],
+  "name": "stuck-single-session",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T11:00:00Z",
+  "struggleSegments": [
+    {
+      "fromMs": 21661,
+      "note": "Genuine looping in one continuous session: eight fix checks c1 through c8, each failing first (10 tool.fail over the session) with a deliberately wrong first fix before the real fix lands, then regression runs confirm.",
+      "toMs": 321661
+    }
+  ],
+  "summary": "Real Claude Code session: one continuous six-turn session working through eight fix checks, each check failing, then failing again on a deliberately wrong first fix, before passing. Recorded live through hearable record; one ls event whose target leaked an absolute path was dropped at promotion.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

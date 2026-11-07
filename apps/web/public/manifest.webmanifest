@@ -1,0 +1,16 @@
+{
+  "name": "Hearable",
+  "short_name": "Hearable",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#101414",
+  "background_color": "#101414",
+  "icons": [
+    {
+      "src": "/hearable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

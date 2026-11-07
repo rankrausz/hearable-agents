@@ -1,0 +1,3732 @@
+{
+  "calm": 0.6,
+  "samples": [
+    {
+      "atMs": 0,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "idle",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.3,
+          "foreground": false,
+          "gestures": []
+        }
+      ]
+    },
+    {
+      "atMs": 1000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 2000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 3000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 4000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 5000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 6000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 7000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 8000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 9000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 10000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.997396,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 11000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.985951,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 12000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.975852,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 13000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.966939,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 14000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.959074,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 15000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.952132,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 16000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.946006,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 17000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.940601,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 18000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.93583,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 19000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.93162,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 20000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.927904,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 21000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.924625,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 22000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.921732,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 23000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.919178,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 24000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.916925,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 25000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.914936,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 26000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.913181,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 27000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.911632,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 28000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.910265,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 29000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.909059,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 30000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.907995,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 31000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.907055,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 32000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.906226,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 33000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.905495,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 34000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.904849,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 35000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.904279,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 36000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.903776,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 37000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.903333,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 38000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.902941,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 39000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.902596,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 40000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.902291,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 41000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.902021,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 42000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.901784,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 43000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.901574,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 44000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.901389,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 45000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.901226,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 46000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.901082,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 47000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900955,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 48000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900843,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 49000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900744,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 50000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900656,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 51000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900579,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 52000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900511,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 53000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900451,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 54000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900398,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 55000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900351,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 56000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.90031,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 57000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900274,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 58000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900241,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 59000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900213,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 60000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900188,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 61000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900166,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 62000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900146,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 63000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900129,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 64000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900114,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 65000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900101,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 66000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900089,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 67000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900078,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 68000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900069,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 69000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900061,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 70000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900054,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 71000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900048,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 72000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900042,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 73000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900037,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 74000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900033,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 75000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900029,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 76000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900025,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 77000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900022,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 78000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.90002,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 79000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900017,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 80000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900015,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 81000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900014,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 82000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900012,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 83000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900011,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 84000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900009,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 85000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900008,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 86000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900007,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 87000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900006,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 88000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900006,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 89000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900005,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 90000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900004,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 91000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900004,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 92000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900003,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 93000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900003,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 94000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900003,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 95000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900002,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 96000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900002,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 97000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900002,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 98000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900002,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 99000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 100000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 101000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 102000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 103000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 104000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 105000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 106000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 107000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.900001,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 108000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 109000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 110000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 111000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 112000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 113000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 114000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 115000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 116000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 117000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 118000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 119000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 120000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 121000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 122000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 123000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 124000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 125000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 126000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 127000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 128000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 129000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 130000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 131000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 132000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 133000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 134000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 135000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 136000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 137000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 138000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 139000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 140000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 141000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 142000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 143000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 144000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 145000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 146000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 147000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 148000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 149000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 150000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 151000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 152000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 153000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 154000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 155000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 156000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 157000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 158000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 159000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 160000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 161000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 162000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 163000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 164000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 165000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 166000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 167000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 168000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 169000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 170000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 171000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 172000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 173000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 174000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 175000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 176000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 177000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 178000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 179000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 180000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 181000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 182000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 183000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 184000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 185000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 186000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 187000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 188000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 189000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 190000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 191000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 192000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 193000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 194000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 195000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.9,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "question",
+              "at": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "attentionGestures": 0,
+    "questionGestures": 1,
+    "foregroundHolders": [1],
+    "foregroundTransitions": 0,
+    "strugglePeak": 0,
+    "prominencePeak": 1
+  }
+}

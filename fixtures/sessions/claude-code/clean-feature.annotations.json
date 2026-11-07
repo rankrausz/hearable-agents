@@ -1,0 +1,13 @@
+{
+  "agent": "claude-code",
+  "deprecated": false,
+  "durationMs": 14640,
+  "events": [{ "atMs": 2502, "kind": "turn_start" }, { "atMs": 13464, "kind": "turn_complete" }],
+  "name": "clean-feature",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T10:41:00Z",
+  "struggleSegments": [],
+  "summary": "Real Claude Code session: the agent creates notes.txt with the Write tool and reads it back with Read to verify, completing in one turn with no errors.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

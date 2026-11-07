@@ -1,0 +1,116 @@
+{
+  "calm": 0.6,
+  "samples": [
+    {
+      "atMs": 0,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "idle",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.3,
+          "foreground": false,
+          "gestures": []
+        }
+      ]
+    },
+    {
+      "atMs": 1000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "idle",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.264749,
+          "foreground": false,
+          "gestures": []
+        }
+      ]
+    },
+    {
+      "atMs": 2000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "idle",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.23364,
+          "foreground": false,
+          "gestures": []
+        }
+      ]
+    },
+    {
+      "atMs": 3000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "active",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.366187,
+          "foreground": false,
+          "gestures": [
+            {
+              "gesture": "arrive",
+              "at": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 4000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "active",
+          "lifecycleConfidence": "observed",
+          "struggle": 0,
+          "prominence": 0.424749,
+          "foreground": false,
+          "gestures": [
+            {
+              "gesture": "arrive",
+              "at": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "atMs": 5000,
+      "lanes": [
+        {
+          "laneId": 1,
+          "lifecycle": "waiting",
+          "lifecycleConfidence": "inferred",
+          "struggle": 0,
+          "prominence": 1,
+          "foreground": true,
+          "gestures": [
+            {
+              "gesture": "arrive",
+              "at": 3
+            },
+            {
+              "gesture": "question",
+              "at": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "attentionGestures": 0,
+    "questionGestures": 1,
+    "foregroundHolders": [1],
+    "foregroundTransitions": 0,
+    "strugglePeak": 0,
+    "prominencePeak": 1
+  }
+}

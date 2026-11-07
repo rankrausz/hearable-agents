@@ -1,0 +1,12 @@
+{
+  "cwd": "/repo",
+  "duration_ms": 4187,
+  "error": "Exit code 1\nError: Cannot find module 'express'",
+  "hook_event_name": "PostToolUseFailure",
+  "is_interrupt": false,
+  "session_id": "sess-001",
+  "tool_input": { "command": "npm test", "description": "Run test suite" },
+  "tool_name": "Bash",
+  "tool_use_id": "toolu-bash-1",
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl"
+}

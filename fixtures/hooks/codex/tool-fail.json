@@ -1,0 +1,19 @@
+{
+  "cwd": "/home/user/project",
+  "hook_event_name": "PostToolUse",
+  "model": "gpt-5.6-sol",
+  "permission_mode": "default",
+  "session_id": "s1",
+  "tool_input": {
+    "command": "pytest tests/unit",
+    "description": null
+  },
+  "tool_name": "Bash",
+  "tool_response": {
+    "exit_code": 1,
+    "output": "REDACTED"
+  },
+  "tool_use_id": "u2",
+  "transcript_path": "/home/user/.codex/sessions/rollout.jsonl",
+  "turn_id": "t1"
+}

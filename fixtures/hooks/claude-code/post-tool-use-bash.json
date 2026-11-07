@@ -1,0 +1,10 @@
+{
+  "cwd": "/repo",
+  "hook_event_name": "PostToolUse",
+  "session_id": "sess-001",
+  "tool_input": { "command": "npm test" },
+  "tool_name": "Bash",
+  "tool_response": { "interrupted": false, "isImage": false, "stderr": "", "stdout": "ok" },
+  "tool_use_id": "toolu-bash-2",
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl"
+}

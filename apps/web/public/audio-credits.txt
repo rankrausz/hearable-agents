@@ -1,0 +1,11 @@
+Salamander Grand Piano v3 — piano recordings by Alexander Holm.
+Source: https://github.com/sfzinstruments/SalamanderGrandPiano
+Original collection: https://archive.org/details/SalamanderGrandPianoV3
+Licensed under Creative Commons Attribution 3.0 Unported (CC BY 3.0):
+https://creativecommons.org/licenses/by/3.0/
+
+Hearable uses seven soft velocity-layer-3 recordings. Changes: first microphone
+channel, resampled to mono 22.05 kHz / 16-bit PCM, trimmed to 4.2 seconds,
+5 ms start fade and 350 ms end fade, gain multiplied by four. Playback
+repitches nearby notes, changes gain, envelopes and mixes the recordings.
+No endorsement by the recording author is implied.

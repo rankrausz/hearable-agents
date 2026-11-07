@@ -1,0 +1,31 @@
+{
+  "name": "@hearable/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Embedded Mac popover and hidden audio renderer",
+  "scripts": {
+    "test": "vitest run --project @hearable/web --root ../..",
+    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "build": "tsc --build && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 5173",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@hearable/audio": "workspace:*",
+    "@hearable/core": "workspace:*",
+    "tone": "15.1.22",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2",
+    "vitest": "^5.0.0",
+    "ws": "^8.21.3",
+    "@types/ws": "^8.5.13"
+  }
+}

@@ -1,0 +1,5 @@
+{"hearable": "session", "v": 1, "recordedAt": 1788691229205, "agent": "claude-code", "annotations": "asks-question.annotations.json"}
+{"v": 1, "id": "claude-asks-question-real-start", "ts": 1788691582011, "receivedAt": 1788691582011, "agent": "claude-code", "sessionId": "s1", "kind": "session.start"}
+{"v": 1, "id": "claude-c382b03e-80af-4996-a55f-6b34514f8341-userpromptsubmit-0", "ts": 1788691584524, "receivedAt": 1788691584524, "agent": "claude-code", "sessionId": "s1", "kind": "turn.start"}
+{"v": 1, "id": "claude-c382b03e-80af-4996-a55f-6b34514f8341-stop-0", "ts": 1788691586924, "receivedAt": 1788691586924, "agent": "claude-code", "sessionId": "s1", "kind": "turn.end", "lifecycle": {"reason": "question", "confidence": "inferred"}}
+{"v": 1, "id": "claude-asks-question-real-end", "ts": 1788691587636, "receivedAt": 1788691587636, "agent": "claude-code", "sessionId": "s1", "kind": "session.end"}

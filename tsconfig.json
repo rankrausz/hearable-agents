@@ -1,0 +1,35 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/core"
+    },
+    {
+      "path": "./packages/audio"
+    },
+    {
+      "path": "./packages/adapter-kit"
+    },
+    {
+      "path": "./packages/daemon"
+    },
+    {
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/adapters/claude-code"
+    },
+    {
+      "path": "./packages/adapters/codex"
+    },
+    {
+      "path": "./apps/web"
+    },
+    {
+      "path": "./tsconfig.e2e.json"
+    },
+    {
+      "path": "./apps/mac"
+    }
+  ]
+}

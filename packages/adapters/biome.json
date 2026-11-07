@@ -1,0 +1,28 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "extends": "//",
+  "linter": {
+    "rules": {
+      "style": {
+        "noRestrictedImports": {
+          "level": "error",
+          "options": {
+            "patterns": [
+              {
+                "group": [
+                  "@hearable/*",
+                  "@hearable/**",
+                  "!@hearable/core",
+                  "!@hearable/core/**",
+                  "!@hearable/adapter-kit",
+                  "!@hearable/adapter-kit/**"
+                ],
+                "message": "Adapters may only import @hearable/core and @hearable/adapter-kit from the workspace: adapters never import each other, the daemon or any other package (docs/ARCHITECTURE.md §packages/adapters/*)."
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

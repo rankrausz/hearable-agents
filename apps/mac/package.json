@@ -1,0 +1,14 @@
+{
+  "name": "@hearable/mac",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/main/index.mjs",
+  "dependencies": {
+    "@hearable/daemon": "workspace:*",
+    "@hearable/claude-code": "workspace:*",
+    "@hearable/codex": "workspace:*",
+    "ws": "^8.18.0",
+    "zod": "^4.5.4"
+  }
+}

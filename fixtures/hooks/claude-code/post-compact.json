@@ -1,0 +1,8 @@
+{
+  "compact_summary": "[redacted summary]",
+  "cwd": "/repo",
+  "hook_event_name": "PostCompact",
+  "session_id": "sess-001",
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl",
+  "trigger": "manual"
+}

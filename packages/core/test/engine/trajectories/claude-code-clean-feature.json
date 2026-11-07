@@ -1,0 +1,651 @@
+{
+  "snapshots": [
+    {
+      "atMs": 0,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 1000,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 2000,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 2502,
+      "source": "event",
+      "eventKind": "turn.start",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2502,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 3000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2502,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 4000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2502,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 5000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2502,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 6000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 2502,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 7000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.177064,
+        "editing": 0.468808,
+        "testing": 0.177064,
+        "other": 0.177064
+      },
+      "activity": 0.530586,
+      "progress": 0.099944,
+      "struggle": 0,
+      "lastEventAtMs": 6946,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 8000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.177064,
+        "editing": 0.468808,
+        "testing": 0.177064,
+        "other": 0.177064
+      },
+      "activity": 0.496366,
+      "progress": 0.09939,
+      "struggle": 0,
+      "lastEventAtMs": 6946,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 9000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.177064,
+        "editing": 0.468808,
+        "testing": 0.177064,
+        "other": 0.177064
+      },
+      "activity": 0.464354,
+      "progress": 0.09884,
+      "struggle": 0,
+      "lastEventAtMs": 6946,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 10000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.177064,
+        "editing": 0.468808,
+        "testing": 0.177064,
+        "other": 0.177064
+      },
+      "activity": 0.434407,
+      "progress": 0.098292,
+      "struggle": 0,
+      "lastEventAtMs": 6946,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 11000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.177064,
+        "editing": 0.468808,
+        "testing": 0.177064,
+        "other": 0.177064
+      },
+      "activity": 0.40639,
+      "progress": 0.097747,
+      "struggle": 0,
+      "lastEventAtMs": 6946,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 12000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.890195,
+      "progress": 0.097206,
+      "struggle": 0,
+      "lastEventAtMs": 11564,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 12000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.890195,
+      "progress": 0.097206,
+      "struggle": 0,
+      "lastEventAtMs": 11564,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 13000,
+      "source": "sample",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.832783,
+      "progress": 0.096667,
+      "struggle": 0,
+      "lastEventAtMs": 11564,
+      "turnStartedAtMs": 2502,
+      "reasons": [
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 13464,
+      "source": "event",
+      "eventKind": "turn.end",
+      "lifecycle": "turn_complete",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.807417,
+      "progress": 0.296418,
+      "struggle": 0,
+      "lastEventAtMs": 13464,
+      "reasons": [
+        {
+          "atMs": 13464,
+          "signal": "progress",
+          "delta": 0.2,
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 13464,
+          "signal": "lifecycle",
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 14000,
+      "source": "sample",
+      "lifecycle": "turn_complete",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.779075,
+      "progress": 0.295537,
+      "struggle": 0,
+      "lastEventAtMs": 13464,
+      "reasons": [
+        {
+          "atMs": 13464,
+          "signal": "progress",
+          "delta": 0.2,
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 13464,
+          "signal": "lifecycle",
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 14640,
+      "source": "event",
+      "eventKind": "session.end",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "editing",
+      "mode": {
+        "exploring": 0.332674,
+        "editing": 0.380161,
+        "testing": 0.143583,
+        "other": 0.143583
+      },
+      "activity": 0.746533,
+      "progress": 0.294488,
+      "struggle": 0,
+      "lastEventAtMs": 14640,
+      "reasons": [
+        {
+          "atMs": 14640,
+          "signal": "lifecycle",
+          "text": "Session ended: lane is idle."
+        },
+        {
+          "atMs": 13464,
+          "signal": "progress",
+          "delta": 0.2,
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 13464,
+          "signal": "lifecycle",
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 12000,
+          "signal": "mode",
+          "text": "Mode changed to editing: editing work dominates."
+        },
+        {
+          "atMs": 6899,
+          "signal": "progress",
+          "delta": 0.1,
+          "text": "New file \"notes.txt\" edited this turn."
+        },
+        {
+          "atMs": 2502,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    }
+  ],
+  "final": {
+    "atMs": 14640,
+    "source": "event",
+    "eventKind": "session.end",
+    "lifecycle": "idle",
+    "lifecycleConfidence": "observed",
+    "displayedMode": "editing",
+    "mode": {
+      "exploring": 0.332674,
+      "editing": 0.380161,
+      "testing": 0.143583,
+      "other": 0.143583
+    },
+    "activity": 0.746533,
+    "progress": 0.294488,
+    "struggle": 0,
+    "lastEventAtMs": 14640,
+    "reasons": [
+      {
+        "atMs": 14640,
+        "signal": "lifecycle",
+        "text": "Session ended: lane is idle."
+      },
+      {
+        "atMs": 13464,
+        "signal": "progress",
+        "delta": 0.2,
+        "text": "Turn completed."
+      },
+      {
+        "atMs": 13464,
+        "signal": "lifecycle",
+        "text": "Turn completed."
+      },
+      {
+        "atMs": 12000,
+        "signal": "mode",
+        "text": "Mode changed to editing: editing work dominates."
+      },
+      {
+        "atMs": 6899,
+        "signal": "progress",
+        "delta": 0.1,
+        "text": "New file \"notes.txt\" edited this turn."
+      },
+      {
+        "atMs": 2502,
+        "signal": "lifecycle",
+        "text": "Turn started: lane is active."
+      }
+    ]
+  },
+  "summary": {
+    "strugglePeakInsideSegments": 0,
+    "strugglePeakOutsideSegments": 0,
+    "lifecycleTransitions": 3,
+    "displayedModeTransitions": 1,
+    "waitingLatenciesMs": []
+  }
+}

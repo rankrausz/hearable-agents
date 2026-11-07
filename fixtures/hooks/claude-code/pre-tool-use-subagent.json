@@ -1,0 +1,11 @@
+{
+  "cwd": "/repo",
+  "hook_event_name": "PreToolUse",
+  "session_id": "sess-001",
+  "tool_input": { "file_path": "/repo/src/index.ts" },
+  "tool_name": "Read",
+  "tool_use_id": "toolu-sub-1",
+  "agent_id": "agent-abc123",
+  "agent_type": "Explore",
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl"
+}

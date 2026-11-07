@@ -1,0 +1,29 @@
+node_modules/
+dist/
+coverage/
+fixtures-local/
+*.raw.jsonl
+.hearable/
+playwright-report/
+test-results/
+artifacts/audio-qa/
+artifacts/owner-listen/
+*.tsbuildinfo
+.vitest/
+
+# Local agent-orchestration runtime state
+.agentic/runs/*.json
+.claude/worktrees/
+packages/daemon/dev-daemon.bundle.mjs
+
+# Local unsigned Mac builds
+apps/mac/release/
+artifacts/mac-endurance/
+
+# Private working context and machine files
+.agentic/
+.claude/
+.DS_Store
+.pnpm-store/
+artifacts/
+*.bundle

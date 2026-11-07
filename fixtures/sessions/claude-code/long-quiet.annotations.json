@@ -1,0 +1,31 @@
+{
+  "agent": "claude-code",
+  "deprecated": false,
+  "durationMs": 538099,
+  "events": [
+    { "atMs": 2500, "kind": "turn_start" },
+    { "atMs": 443300, "kind": "turn_start" },
+    { "atMs": 443800, "kind": "waiting", "reason": "question" },
+    { "atMs": 510200, "kind": "turn_complete" },
+    { "atMs": 531400, "kind": "turn_start" },
+    { "atMs": 537100, "kind": "turn_complete" }
+  ],
+  "name": "long-quiet",
+  "quietSegments": [
+    {
+      "fromMs": 419200,
+      "note": "Context fills as the session reads through a large file in chunks; the model works through long quiet stretches with only occasional tool calls before auto-compaction fires.",
+      "toMs": 443800
+    },
+    {
+      "fromMs": 443800,
+      "note": "Auto-compaction (PreCompact then PostCompact 66 seconds later); the lane goes quiet while context is summarized, then work resumes.",
+      "toMs": 510200
+    }
+  ],
+  "recordedAt": "2026-09-06T10:41:00Z",
+  "struggleSegments": [],
+  "summary": "Real Claude Code session: thirty-five turns reading through a large file in chunks until context fills and genuine auto-compaction fires (PreCompact and PostCompact 66 seconds apart). Recorded live through hearable record.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

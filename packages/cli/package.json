@@ -1,0 +1,30 @@
+{
+  "name": "@hearable/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The hearable command: start the daemon, record a live session, replay fixture files",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "hearable": "./src/bin.ts"
+  },
+  "scripts": {
+    "hearable": "node --no-warnings --experimental-transform-types --import ./src/ts-loader.mjs src/bin.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --build"
+  },
+  "dependencies": {
+    "@hearable/adapter-kit": "workspace:*",
+    "@hearable/claude-code": "workspace:*",
+    "@hearable/codex": "workspace:*",
+    "@hearable/daemon": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "vitest": "^5.0.0"
+  }
+}

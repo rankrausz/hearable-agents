@@ -1,0 +1,8 @@
+{
+  "agent_id": "agent-abc123",
+  "agent_type": "Explore",
+  "cwd": "/repo",
+  "hook_event_name": "SubagentStart",
+  "session_id": "sess-001",
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl"
+}

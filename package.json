@@ -1,0 +1,39 @@
+{
+  "name": "hearable-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ambient audio interface for supervising coding agents",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --build",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "boundaries": "node scripts/check-boundaries.mjs",
+    "conformance": "vitest run -c packages/adapter-kit/conformance/vitest.config.ts",
+    "audio:qa": "node scripts/audio-qa.mjs",
+    "owner:listen": "node scripts/owner-listen-copies.mjs",
+    "dev": "node scripts/dev.mjs",
+    "mac": "node apps/mac/build.mjs && electron apps/mac",
+    "test:mac": "node apps/mac/build.mjs && playwright test -c apps/mac/playwright.config.ts",
+    "mac:build": "node apps/mac/build.mjs && node apps/mac/package-app.mjs",
+    "check:public": "node scripts/check-public.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12",
+    "@electron/packager": "^20.3.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^22.20.1",
+    "@types/ws": "^8.18.1",
+    "electron": "^45.1.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.0",
+    "ws": "^8.21.3"
+  }
+}

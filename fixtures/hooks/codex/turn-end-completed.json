@@ -1,0 +1,11 @@
+{
+  "cwd": "/home/user/project",
+  "hook_event_name": "Stop",
+  "last_assistant_message": "All tests pass.",
+  "model": "gpt-5.6-sol",
+  "permission_mode": "default",
+  "session_id": "s1",
+  "stop_hook_active": false,
+  "transcript_path": "/home/user/.codex/sessions/rollout.jsonl",
+  "turn_id": "t1"
+}

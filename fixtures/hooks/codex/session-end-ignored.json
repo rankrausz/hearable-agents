@@ -1,0 +1,7 @@
+{
+  "cwd": "/home/user/project",
+  "hook_event_name": "SessionEnd",
+  "reason": "other",
+  "session_id": "s1",
+  "transcript_path": "/home/user/.codex/sessions/rollout.jsonl"
+}

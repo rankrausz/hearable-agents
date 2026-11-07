@@ -1,0 +1,139 @@
+{
+  "snapshots": [
+    {
+      "atMs": 0,
+      "source": "sample",
+      "lifecycle": "idle",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 0,
+      "reasons": []
+    },
+    {
+      "atMs": 4,
+      "source": "event",
+      "eventKind": "turn.start",
+      "lifecycle": "active",
+      "lifecycleConfidence": "observed",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.25,
+        "editing": 0.25,
+        "testing": 0.25,
+        "other": 0.25
+      },
+      "activity": 0,
+      "progress": 0,
+      "struggle": 0,
+      "lastEventAtMs": 4,
+      "turnStartedAtMs": 4,
+      "reasons": [
+        {
+          "atMs": 4,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    },
+    {
+      "atMs": 11,
+      "source": "event",
+      "eventKind": "turn.end",
+      "lifecycle": "turn_complete",
+      "lifecycleConfidence": "inferred",
+      "displayedMode": "other",
+      "mode": {
+        "exploring": 0.250187,
+        "editing": 0.249888,
+        "testing": 0.250038,
+        "other": 0.249888
+      },
+      "activity": 1,
+      "progress": 0.249999,
+      "struggle": 0,
+      "lastEventAtMs": 11,
+      "reasons": [
+        {
+          "atMs": 11,
+          "signal": "progress",
+          "delta": 0.2,
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 11,
+          "signal": "lifecycle",
+          "text": "Turn completed."
+        },
+        {
+          "atMs": 9,
+          "signal": "progress",
+          "delta": 0.05,
+          "text": "New command \"pytest\" ran this turn."
+        },
+        {
+          "atMs": 4,
+          "signal": "lifecycle",
+          "text": "Turn started: lane is active."
+        }
+      ]
+    }
+  ],
+  "final": {
+    "atMs": 11,
+    "source": "event",
+    "eventKind": "turn.end",
+    "lifecycle": "turn_complete",
+    "lifecycleConfidence": "inferred",
+    "displayedMode": "other",
+    "mode": {
+      "exploring": 0.250187,
+      "editing": 0.249888,
+      "testing": 0.250038,
+      "other": 0.249888
+    },
+    "activity": 1,
+    "progress": 0.249999,
+    "struggle": 0,
+    "lastEventAtMs": 11,
+    "reasons": [
+      {
+        "atMs": 11,
+        "signal": "progress",
+        "delta": 0.2,
+        "text": "Turn completed."
+      },
+      {
+        "atMs": 11,
+        "signal": "lifecycle",
+        "text": "Turn completed."
+      },
+      {
+        "atMs": 9,
+        "signal": "progress",
+        "delta": 0.05,
+        "text": "New command \"pytest\" ran this turn."
+      },
+      {
+        "atMs": 4,
+        "signal": "lifecycle",
+        "text": "Turn started: lane is active."
+      }
+    ]
+  },
+  "summary": {
+    "strugglePeakInsideSegments": 0,
+    "strugglePeakOutsideSegments": 0,
+    "lifecycleTransitions": 2,
+    "displayedModeTransitions": 0,
+    "waitingLatenciesMs": []
+  }
+}

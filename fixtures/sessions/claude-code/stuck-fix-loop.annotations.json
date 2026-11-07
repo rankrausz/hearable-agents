@@ -1,0 +1,19 @@
+{
+  "agent": "claude-code",
+  "deprecated": true,
+  "durationMs": 394650,
+  "events": [{ "atMs": 2500, "kind": "turn_start" }, { "atMs": 393407, "kind": "turn_complete" }],
+  "name": "stuck-fix-loop",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T10:55:00Z",
+  "struggleSegments": [
+    {
+      "fromMs": 13030,
+      "note": "Genuine looping: five consecutive fix rounds on related utility modules; every round's check fails at least once (20 tool.fail across 6.5 minutes) before the final round passes and the session recovers.",
+      "toMs": 351260
+    }
+  ],
+  "summary": "SUPERSEDED by stuck-single-session.jsonl: this file merged thirty separately recorded single-turn sessions into one lane, which violates the verbatim-promotion rule. It stays on disk marked deprecated and must not be used for tuning. Real Claude Code session otherwise: five consecutive single-turn fix rounds recorded live through hearable record into one lane, each round failing its check at least once before passing.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

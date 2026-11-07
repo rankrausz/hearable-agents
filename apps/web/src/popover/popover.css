@@ -1,0 +1,554 @@
+/* Compact macOS utility surface; must not leak styles into the full console. */
+body:has(.popover) {
+  margin: 0;
+  min-width: 0;
+  background: transparent;
+}
+.popover {
+  color-scheme: light dark;
+  box-sizing: border-box;
+  width: 320px;
+  max-width: 100%;
+  padding: 18px 18px 10px;
+  background: #f6f6f8;
+  color: #202026;
+  font:
+    13px / 1.4 -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+.popover * {
+  box-sizing: border-box;
+}
+.popover header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+}
+.popover h1 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+}
+.popover-connection,
+.popover-session,
+.popover-audio-status,
+.popover-empty {
+  color: #60616b;
+  font-size: 11px;
+}
+.popover-lanes {
+  border-top: 1px solid #d9d9df;
+  padding: 8px 0;
+}
+.popover-empty {
+  margin: 12px 0;
+  text-align: center;
+  font-size: 12px;
+}
+.popover-lane {
+  min-width: 0;
+}
+.popover-lane strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.popover-session {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+}
+.popover-lifecycle {
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
+}
+.popover-controls {
+  border-top: 1px solid #d9d9df;
+  padding-top: 12px;
+}
+.popover label {
+  display: block;
+  margin: 0 0 12px;
+}
+.popover label > span {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.popover output {
+  color: #60616b;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.popover input[type="range"] {
+  display: block;
+  width: 100%;
+  height: 15px;
+  margin: 0;
+  accent-color: #537d71;
+  cursor: pointer;
+}
+.popover button {
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  text-align: left;
+  border-radius: 6px;
+}
+.popover button:hover {
+  background: #e6e6eb;
+}
+.popover button:focus-visible,
+.popover input:focus-visible {
+  outline: 2px solid #537d71;
+  outline-offset: 2px;
+}
+.popover .popover-audio {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 9px;
+  background: #e9e9ee;
+}
+.popover-audio strong {
+  font-weight: 500;
+  color: #496c61;
+}
+.popover-audio-status {
+  margin: 5px 0 12px;
+}
+.popover footer {
+  border-top: 1px solid #d9d9df;
+  padding-top: 5px;
+}
+.popover footer button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 8px;
+}
+.popover-error {
+  color: #ae342d;
+  font-size: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  .popover {
+    background: #28282c;
+    color: #ededf0;
+  }
+  .popover-connection,
+  .popover-session,
+  .popover-audio-status,
+  .popover-empty,
+  .popover output {
+    color: #b4b4be;
+  }
+  .popover-lanes,
+  .popover-controls,
+  .popover footer {
+    border-color: #45454b;
+  }
+  .popover .popover-audio {
+    background: #3c3c43;
+  }
+  .popover-audio strong {
+    color: #a8ccba;
+  }
+  .popover button:hover {
+    background: #3b3b42;
+  }
+  .popover-error {
+    color: #ffaba1;
+  }
+}
+
+/* Portrait identity stays with the session, independent of its current voice or lifecycle. */
+.popover-portraits {
+  display: grid;
+  gap: 6px;
+  padding-top: 4px;
+}
+.popover .popover-portrait {
+  --portrait-head: #f5e5c4;
+  --portrait-phones: #9aa88a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 12px 4px 8px;
+  border: 1px solid #d9d9df;
+  border-radius: 11px;
+  text-align: center;
+}
+.popover .popover-portrait {
+  position: relative;
+}
+.popover .portrait-dismiss {
+  z-index: 2;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  color: #60616b;
+}
+.popover .popover-portrait:hover .portrait-dismiss,
+.popover .portrait-dismiss:focus-visible {
+  display: flex;
+}
+.popover-portrait[data-color="1"] {
+  --portrait-head: #cbded2;
+  --portrait-phones: #7e9e93;
+}
+.popover-portrait[data-color="2"] {
+  --portrait-head: #ddd5ed;
+  --portrait-phones: #a096b7;
+}
+.popover-portrait[data-color="3"] {
+  --portrait-head: #ccddeb;
+  --portrait-phones: #8a9fb3;
+}
+.popover-portrait[data-color="4"] {
+  --portrait-head: #f1d4bb;
+  --portrait-phones: #b69a7e;
+}
+.popover-portrait[data-color="5"] {
+  --portrait-head: #ead0d8;
+  --portrait-phones: #b295a0;
+}
+.popover .popover-portrait strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+}
+.popover-portrait .popover-session {
+  width: 100%;
+  margin-top: 3px;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+}
+.popover-portrait .popover-lifecycle {
+  font-size: 11px;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+.portrait-inferred {
+  color: #60616b;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.portrait-mascot {
+  display: block;
+  position: relative;
+  width: 72px;
+  max-width: 100%;
+  height: 70px;
+  isolation: isolate;
+  transform-origin: 50% 80%;
+  transition:
+    filter 600ms ease,
+    opacity 600ms ease;
+}
+.portrait-mascot::before {
+  content: "";
+  position: absolute;
+  inset: 12px 6px 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--portrait-phones);
+  filter: blur(12px);
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+/* Motion follows known work, independently of audio playback or the activity estimate. */
+.popover-portrait[data-active="true"] .portrait-mascot {
+  filter: saturate(1.5);
+  animation: portrait-working 3.8s ease-in-out infinite;
+  animation-delay: var(--portrait-motion-delay);
+}
+.popover-portrait[data-active="true"] .portrait-mascot::before {
+  opacity: 0.28;
+}
+.popover-portrait[data-expression="quiet"] .portrait-mascot,
+.popover-portrait[data-expression="queued"] .portrait-mascot,
+.popover-portrait[data-expression="done"] .portrait-mascot {
+  filter: grayscale(0.85);
+  opacity: 0.7;
+}
+@keyframes portrait-working {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1.25deg);
+  }
+  50% {
+    transform: translateY(-2px) rotate(1.25deg);
+  }
+}
+.portrait-band {
+  position: absolute;
+  width: 80%;
+  height: 55px;
+  left: 10%;
+  top: 4px;
+  border: 5px solid var(--portrait-phones);
+  border-bottom: 0;
+  border-radius: 36px 36px 8px 8px;
+}
+.portrait-cup {
+  position: absolute;
+  width: 10%;
+  height: 27px;
+  top: 31px;
+  background: var(--portrait-phones);
+  border-radius: 6px;
+}
+.portrait-cup.left {
+  left: 3%;
+}
+.portrait-cup.right {
+  right: 3%;
+}
+.portrait-face {
+  position: absolute;
+  left: 21%;
+  top: 21px;
+  width: 58%;
+  height: 44px;
+  background: var(--portrait-head);
+  border-radius: 48% 48% 46% 46%;
+  transition: transform 500ms ease;
+}
+.portrait-eye {
+  position: absolute;
+  top: 18px;
+  width: 5px;
+  height: 10px;
+  border-radius: 4px;
+  background: #28282d;
+  transition:
+    height 400ms ease,
+    transform 400ms ease,
+    top 400ms ease;
+}
+.portrait-eye.left {
+  left: 27%;
+}
+.portrait-eye.right {
+  right: 27%;
+}
+.portrait-brow {
+  position: absolute;
+  top: 13px;
+  width: 7px;
+  height: 2px;
+  background: #28282d;
+  border-radius: 2px;
+  opacity: var(--portrait-struggle);
+  transition:
+    transform 600ms ease,
+    opacity 600ms ease;
+}
+.portrait-brow.left {
+  left: 23%;
+  transform: rotate(calc(var(--portrait-struggle) * 22deg));
+}
+.portrait-brow.right {
+  right: 23%;
+  transform: rotate(calc(var(--portrait-struggle) * -22deg));
+}
+.portrait-accessory {
+  position: absolute;
+  top: 12px;
+  right: 12%;
+  width: 9px;
+  height: 9px;
+  background: #ba8b50;
+  border-radius: 2px;
+  transform: rotate(15deg);
+}
+.popover-portrait[data-accessory="1"] .portrait-accessory {
+  left: 7%;
+  top: 25px;
+  width: 10px;
+  height: 4px;
+  background: #ead7b1;
+  border-radius: 1px;
+}
+.popover-portrait[data-accessory="2"] .portrait-accessory {
+  background: #c7a864;
+  clip-path: polygon(50% 0, 63% 36%, 100% 50%, 63% 64%, 50% 100%, 37% 64%, 0 50%, 37% 36%);
+}
+.popover-portrait[data-accessory="3"] .portrait-accessory {
+  border: 2px solid #b99160;
+  background: var(--portrait-head);
+  border-radius: 50%;
+}
+.portrait-mark {
+  position: absolute;
+  right: 0;
+  top: -5px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.popover-portrait[data-expression="waiting"] .portrait-face {
+  transform: rotate(-9deg);
+}
+.popover-portrait[data-expression="waiting"] .portrait-eye {
+  height: 12px;
+  top: 16px;
+}
+.popover-portrait[data-expression="waiting"] .portrait-mark {
+  color: #8f590c;
+}
+.popover-portrait[data-expression="quiet"] .portrait-eye,
+.popover-portrait[data-expression="queued"] .portrait-eye {
+  height: 3px;
+  top: 24px;
+}
+.popover-portrait[data-expression="exploring"] .portrait-eye {
+  transform: translateX(2px);
+}
+.popover-portrait[data-expression="editing"] .portrait-eye {
+  height: 7px;
+  top: 20px;
+  transform: rotate(-9deg);
+}
+.popover-portrait[data-expression="testing"] .portrait-eye {
+  height: 7px;
+  width: 6px;
+  border-radius: 50%;
+}
+.popover-portrait[data-expression="done"] .portrait-eye {
+  height: 7px;
+  background: transparent;
+  border-top: 3px solid #28282d;
+  border-radius: 7px 7px 0 0;
+}
+.popover-portrait[data-expression="stale"] .portrait-mascot,
+.popover-portrait[data-expression="unavailable"] .portrait-mascot {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.portrait-activity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 12px;
+  margin-top: auto;
+  padding-top: 7px;
+  visibility: hidden;
+}
+.portrait-activity[data-active="true"] {
+  visibility: visible;
+}
+.portrait-activity-bar {
+  display: block;
+  width: 3px;
+  border-radius: 2px;
+  background: #537d71;
+  transition: height 600ms ease;
+}
+@media (prefers-color-scheme: dark) {
+  .popover .popover-portrait {
+    border-color: #45454b;
+  }
+  .portrait-inferred {
+    color: #b4b4be;
+  }
+  .popover-portrait[data-expression="waiting"] .portrait-mark {
+    color: #e5b66d;
+  }
+  .portrait-activity-bar {
+    background: #a8ccba;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-mascot,
+  .portrait-mascot::before,
+  .portrait-face,
+  .portrait-eye,
+  .portrait-brow,
+  .portrait-activity-bar {
+    transition: none;
+  }
+  .popover-portrait[data-active="true"] .portrait-mascot {
+    animation: none;
+  }
+}
+.popover-login {
+  border-top: 1px solid #d9d9df;
+  padding-top: 10px;
+}
+.popover .popover-login label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.popover .popover-login label > span {
+  margin: 0;
+}
+.popover-login input {
+  accent-color: #537d71;
+}
+.popover-login p {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: #60616b;
+}
+@media (prefers-color-scheme: dark) {
+  .popover-login {
+    border-color: #45454b;
+  }
+  .popover-login p {
+    color: #b4b4be;
+  }
+}
+
+/* The focus button covers the portrait; dismiss stays a separate sibling action. */
+.popover .portrait-open {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1;
+}
+.popover .portrait-open:hover {
+  background: light-dark(#00000006, #ffffff09);
+}
+.popover .portrait-open:focus-visible {
+  outline: 2px solid Highlight;
+  outline-offset: 2px;
+}
+.popover .portrait-open:disabled {
+  cursor: progress;
+}
+.popover .popover-portrait:focus-within .portrait-dismiss {
+  display: flex;
+}

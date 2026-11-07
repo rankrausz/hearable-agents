@@ -1,0 +1,53 @@
+{
+  "agent": "claude-code",
+  "deprecated": false,
+  "durationMs": 195119,
+  "events": [
+    {
+      "atMs": 0,
+      "kind": "turn_start"
+    },
+    {
+      "atMs": 0,
+      "kind": "waiting",
+      "reason": "permission"
+    },
+    {
+      "atMs": 0,
+      "kind": "waiting",
+      "reason": "permission"
+    },
+    {
+      "atMs": 0,
+      "kind": "waiting",
+      "reason": "permission"
+    },
+    {
+      "atMs": 0,
+      "kind": "waiting",
+      "reason": "permission"
+    },
+    {
+      "atMs": 195119,
+      "kind": "waiting",
+      "reason": "permission"
+    },
+    {
+      "atMs": 195119,
+      "kind": "turn_complete"
+    }
+  ],
+  "name": "permission-heavy",
+  "quietSegments": [
+    {
+      "fromMs": 0,
+      "note": "The migration permission request waits 195 seconds before the grant arrives and work resumes.",
+      "toMs": 195119
+    }
+  ],
+  "recordedAt": "2026-09-06T11:00:00Z",
+  "struggleSegments": [],
+  "summary": "Scripted session posted through the live daemon pipeline (POST /events with the claude-code header into a hearable record daemon): five permission prompts around a staging deploy, the fourth waiting 195 seconds before it is granted. No real agent work; the scenario is invented and labelled synthetic.",
+  "summaryKind": "synthetic",
+  "synthetic": true
+}

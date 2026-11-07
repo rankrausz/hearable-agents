@@ -1,0 +1,9 @@
+{
+  "cwd": "/home/user/project",
+  "hook_event_name": "PreCompact",
+  "model": "gpt-5.6-sol",
+  "session_id": "s1",
+  "transcript_path": "/home/user/.codex/sessions/rollout.jsonl",
+  "trigger": "manual",
+  "turn_id": "t1"
+}

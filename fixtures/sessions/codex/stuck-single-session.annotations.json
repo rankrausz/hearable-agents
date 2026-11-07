@@ -1,0 +1,19 @@
+{
+  "agent": "codex",
+  "deprecated": false,
+  "durationMs": 631336,
+  "events": [{ "atMs": 719, "kind": "turn_start" }, { "atMs": 631336, "kind": "turn_complete" }],
+  "name": "stuck-single-session",
+  "quietSegments": [],
+  "recordedAt": "2026-09-06T12:00:00Z",
+  "struggleSegments": [
+    {
+      "fromMs": 6571,
+      "note": "Genuine model-driven looping in one continuous Codex session: twenty fix modules in sequence, the agent re-running the same checks and re-applying edits (apply_patch fires 20 times) across 10 minutes before the final regression passes and the session recovers.",
+      "toMs": 593721
+    }
+  ],
+  "summary": "Real Codex session: one continuous codex exec invocation working through twenty buggy modules, recorded live through hearable record as a single session (one session.start, one turn, 101 events over 10.5 minutes). Promoted verbatim with only the header annotations pointer set; every event byte-identical to the recording.",
+  "summaryKind": "genuine",
+  "synthetic": false
+}

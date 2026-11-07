@@ -1,0 +1,74 @@
+name: CI
+
+# One automated gate for every change: lint, typecheck, unit tests, package
+# boundary lint and adapter conformance, on a clean checkout.
+on:
+  push:
+  pull_request:
+
+# Read-only: this workflow never pushes, publishes, tags or writes to the
+# repository, and it needs no secrets.
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Lint, typecheck, test, boundaries, conformance
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+
+      # pnpm/action-setup must run before setup-node: setup-node's pnpm cache
+      # step needs pnpm on PATH to locate the store directory.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          # Cache key derives from this file's hash.
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Package boundaries
+        run: pnpm boundaries
+
+      - name: Adapter conformance
+        run: pnpm conformance
+
+      - name: Public repository boundary
+        run: pnpm check:public
+
+      - name: Install browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Browser and audio graph smoke
+        run: pnpm test:e2e
+
+  mac:
+    name: Native Mac smoke
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install chromium
+      - run: pnpm test:mac

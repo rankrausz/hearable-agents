@@ -1,0 +1,11 @@
+{
+  "agent_id": "agent-abc123",
+  "agent_transcript_path": "/repo/.claude/projects/sess-001/subagents/agent-abc123.jsonl",
+  "agent_type": "Explore",
+  "cwd": "/repo",
+  "hook_event_name": "SubagentStop",
+  "last_assistant_message": "Analysis complete.",
+  "session_id": "sess-001",
+  "stop_hook_active": false,
+  "transcript_path": "/repo/.claude/projects/sess-001.jsonl"
+}

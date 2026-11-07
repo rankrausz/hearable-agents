@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "rows": [
+    { "agent": "claude-code", "toolName": "Read", "category": "read", "verified": true },
+    { "agent": "claude-code", "toolName": "NotebookRead", "category": "read", "verified": true },
+    { "agent": "claude-code", "toolName": "Grep", "category": "search", "verified": true },
+    { "agent": "claude-code", "toolName": "Glob", "category": "search", "verified": true },
+    { "agent": "claude-code", "toolName": "Edit", "category": "edit", "verified": true },
+    { "agent": "claude-code", "toolName": "MultiEdit", "category": "edit", "verified": true },
+    { "agent": "claude-code", "toolName": "Write", "category": "edit", "verified": true },
+    { "agent": "claude-code", "toolName": "NotebookEdit", "category": "edit", "verified": true },
+    { "agent": "claude-code", "toolName": "Bash", "category": "exec", "verified": true },
+    { "agent": "claude-code", "toolName": "WebFetch", "category": "web", "verified": true },
+    { "agent": "claude-code", "toolName": "WebSearch", "category": "web", "verified": true },
+    { "agent": "claude-code", "toolName": "TodoWrite", "category": "other", "verified": true },
+    { "agent": "claude-code", "toolName": "Task", "category": "other", "verified": true },
+    {
+      "agent": "codex",
+      "toolName": "shell",
+      "category": "exec",
+      "verified": false,
+      "note": "Verified shape, unverified traffic (p1-t04): https://developers.openai.com/codex/hooks.md (2026-09-06) and codex-cli 0.152.1 binary strings confirm the canonical tool name is Bash, matched as shell; no live PreToolUse/PostToolUse payload was captured (usage limit), so this row stays verified false until hook traffic is observed."
+    },
+    {
+      "agent": "cursor",
+      "toolName": "Write",
+      "category": "edit",
+      "verified": false,
+      "note": "Assumed: EVENTS.md names Cursor Write as an edit tool; the exact tool naming is not verifiable in this task. Phase 1b must re-key the rest of Cursor's tools from a live session."
+    }
+  ]
+}
