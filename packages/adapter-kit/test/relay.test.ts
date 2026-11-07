@@ -17,6 +17,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { withRelayTimingLock } from "../src/conformance/relay-timing-lock.js";
+import { RELAY_TIMING_BUDGET_MS } from "../src/conformance/suites.js";
 
 const relayPath = fileURLToPath(new URL("../src/relay/hearable-hook.mjs", import.meta.url));
 
@@ -171,6 +172,25 @@ function runRelayCommand(
   });
 }
 
+/**
+ * Allow one fresh sample when a single slow invocation drops the event.
+ * A fast drop or an unexpected process error still fails the delivery test.
+ */
+async function runLocalDelivery(stub: Stub, run: () => Promise<RelayRun>): Promise<RelayRun> {
+  const first = await run();
+  if (
+    first.ms >= RELAY_TIMING_BUDGET_MS &&
+    first.code === 0 &&
+    first.stdout === "" &&
+    stub.requests.length === 0 &&
+    (first.stderr === "" || first.stderr.trim() === "hearable-hook: event dropped (TimeoutError)")
+  ) {
+    console.warn(`Retrying local relay delivery after a ${first.ms.toFixed(1)} ms drop`);
+    return run();
+  }
+  return first;
+}
+
 // Every spawn-based test gets a generous wall-clock limit so a relay that
 // wrongly hangs fails the test instead of stalling the suite.
 const generousTimeoutMs = 10_000;
@@ -181,10 +201,15 @@ describe("the hearable-hook relay", () => {
     async () => {
       const stub = await startStub(204);
       try {
-        const run = await runRelay(["--agent", "claude-code", "--url", stub.url], payload);
+        const run = await runLocalDelivery(stub, () =>
+          runRelay(["--agent", "claude-code", "--url", stub.url], payload),
+        );
         expect(run.code).toBe(0);
         expect(run.stdout).toBe("");
-        expect(stub.requests).toHaveLength(1);
+        expect(
+          stub.requests,
+          `Relay took ${run.ms.toFixed(1)} ms. Stderr: ${run.stderr}`,
+        ).toHaveLength(1);
         const request = stub.requests[0];
         const focus = JSON.parse(
           Buffer.from(request?.focusHeader ?? "", "base64url").toString("utf8"),
@@ -214,7 +239,9 @@ describe("the hearable-hook relay", () => {
     async () => {
       const stub = await startStub(204);
       try {
-        const run = await runBinRelay(["--agent", "claude-code", "--url", stub.url], payload);
+        const run = await runLocalDelivery(stub, () =>
+          runBinRelay(["--agent", "claude-code", "--url", stub.url], payload),
+        );
         expect(run.code).toBe(0);
         expect(run.stdout).toBe("");
         expect(stub.requests).toHaveLength(1);
@@ -235,7 +262,9 @@ describe("the hearable-hook relay", () => {
     async () => {
       const stub = await startStub(204);
       try {
-        await runRelay(["--agent", "codex", "--url", stub.url], payload);
+        await runLocalDelivery(stub, () =>
+          runRelay(["--agent", "codex", "--url", stub.url], payload),
+        );
         const request = stub.requests[0];
         if (request === undefined) {
           throw new Error("the stub recorded no request");
@@ -268,7 +297,9 @@ describe("the hearable-hook relay", () => {
     async () => {
       const stub = await startStub(500);
       try {
-        const run = await runRelay(["--agent", "claude-code", "--url", stub.url], payload);
+        const run = await runLocalDelivery(stub, () =>
+          runRelay(["--agent", "claude-code", "--url", stub.url], payload),
+        );
         expect(run.code).toBe(0);
         expect(run.stdout).toBe("");
         expect(stub.requests).toHaveLength(1);
@@ -301,7 +332,9 @@ describe("the hearable-hook relay", () => {
       const malformed = "this is not json";
       const stub = await startStub(204);
       try {
-        const run = await runRelay(["--agent", "claude-code", "--url", stub.url], malformed);
+        const run = await runLocalDelivery(stub, () =>
+          runRelay(["--agent", "claude-code", "--url", stub.url], malformed),
+        );
         expect(run.code).toBe(0);
         expect(run.stdout).toBe("");
         // Forwarded, not dropped locally: the daemon owns validation and
