@@ -12,7 +12,10 @@
 // dependency, nor parse, validate or transform the payload: the daemon owns
 // validation and quarantine, and this file is a dumb, fast pipe.
 
-import { request as httpRequest } from "node:http";
+// Read the HTTP client directly to avoid initializing the full ESM namespace
+// on each hook invocation. Older Node versions on the agent's PATH use the import.
+const { request: httpRequest } =
+  process.getBuiltinModule?.("node:http") ?? (await import("node:http"));
 
 // The whole delivery — reading stdin and posting it — shares one deadline,
 // measured from process start, because the agent's per-event budget also

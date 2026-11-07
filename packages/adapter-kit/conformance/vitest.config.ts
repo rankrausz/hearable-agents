@@ -25,6 +25,8 @@ export default defineConfig({
       "../adapters/codex/test/conformance.test.ts",
     ],
     reporters: ["verbose"],
+    // Both adapters measure spawn-to-exit time against the same 50 ms budget.
+    fileParallelism: false,
     exclude: ["**/node_modules/**", "**/.git/**", "**/dist/**"],
   },
 });

@@ -41,8 +41,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      # Hook timing includes Node startup, so test files must not compete for CPU.
       - name: Unit tests
-        run: pnpm test
+        run: pnpm test --no-file-parallelism
 
       - name: Package boundaries
         run: pnpm boundaries

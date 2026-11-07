@@ -31,8 +31,10 @@ a requirement, not a claim that every measured invocation currently meets it.
 ## Time and determinism
 
 Core receives timestamps and seeded RNGs explicitly. The daemon owns clocks and replay
-scheduling. Golden trajectories, seeded invariants, and replay tests exercise these
-boundaries. Audio rendering is tested separately against the browser's Web Audio runtime.
+scheduling. Live harmonic field epochs follow elapsed audio time from graph startup.
+Gesture timestamps still use the daemon clock. Golden trajectories, seeded invariants,
+and replay tests exercise these boundaries. Audio rendering is tested separately against
+the browser's Web Audio runtime.
 See [state engine](STATE_ENGINE.md) and [sound design](SOUND_DESIGN.md).
 
 ## Transport and ownership

@@ -3,7 +3,8 @@
 ## Reproduce checks
 
 Install with `pnpm install --frozen-lockfile`. For browser and native tests, install
-Chromium with `pnpm exec playwright install chromium`.
+Chromium with `pnpm exec playwright install chromium`. CI runs `pnpm test --no-file-parallelism`
+so other test files do not compete with the relay's spawn-to-exit timing measurements.
 
 | Command | What it checks |
 |---|---|
@@ -20,8 +21,8 @@ Chromium with `pnpm exec playwright install chromium`.
 
 ## Known limits
 
-- Earlier runs exceeded the 50 ms hook budget under load and reported audio startup
-  timeouts. Long sleep/wake endurance and next-login startup still need observation.
+- Hook timing includes Node startup and varies with system load. The end-to-end budget
+  remains 50 ms. Long sleep/wake endurance and next-login startup still need observation.
 - A Codex permission hook runs before the approval decision. The popover says
   "May need approval" after a short grace period. Without a later hook, it cannot
   distinguish an approval prompt from an automatically approved tool still running.

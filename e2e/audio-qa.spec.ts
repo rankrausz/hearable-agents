@@ -154,7 +154,8 @@ type QaMetrics = {
 
 const QA_PAGE = `
 import {
-  createLiveAudio, getContext, OfflineContext, playbackWanted, renderQaScenario, setContext,
+  createLiveAudio, createRng, fieldAt, getContext, OfflineContext, playbackWanted,
+  renderQaScenario, setContext,
 } from "/qa-bundle.mjs";
 import {
   autocorrelationAtLag, bandEnergyShare, bandRmsDb, chromaEntropy,
@@ -211,15 +212,25 @@ globalThis.__playbackMetrics = async () => {
   const original = getContext();
   const context = new OfflineContext(2, 34, original.sampleRate);
   setContext(context);
+  const seed = 161;
+  const serverStartMs = Date.UTC(2026, 0, 1);
+  const openingField = fieldAt(0, createRng(seed));
   let audio;
+  let startsInOpeningHarmony = false;
   let completionCueHeard = false;
   let completionPresence = null;
   try {
-    audio = await createLiveAudio(161, {
+    audio = await createLiveAudio(seed, {
       onSound(report) {
-        if (report.kind !== "frame" || report.serverTime !== 20000) return;
-        completionCueHeard = report.gestures.some((cue) => cue.gesture === "resolve" && cue.heard);
-        completionPresence = report.params.lanes[0].presence;
+        if (report.kind !== "frame") return;
+        if (report.serverTime === serverStartMs) {
+          const { chord, tonic } = report.params.macro;
+          startsInOpeningHarmony = chord === openingField.chord && tonic === openingField.tonic;
+        }
+        if (report.serverTime === serverStartMs + 20_000) {
+          completionCueHeard = report.gestures.some((cue) => cue.gesture === "resolve" && cue.heard);
+          completionPresence = report.params.lanes[0].presence;
+        }
       },
     });
     for (const [atS, lifecycle] of [
@@ -228,13 +239,15 @@ globalThis.__playbackMetrics = async () => {
       [24.5, "turn_complete"], [29, "active"],
     ]) {
       context.setTimeout(() => {
-        const now = atS * 1000;
+        const now = serverStartMs + atS * 1000;
         const signals = [{
           laneId: 0, lifecycle, activity: 0.5, progress: 0, struggle: 0,
           mode: { exploring: 1, editing: 0, testing: 0, other: 0 },
           displayedMode: "exploring", prominence: 0.5, foreground: false,
-          lastEventAt: lifecycle === "turn_complete" ? 20000 : now,
-          gestures: lifecycle === "turn_complete" ? [{ gesture: "resolve", at: 20000 }] : [],
+          lastEventAt: lifecycle === "turn_complete" ? serverStartMs + 20_000 : now,
+          gestures: lifecycle === "turn_complete"
+            ? [{ gesture: "resolve", at: serverStartMs + 20_000 }]
+            : [],
         }];
         audio.apply(signals, 0.6, now);
         audio.setAudible(playbackWanted(signals, "activity", true, now));
@@ -249,7 +262,7 @@ globalThis.__playbackMetrics = async () => {
         .map(([a, b]) => Math.max(
           windowRmsDb(left, sampleRate, a, b), windowRmsDb(right, sampleRate, a, b),
         )),
-      completionCueHeard, completionPresence,
+      startsInOpeningHarmony, completionCueHeard, completionPresence,
       peak: Math.max(peakDb(left), peakDb(right)), jump: maxSampleJump(left, right),
       wavBase64: encodeWavFloat(left, right, sampleRate),
     };
@@ -727,6 +740,7 @@ async function buildBundle(): Promise<QaBundle> {
     [
       `export { renderQaScenario, natureBundleUrl, renderReplayDrive, renderPianoCueAudition } from "./src/qa/render.js";`,
       `export { buildReplayDrive, REPLAY_CALMS, REPLAY_WINDOWS } from "./src/qa/replay.js";`,
+      `export { createRng, fieldAt } from "@hearable/core";`,
       `export { createLiveAudio } from "../../apps/web/src/audio.js";`,
       `export { playbackWanted } from "../../apps/web/src/playback-policy.js";`,
       `export { getContext, OfflineContext, setContext } from "tone";`,
@@ -856,6 +870,7 @@ function collectFailures(): Failures {
 
 type PlaybackMetrics = {
   windows: number[];
+  startsInOpeningHarmony: boolean;
   completionCueHeard: boolean;
   completionPresence: number | null;
   peak: number;
@@ -1464,6 +1479,10 @@ test.describe("audio qa", () => {
           (playback.windows[index] ?? -200) > -60,
           `activity-playback: audible window ${index} must resume above -60 dBFS`,
         );
+      check(
+        playback.startsInOpeningHarmony,
+        "activity-playback: start at the opening harmony with Unix timestamps",
+      );
       check(playback.completionCueHeard, "activity-playback: schedule the completion cue");
       check(playback.completionPresence === 0, "activity-playback: release the completed texture");
       check(playback.peak <= -3, "activity-playback: peaks must remain below -3 dBFS");

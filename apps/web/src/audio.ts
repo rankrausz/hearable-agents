@@ -301,6 +301,7 @@ export async function createLiveAudio(
     throw error;
   }
   const scene: SceneHandle = createHandle(graph);
+  const worldStartedAt = tone.immediate();
   let disposed = false;
   const drift = createLiveDriftStepper();
   const player = new GesturePlayer();
@@ -324,10 +325,13 @@ export async function createLiveAudio(
       // Summed over the three tuned seats, never the padded frame length:
       // the empty fourth seat must not dilute the world (p7b-t03).
       const presence = macroPresence(renders);
+      // The harmonic field folds epochs from zero. Use the graph's elapsed
+      // audio time so daemon wall time cannot put it thousands of epochs ahead.
+      const worldSeconds = tone.immediate() - worldStartedAt;
       const params = renderWithMacro(
         renders,
         calm,
-        { nowSeconds: serverTime / 1000, seed, presence, calm, applyWorld: true },
+        { nowSeconds: worldSeconds, seed, presence, calm, applyWorld: true },
         // Target silence for completed textures. The graph ramps the release
         // while the piano cue continues on its own bus.
         renders.map((lane) => (lane.lifecycle === "turn_complete" ? 1 : 0)),
