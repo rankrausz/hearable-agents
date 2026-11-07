@@ -143,14 +143,24 @@ test("distinguishes working portraits while preserving identity through state ch
         .evaluate((element) => getComputedStyle(element).transitionDuration),
     ).toBe("0s");
     // Compare the three meanings together at the real popover width, with audio absent.
-    sessions = [claude, codex, otherClaude];
+    sessions = [
+      { ...claude, name: "project1" },
+      { ...codex, name: "project2" },
+      { ...otherClaude, name: "project3" },
+    ];
     signals = [
       signal(claude, 0),
       signal(codex, 1, { lifecycle: "quiet" }),
       signal(otherClaude, 2, { lifecycle: "waiting", waitingReason: "question" }),
     ];
     snapshot();
-    await expect(first).toHaveAttribute("data-active", "true");
+    await expect(portraits.locator(".popover-session")).toHaveText([
+      "project1",
+      "project2",
+      "project3",
+    ]);
+    await expect(portraits.first()).toHaveAttribute("data-active", "true");
+    const working = portraits.first().locator(".portrait-mascot");
     const quiet = page.locator('[data-expression="quiet"] .portrait-mascot');
     const waiting = page.locator('[data-expression="waiting"] .portrait-mascot');
     await page.setViewportSize({ width: 320, height: 700 });
@@ -158,19 +168,22 @@ test("distinguishes working portraits while preserving identity through state ch
     await mkdir(screenshots, { recursive: true });
     for (const colorScheme of ["light", "dark"] as const) {
       await page.emulateMedia({ colorScheme, reducedMotion: "no-preference" });
-      await expect(mascot).toHaveCSS("animation-name", "portrait-working");
-      await expect(mascot).toHaveCSS("filter", "saturate(1.5)");
+      await expect(working).toHaveCSS("animation-name", "portrait-working");
+      await expect(working).toHaveCSS("filter", "saturate(1.5)");
       await expect(quiet).toHaveCSS("filter", "grayscale(0.85)");
       await expect(waiting).toHaveCSS("filter", "none");
       await expect(waiting).toHaveCSS("animation-name", "none");
       await page.emulateMedia({ reducedMotion: "reduce" });
-      await expect(mascot).toHaveCSS("animation-name", "none");
-      await expect(mascot).toHaveCSS("transition-duration", "0s");
+      await expect(working).toHaveCSS("animation-name", "none");
+      await expect(working).toHaveCSS("transition-duration", "0s");
       expect(
-        await mascot.evaluate((element) => getComputedStyle(element, "::before").opacity),
+        await working.evaluate((element) => getComputedStyle(element, "::before").opacity),
       ).toBe("0.28");
       await page.locator(".popover").screenshot({
         path: join(screenshots, `active-portraits-mixed-${colorScheme}.png`),
+        // The native window rounds its corners outside the browser renderer.
+        omitBackground: true,
+        style: ".popover { border-radius: 16px; overflow: hidden; }",
       });
     }
     await page.emulateMedia({ reducedMotion: "no-preference" });
