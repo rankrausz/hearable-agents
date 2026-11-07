@@ -22,8 +22,10 @@ Chromium with `pnpm exec playwright install chromium`.
 
 - Earlier runs exceeded the 50 ms hook budget under load and reported audio startup
   timeouts. Long sleep/wake endurance and next-login startup still need observation.
-- Claude Code and Codex hooks vary in what they can observe. A permission request can
-  be auto-approved, so the app may lack evidence that a person is blocked.
+- A Codex permission hook runs before the approval decision. The popover says
+  "May need approval" after a short grace period. Without a later hook, it cannot
+  distinguish an approval prompt from an automatically approved tool still running.
+  A new parent tool can also start while a parallel approval remains pending.
 - Synthetic fixtures exercise transport and behavior. Perception and productivity
   have yet to be measured, and struggle detection is still being calibrated.
 - The Mac preview is unsigned. Signing, notarization, and automatic updates are pending.

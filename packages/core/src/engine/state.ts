@@ -95,12 +95,13 @@ export type WorkingMemory = {
    * value so decay can never net-decrease it (invariant 1).
    */
   readonly lastFailKey: string | null;
-  /**
-   * Fingerprint of the tool a pending permission request named, else null.
-   * Sources without an approval-reply event still show the grant: the very
-   * tool that was asked about runs. Only that tool may end the wait.
-   */
+  /** Fingerprint of the tool named by the latest permission request. */
   readonly permissionFingerprint: string | null;
+  /** An unconfirmed request, tracked before and during its inferred wait. */
+  readonly inferredPermission: {
+    readonly at: number;
+    readonly turnId: string | null;
+  } | null;
 };
 
 export type LaneState = {
@@ -181,6 +182,7 @@ export function createLane(args: CreateLaneArgs): LaneState {
       recentActions: [],
       lastFailKey: null,
       permissionFingerprint: null,
+      inferredPermission: null,
     },
   };
 }

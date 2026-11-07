@@ -153,7 +153,9 @@ type QaMetrics = {
 };
 
 const QA_PAGE = `
-import { renderQaScenario } from "/qa-bundle.mjs";
+import {
+  createLiveAudio, getContext, OfflineContext, playbackWanted, renderQaScenario, setContext,
+} from "/qa-bundle.mjs";
 import {
   autocorrelationAtLag, bandEnergyShare, bandRmsDb, chromaEntropy,
   contourRecurrence, dcOffset, densityVariation, dominantPitchClass, downsampleMean, firstFluxOnset,
@@ -205,16 +207,56 @@ function encodeWavFloat(left, right, sampleRate) {
 }
 
 globalThis.__playbackMetrics = async () => {
-  const { sampleRate, left, right } = await renderQaScenario("single-lane-modes", 161, "mix", 0, undefined, [
-    { atS: 5, open: true }, { atS: 25, open: false },
-    { atS: 35, open: true }, { atS: 50, open: false },
-  ]);
-  const mono = toMono(left, right);
-  return {
-    windows: [[0, 4], [10, 20], [27, 34], [40, 48], [52, 60]].map(([a,b]) => windowRmsDb(mono, sampleRate, a, b)),
-    peak: Math.max(peakDb(left), peakDb(right)), jump: maxSampleJump(left, right),
-    wavBase64: encodeWavFloat(left, right, sampleRate),
-  };
+  // Keep the offline context current while live audio reads Tone.now() on each frame.
+  const original = getContext();
+  const context = new OfflineContext(2, 34, original.sampleRate);
+  setContext(context);
+  let audio;
+  let completionCueHeard = false;
+  let completionPresence = null;
+  try {
+    audio = await createLiveAudio(161, {
+      onSound(report) {
+        if (report.kind !== "frame" || report.serverTime !== 20000) return;
+        completionCueHeard = report.gestures.some((cue) => cue.gesture === "resolve" && cue.heard);
+        completionPresence = report.params.lanes[0].presence;
+      },
+    });
+    for (const [atS, lifecycle] of [
+      [0, "idle"], [3, "active"], [10, "quiet"], [10.5, "quiet"], [14, "active"],
+      [20, "turn_complete"], [23.5, "turn_complete"], [24, "turn_complete"],
+      [24.5, "turn_complete"], [29, "active"],
+    ]) {
+      context.setTimeout(() => {
+        const now = atS * 1000;
+        const signals = [{
+          laneId: 0, lifecycle, activity: 0.5, progress: 0, struggle: 0,
+          mode: { exploring: 1, editing: 0, testing: 0, other: 0 },
+          displayedMode: "exploring", prominence: 0.5, foreground: false,
+          lastEventAt: lifecycle === "turn_complete" ? 20000 : now,
+          gestures: lifecycle === "turn_complete" ? [{ gesture: "resolve", at: 20000 }] : [],
+        }];
+        audio.apply(signals, 0.6, now);
+        audio.setAudible(playbackWanted(signals, "activity", true, now));
+      }, atS);
+    }
+    const buffer = await context.render();
+    const { sampleRate } = buffer;
+    const left = buffer.getChannelData(0);
+    const right = buffer.getChannelData(1);
+    return {
+      windows: [[0, 2], [6, 9], [12.1, 13.5], [17, 19], [20.1, 21.1], [26.1, 28], [31, 33]]
+        .map(([a, b]) => Math.max(
+          windowRmsDb(left, sampleRate, a, b), windowRmsDb(right, sampleRate, a, b),
+        )),
+      completionCueHeard, completionPresence,
+      peak: Math.max(peakDb(left), peakDb(right)), jump: maxSampleJump(left, right),
+      wavBase64: encodeWavFloat(left, right, sampleRate),
+    };
+  } finally {
+    audio?.dispose();
+    setContext(original);
+  }
 };
 
 globalThis.__qaMetrics = (name, seed) => (async () => {
@@ -685,6 +727,9 @@ async function buildBundle(): Promise<QaBundle> {
     [
       `export { renderQaScenario, natureBundleUrl, renderReplayDrive, renderPianoCueAudition } from "./src/qa/render.js";`,
       `export { buildReplayDrive, REPLAY_CALMS, REPLAY_WINDOWS } from "./src/qa/replay.js";`,
+      `export { createLiveAudio } from "../../apps/web/src/audio.js";`,
+      `export { playbackWanted } from "../../apps/web/src/playback-policy.js";`,
+      `export { getContext, OfflineContext, setContext } from "tone";`,
       "",
     ].join("\n"),
   );
@@ -809,7 +854,14 @@ function collectFailures(): Failures {
   };
 }
 
-type PlaybackMetrics = { windows: number[]; peak: number; jump: number; wavBase64: string };
+type PlaybackMetrics = {
+  windows: number[];
+  completionCueHeard: boolean;
+  completionPresence: number | null;
+  peak: number;
+  jump: number;
+  wavBase64: string;
+};
 
 type ScenarioPage = {
   renderMetrics: (name: QaScenarioName, seed: number) => Promise<QaMetrics>;
@@ -1386,32 +1438,34 @@ async function writeReplayArtifacts(tag: string, extra: Record<string, unknown>,
 test.describe("audio qa", () => {
   test.setTimeout(600_000);
 
-  test("activity-only playback opens and closes on the ramp without clicks", async ({ page }) => {
+  test("activity-only playback fades promptly after quiet and completion", async ({ page }) => {
     const qa = await openScenarioPage(page);
     const { failures, check } = collectFailures();
     try {
       const playback = await qa.playbackMetrics();
       await writeFile(
-        join(ARTIFACT_DIR, "activity-playback-start-stop.wav"),
+        join(ARTIFACT_DIR, "activity-playback-quiet-and-completion.wav"),
         Buffer.from(playback.wavBase64, "base64"),
       );
       await writeFile(
-        join(ARTIFACT_DIR, "activity-playback-start-stop.json"),
+        join(ARTIFACT_DIR, "activity-playback-quiet-and-completion.json"),
         JSON.stringify({ ...playback, wavBase64: undefined }),
       );
       console.log(
-        `qa activity-playback-start-stop: ${JSON.stringify({ ...playback, wavBase64: undefined })}`,
+        `qa activity-playback-quiet-and-completion: ${JSON.stringify({ ...playback, wavBase64: undefined })}`,
       );
-      for (const index of [0, 2, 4])
+      for (const index of [0, 2, 5])
         check(
           (playback.windows[index] ?? 0) <= -100,
           `activity-playback: silent window ${index} must stay below -100 dBFS`,
         );
-      for (const index of [1, 3])
+      for (const index of [1, 3, 4, 6])
         check(
           (playback.windows[index] ?? -200) > -60,
           `activity-playback: audible window ${index} must resume above -60 dBFS`,
         );
+      check(playback.completionCueHeard, "activity-playback: schedule the completion cue");
+      check(playback.completionPresence === 0, "activity-playback: release the completed texture");
       check(playback.peak <= -3, "activity-playback: peaks must remain below -3 dBFS");
       check(playback.jump <= 0.3, "activity-playback: transitions must not step");
       expect(failures).toEqual([]);
@@ -1651,6 +1705,67 @@ test.describe("audio qa", () => {
       console.log(
         `qa permission-completion-clears-wait: completion=${lifecycle.completionAtS}s resolves=${lifecycle.resolveEvents} peak=${metrics.peakDb.toFixed(1)} jump=${metrics.maxJump.toFixed(4)}`,
       );
+    } finally {
+      await replay.close();
+    }
+  });
+
+  test("unconfirmed-approval-grace skips a fast request and cues a sustained wait", async ({
+    page,
+  }) => {
+    const replay = await openReplayPage(page);
+    try {
+      const base = { v: 1, agent: "codex", sessionId: "approval-grace" };
+      const tool = { name: "Bash", category: "exec", fingerprint: "requested" };
+      const events = [
+        { ...base, id: "turn", kind: "turn.start", ts: 0, receivedAt: 0 },
+        {
+          ...base,
+          id: "request",
+          kind: "permission.request",
+          ts: 2000,
+          receivedAt: 2000,
+          tool,
+          lifecycle: { reason: "permission", confidence: "inferred" },
+        },
+      ];
+      const result = {
+        ...base,
+        id: "result",
+        kind: "tool.end",
+        ts: 2500,
+        receivedAt: 2500,
+        tool: { ...tool, outcome: { ok: true } },
+      };
+      const fast = await replay.renderReplay(
+        "codex-stuck",
+        0.6,
+        [{ agent: "codex", events: [...events, result] }],
+        [0],
+        0,
+        15,
+      );
+      const sustained = await replay.renderReplay(
+        "codex-stuck",
+        0.6,
+        [{ agent: "codex", events }],
+        [0],
+        0,
+        15,
+      );
+      expect(fast.waitingAtS).toBe(-1);
+      expect(sustained.waitingAtS).toBe(4);
+      expect(sustained.replayOnsetAtS).toBeGreaterThanOrEqual(sustained.waitingAtS - 1);
+      expect(sustained.replayOnsetAtS).toBeLessThanOrEqual(sustained.waitingAtS + 2);
+      for (const [name, metrics] of [
+        ["fast", fast],
+        ["sustained", sustained],
+      ] as const) {
+        await writeReplayArtifacts(`unconfirmed-approval-grace-${name}`, { calm: 0.6 }, metrics);
+        expect(metrics.peakDb).toBeLessThanOrEqual(-3);
+        expect(metrics.maxJump).toBeLessThanOrEqual(0.3);
+        expect(Math.abs(metrics.dc)).toBeLessThanOrEqual(0.01);
+      }
     } finally {
       await replay.close();
     }

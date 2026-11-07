@@ -134,10 +134,10 @@ describe("the Codex mapping", () => {
     expect(event?.tool?.outcome).not.toHaveProperty("exitCode");
   });
 
-  it("maps PermissionRequest to permission.request with observed confidence", () => {
+  it("maps PermissionRequest to an unconfirmed permission request", () => {
     const [event] = mapCodexPayload(fixture("permission-request.json"), ctx());
     expect(event?.kind).toBe("permission.request");
-    expect(event?.lifecycle).toMatchObject({ reason: "permission", confidence: "observed" });
+    expect(event?.lifecycle).toMatchObject({ reason: "permission", confidence: "inferred" });
   });
 
   it("names the requested tool on permission.request so its run can end the wait", () => {

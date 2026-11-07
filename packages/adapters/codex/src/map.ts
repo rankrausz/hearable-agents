@@ -410,8 +410,8 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
       ];
     }
     case "PermissionRequest": {
-      // The named tool lets core end the wait when that tool runs: Codex
-      // has no approval-reply hook, so the run itself is the only evidence.
+      // Codex runs this hook before the approval decision. An automatic
+      // decision can let the tool proceed without a visible prompt.
       const tool =
         hook.toolName !== null
           ? buildStartedTool(
@@ -433,7 +433,7 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
             sessionId,
           ),
           kind: "permission.request",
-          lifecycle: { reason: "permission", confidence: "observed" },
+          lifecycle: { reason: "permission", confidence: "inferred" },
           ...(tool !== undefined ? { tool } : {}),
           ...(codex.turnId !== null ? { meta: { turnId: codex.turnId } } : {}),
         },

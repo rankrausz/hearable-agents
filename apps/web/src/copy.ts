@@ -33,6 +33,9 @@ function waitingReasonWord(reason: NonNullable<LaneSignal["waitingReason"]>): st
 /** Lifecycle text for a daemon-provided signal, without exposing wire ids. */
 export function signalLifecycleWord(signal: LaneSignal): string {
   if (signal.lifecycle === "waiting") {
+    if (signal.waitingReason === "permission" && signal.lifecycleConfidence === "inferred") {
+      return "May need approval";
+    }
     return `Waiting for you${signal.waitingReason === undefined ? "" : `: ${waitingReasonWord(signal.waitingReason)}`}`;
   }
   if (signal.lifecycle === "active") return "Working";
@@ -100,7 +103,9 @@ export function lifecycleWord(events: readonly ConsoleEvent[], sessionId: string
       case "tool.fail":
         return "working";
       case "permission.request":
-        return "waiting for you: permission";
+        return event.lifecycle?.confidence === "inferred"
+          ? "approval requested"
+          : "waiting for you: permission";
       case "question.asked":
         return "waiting for you: question";
       case "subagent.start":
@@ -134,7 +139,9 @@ export function eventLine(event: ConsoleEvent): string {
     case "tool.fail":
       return event.tool?.name !== undefined ? `${event.tool.name} failed` : "tool failed";
     case "permission.request":
-      return "waiting for you: permission";
+      return event.lifecycle?.confidence === "inferred"
+        ? "approval requested"
+        : "waiting for you: permission";
     case "question.asked":
       return "waiting for you: question";
     case "subagent.start":

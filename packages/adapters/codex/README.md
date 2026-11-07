@@ -44,7 +44,7 @@ and `apply_patch`) and `tool_use_id`; `PostToolUse` adds `tool_response`.
 | `UserPromptSubmit` | `turn.start` | `turn_id` → `meta.turnId`; prompt text never recorded |
 | `PreToolUse` | `tool.start` | `Bash` classifies via the `shell` row; `apply_patch` via its own row |
 | `PostToolUse` | `tool.end` / `tool.fail` | failure from `tool_response.exit_code`/`exitCode`/`status`/`isError` where present; otherwise success |
-| `PermissionRequest` | `permission.request` | `observed` confidence |
+| `PermissionRequest` | `permission.request` | `inferred` confidence because Codex may resolve approval before showing a prompt |
 | `Stop` | `turn.end` | reason heuristic on `last_assistant_message` (`?` → question, else completed), always `inferred` |
 | `Interrupt` | `turn.end cancelled` | `observed`; needs Codex v0.150+ (`doctor` warns below that) |
 | `SubagentStart` / `SubagentStop` | `subagent.start` / `subagent.end` | `sessionId = agent_id`, `parentSessionId = session_id` |

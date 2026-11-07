@@ -191,7 +191,7 @@ function expectedFor(name: string): {
             agent: "codex",
             sessionId: "s1",
             kind: "permission.request",
-            lifecycle: { reason: "permission", confidence: "observed" },
+            lifecycle: { reason: "permission", confidence: "inferred" },
             tool: {
               name: "Bash",
               category: "exec",

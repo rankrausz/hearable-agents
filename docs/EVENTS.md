@@ -127,7 +127,7 @@ Rules:
 | `tool.start` | A tool call is about to run | `tool` |
 | `tool.end` | A tool call finished successfully | `tool` with `outcome.ok = true` |
 | `tool.fail` | A tool call failed | `tool` with `outcome.ok = false` |
-| `permission.request` | The agent is blocked on a permission prompt | `lifecycle.reason = "permission"` |
+| `permission.request` | Permission prompt observed or approval requested before the prompt is confirmed | `lifecycle.reason = "permission"` |
 | `question.asked` | The agent explicitly asked the user something | `lifecycle.reason = "question"` |
 | `notification` | Anything else the agent surfaced; includes unknown hook events | `meta.kind` |
 | `subagent.start` / `subagent.end` | A subagent started or finished | `parentSessionId` |
@@ -247,7 +247,7 @@ https://developers.openai.com/codex/hooks.
 | `SessionStart` | `session.start` | `source` → `meta.source`; opening/resuming a chat is presence evidence, not a work signal |
 | `UserPromptSubmit` | `turn.start` | `turn_id` → `meta.turnId`; lifecycle event ids include a stable truncated hash of `turn_id` so later turns remain visible without exposing the source id |
 | `PreToolUse` / `PostToolUse` | `tool.start` / `tool.end` or `tool.fail` | failure detected from tool result exit code where present; `tool.fail` carries `errorClass`: exit 127 → `not_found`, any other failure → `other` (output text never read) |
-| `PermissionRequest` | `permission.request` | carries the classified `tool` from `tool_name`/`tool_input`; there is no approval-reply hook, so core ends the wait when that tool's fingerprint runs |
+| `PermissionRequest` | `permission.request` | `inferred` confidence because the hook runs before the decision. Carries the classified `tool` so its result can clear the request. |
 | `Stop` | `turn.end` | `reason` from `last_assistant_message` heuristics; `confidence: inferred` for question vs completed; a trailing question enters inferred waiting even though Codex has no explicit question event |
 | `Interrupt` | `turn.end` with `reason: cancelled` | v0.150+ |
 | `SubagentStart` / `SubagentStop` | `subagent.start` / `subagent.end` | |

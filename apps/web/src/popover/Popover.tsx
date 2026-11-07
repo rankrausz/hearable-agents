@@ -30,6 +30,7 @@ export function Popover() {
     volume: 1,
     status: "Audio is off",
   });
+  const [requestedVolume, setRequestedVolume] = useState<{ volume: number }>();
   const [login, setLogin] = useState<LoginState>({ available: false, enabled: false, status: "" });
   const [opening, setOpening] = useState(false);
   const [focusMessage, setFocusMessage] = useState("");
@@ -105,9 +106,14 @@ export function Popover() {
       setError("Calm could not be saved. Try again.");
     }
   }
-  const control = (action: Promise<unknown>) => {
-    void action.catch(() => setError("Hearable could not apply that change. Try again."));
+  const control = (action: Promise<unknown>, onFailure?: () => void) => {
+    void action.catch(() => {
+      onFailure?.();
+      setError("Hearable could not apply that change. Try again.");
+    });
   };
+  // Playback reports can arrive after a newer input. The popover owns the slider once edited.
+  const volume = requestedVolume?.volume ?? audio.volume;
   const sessions = [
     ...state.lanes.flatMap((lane) =>
       lane.sessions.map((session) => ({
@@ -231,7 +237,7 @@ export function Popover() {
             </p>
             <label>
               <span>
-                Volume <output>{Math.round(audio.volume * 100)}%</output>
+                Volume <output>{Math.round(volume * 100)}%</output>
               </span>
               <input
                 aria-label="Volume"
@@ -239,12 +245,14 @@ export function Popover() {
                 min="0"
                 max="1"
                 step="0.01"
-                value={audio.volume}
-                onChange={(event) =>
-                  control(
-                    shell.commandAudio({ type: "volume", volume: Number(event.target.value) }),
-                  )
-                }
+                value={volume}
+                onChange={(event) => {
+                  const request = { volume: event.currentTarget.valueAsNumber };
+                  setRequestedVolume(request);
+                  control(shell.commandAudio({ type: "volume", ...request }), () => {
+                    setRequestedVolume((current) => (current === request ? undefined : current));
+                  });
+                }}
               />
             </label>
           </>

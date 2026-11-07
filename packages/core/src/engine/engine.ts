@@ -54,15 +54,18 @@ function decayRate(rate: number, dtMs: number): number {
   return rate * Math.exp(-dtMs / ACTIVITY_TAU_MS);
 }
 
+// Allow fast automatic approval to resolve before showing or sounding a wait.
+const INFERRED_PERMISSION_GRACE_MS = 1_500;
+
 function isToolEvent(kind: NormalizedEvent["kind"]): boolean {
   return kind === "tool.start" || kind === "tool.end" || kind === "tool.fail";
 }
 
 /**
  * Folds one event into the lane and returns a new state; the input is never
- * mutated. `waiting` is entered synchronously here (no tick delay) so the
- * daemon's 500 ms advance timer meets the within-2-s exit criterion. Time
- * comes only from `event.ts`.
+ * mutated. Observed prompts enter waiting immediately. Unconfirmed permission
+ * requests are checked by advance after a short grace period. Time comes
+ * only from `event.ts`.
  */
 export function applyEvent(
   state: LaneState,
@@ -123,6 +126,7 @@ export function applyEvent(
       recentActions: signals.internal.recentActions,
       lastFailKey: signals.internal.lastFailKey,
       permissionFingerprint: next.internal.permissionFingerprint,
+      inferredPermission: next.internal.inferredPermission,
     },
   };
 }
@@ -161,6 +165,26 @@ export function advance(
   // every silence transition below so no path skips the half-life.
   const decayed = withSignals(base, advanceStruggleProgress(base, now));
   if (silenceMs < 0) return withMode(decayed, refreshDisplayedMode(decayed, state.lastEventAt));
+
+  const request = base.internal.inferredPermission;
+  if (
+    request !== null &&
+    base.lifecycle !== "waiting" &&
+    now - request.at >= INFERRED_PERMISSION_GRACE_MS
+  ) {
+    const waiting = {
+      ...decayed,
+      lifecycle: "waiting" as const,
+      lifecycleConfidence: "inferred" as const,
+      waitingReason: "permission" as const,
+      reasons: withReason(decayed.reasons, {
+        at: now,
+        signal: "lifecycle",
+        text: "Lane may be waiting for approval (inferred).",
+      }),
+    };
+    return withMode(waiting, refreshDisplayedMode(waiting, now));
+  }
 
   // The 120 s inference fires only when the lane cannot observe turn ends
   // (`turnEnd = "none"`): silence after activity means the turn ended, not
@@ -285,9 +309,10 @@ type Transition = Pick<
  * diagram plus §Capability-aware inference. `idle → waiting` never happens
  * directly; `waiting` exits only on `turn.start`, a `permission_replied`
  * notification, `session.end`, a completed turn resolving a permission wait,
- * or a tool event with the fingerprint a permission request named;
- * `turn_complete` is entered from `active`/`quiet` or permission waiting via
- * `turn.end(completed)`, or — with `turnEnd = "none"`
+ * or a tool event resolving the request. Unconfirmed requests can also
+ * end on newer parent tool starts. `turn_complete` is entered from
+ * `active`/`quiet` or permission waiting via `turn.end(completed)`,
+ * or — with `turnEnd = "none"`
  * — after 120 s of post-activity silence in `advance` (waiting is never
  * inferred that way); `compaction` sets `quiet` unless waiting or invisible
  * (`compaction = false` leaves the lane untouched); with `turnStart = none`
@@ -314,6 +339,12 @@ function transition(
     internal: state.internal,
   };
 
+  const clearPermission = {
+    ...state.internal,
+    permissionFingerprint: null,
+    inferredPermission: null,
+  };
+
   // Every remaining kind below may set seenActivity when it observes work;
   // the switch body spells it out per case.
   switch (event.kind) {
@@ -324,7 +355,7 @@ function transition(
         lifecycleConfidence: "observed",
         turnStartedAt: undefined,
         waitingReason: undefined,
-        internal: { ...state.internal, seenActivity: false },
+        internal: { ...clearPermission, seenActivity: false },
         reasons: withReason(state.reasons, {
           at,
           signal: "lifecycle",
@@ -341,6 +372,7 @@ function transition(
           ...idle,
           lifecycleConfidence: event.lifecycle?.confidence ?? state.lifecycleConfidence,
           turnStartedAt: at,
+          internal: clearPermission,
         };
       }
       return {
@@ -353,7 +385,7 @@ function transition(
         lifecycleConfidence: event.lifecycle?.confidence ?? "observed",
         turnStartedAt: at,
         waitingReason: undefined,
-        internal: { ...state.internal, seenActivity: false },
+        internal: { ...clearPermission, seenActivity: false },
         reasons: withReason(state.reasons, {
           at,
           signal: "lifecycle",
@@ -376,12 +408,30 @@ function transition(
           }),
         };
       }
+      const permissionFingerprint = event.tool?.fingerprint ?? null;
+      if (event.lifecycle?.confidence === "inferred") {
+        if (state.lifecycle === "turn_complete" || at < (state.turnStartedAt ?? at)) return idle;
+        const pending = state.internal.inferredPermission;
+        if (state.lifecycle === "waiting" && pending === null) return idle;
+        if (pending !== null && at <= pending.at) return idle;
+        return {
+          ...idle,
+          internal: {
+            ...state.internal,
+            permissionFingerprint,
+            inferredPermission: {
+              at,
+              turnId: typeof event.meta?.turnId === "string" ? event.meta.turnId : null,
+            },
+          },
+        };
+      }
       return {
         ...idle,
         lifecycle: "waiting",
         lifecycleConfidence: eventConfidence(event, state.lifecycleConfidence),
         waitingReason: "permission",
-        internal: { ...state.internal, permissionFingerprint: event.tool?.fingerprint ?? null },
+        internal: { ...clearPermission, permissionFingerprint },
         reasons: withReason(state.reasons, {
           at,
           signal: "lifecycle",
@@ -407,6 +457,7 @@ function transition(
         lifecycle: "waiting",
         lifecycleConfidence: eventConfidence(event, state.lifecycleConfidence),
         waitingReason: "question",
+        internal: clearPermission,
         reasons: withReason(state.reasons, {
           at,
           signal: "lifecycle",
@@ -414,8 +465,21 @@ function transition(
         }),
       };
 
-    case "turn.end":
-      return transitionTurnEnd(state, event, at, idle, capabilities);
+    case "turn.end": {
+      if (state.internal.inferredPermission === null) {
+        return transitionTurnEnd(state, event, at, idle, capabilities);
+      }
+      const settled = { ...idle, internal: clearPermission };
+      if (event.lifecycle.reason === "cancelled") {
+        settled.lifecycle = "idle";
+        settled.lifecycleConfidence = event.lifecycle.confidence;
+        settled.waitingReason = undefined;
+      } else if (state.lifecycle === "waiting") {
+        settled.lifecycle = "active";
+        settled.waitingReason = undefined;
+      }
+      return transitionTurnEnd({ ...state, ...settled }, event, at, settled, capabilities);
+    }
 
     case "compaction":
       if (!compactionVisible(capabilities)) return idle;
@@ -433,12 +497,16 @@ function transition(
       };
 
     case "notification":
-      if (state.lifecycle === "waiting" && event.meta?.kind === "permission_replied") {
+      if (
+        event.meta?.kind === "permission_replied" &&
+        (state.lifecycle === "waiting" || state.internal.inferredPermission !== null)
+      ) {
         return {
           ...idle,
           lifecycle: "active",
           lifecycleConfidence: "observed",
           waitingReason: undefined,
+          internal: clearPermission,
           reasons: withReason(state.reasons, {
             at,
             signal: "lifecycle",
@@ -453,21 +521,24 @@ function transition(
     case "tool.fail":
     case "subagent.start":
     case "subagent.end": {
-      const memory = { ...state.internal, seenActivity: true };
-      if (grantsPendingPermission(state, event)) {
+      const matchedObservedRequest = grantsPendingPermission(state, event);
+      if (matchedObservedRequest || resolvesInferredPermission(state, event)) {
+        const wasWaiting = state.lifecycle === "waiting";
+        const text = matchedObservedRequest
+          ? "Requested tool ran: permission answered, lane is active (inferred)."
+          : "Tool activity continued: lane is active (inferred).";
         return {
           ...idle,
           lifecycle: "active",
-          lifecycleConfidence: "inferred",
+          lifecycleConfidence: wasWaiting ? "inferred" : state.lifecycleConfidence,
           waitingReason: undefined,
-          internal: { ...memory, permissionFingerprint: null },
-          reasons: withReason(state.reasons, {
-            at,
-            signal: "lifecycle",
-            text: "Requested tool ran: permission answered, lane is active (inferred).",
-          }),
+          internal: { ...clearPermission, seenActivity: true },
+          reasons: wasWaiting
+            ? withReason(state.reasons, { at, signal: "lifecycle", text })
+            : state.reasons,
         };
       }
+      const memory = { ...state.internal, seenActivity: true };
       if (state.lifecycle === "waiting" || state.lifecycle === "turn_complete") {
         return { ...idle, internal: memory };
       }
@@ -507,12 +578,31 @@ function transition(
   }
 }
 
-// Unrelated tool activity never ends a wait; the tool the request named
-// running is the grant itself, for sources with no approval-reply event.
+// A later start suggests continued work. A completion only counts for the
+// requested tool: an unrelated tool may have been running before the request.
+function resolvesInferredPermission(state: LaneState, event: NormalizedEvent): boolean {
+  const request = state.internal.inferredPermission;
+  if (
+    request === null ||
+    event.sessionId !== state.sessionId ||
+    event.parentSessionId !== undefined ||
+    (request.turnId !== null && request.turnId !== event.meta?.turnId) ||
+    event.ts < request.at
+  ) {
+    return false;
+  }
+  const matches = event.tool?.fingerprint === state.internal.permissionFingerprint;
+  return event.kind === "tool.start"
+    ? !matches && event.ts > request.at
+    : (event.kind === "tool.end" || event.kind === "tool.fail") && matches;
+}
+
+// Preserve fingerprint recovery for observed waits and existing recordings.
 function grantsPendingPermission(state: LaneState, event: NormalizedEvent): boolean {
   return (
     state.lifecycle === "waiting" &&
     state.waitingReason === "permission" &&
+    state.internal.inferredPermission === null &&
     state.internal.permissionFingerprint !== null &&
     event.tool?.fingerprint === state.internal.permissionFingerprint
   );

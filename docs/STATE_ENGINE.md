@@ -99,10 +99,12 @@ idle ──turn.start──▶ active ──(no events 90 s)──▶ quiet ─�
   │
   └── session.end (from any state) ; waiting ──turn.start──▶ active
   permission waiting ──turn.end(completed)──▶ turn_complete
-  permission waiting ──tool event, same fingerprint as the request──▶ active (inferred)
+  observed permission waiting ──matching tool event──▶ active (inferred)
+  unconfirmed approval ──unresolved for 1.5 s──▶ waiting (inferred)
+  unconfirmed approval ──matching result or newer parent tool start──▶ active
 ```
 
-- `waiting` is entered immediately on `permission.request` or `question.asked`, and on
+- `waiting` is entered immediately on an observed `permission.request` or a `question.asked`, and on
   `turn.end` with `reason ∈ {question, permission, idle_prompt}` when the prompt is visible.
   An inferred `turn.end(question)` is also accepted when explicit question events are hidden:
   the source observed its own final response, while core remains agent-blind.
@@ -126,14 +128,18 @@ idle ──turn.start──▶ active ──(no events 90 s)──▶ quiet ─�
   the turn is no longer blocked, even if the source has no separate approval-reply
   event. Preserve the completion event's confidence. A prior permission request must
   not keep displaying after normal completion. Question waits retain their answer rule.
-- A permission wait whose `permission.request` named a tool also ends, as `inferred`,
-  on a `tool.*` event with that tool's fingerprint: the requested action running is the
-  grant, for sources with no approval-reply event (Codex has none). Without this
-  exit a Codex lane showed "waiting for permission" for the rest of the turn after the
-  user approved.
-- `waiting` never expires through silence or unrelated tool activity. Its other exits
-  are `turn.start` (the user answered), a `permission_replied` notification, or
-  `session.end`. Do not time it out.
+- An observed permission wait whose request named a tool also ends, as `inferred`,
+  on a tool event with that fingerprint.
+- An inferred `permission.request` records an unconfirmed approval. If it remains
+  unresolved for 1.5 s, the next advance enters inferred waiting and the popover says
+  "May need approval". A matching tool result or a newer start for a different tool in
+  the same parent session and turn clears the request, including before waiting starts.
+  A start can suggest continued work even when a parallel approval is still pending.
+  Older starts, subagent activity, and unrelated results leave the request pending.
+  A turn end clears the pending request, including on interruption or a final question.
+- `waiting` never expires through silence. Question and observed permission waits
+  persist through unrelated tools. A new `turn.start`, a `permission_replied`
+  notification, or `session.end` also ends a wait.
 - `lifecycleConfidence` is `inferred` whenever the transition came from an event marked
   `inferred` or from an engine timeout; the UI shows it, the audio ignores it.
 

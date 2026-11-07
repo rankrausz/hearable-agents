@@ -42,9 +42,14 @@ note lifetimes.
 ## Ramps and playback
 
 Use the named [ramp classes](../packages/audio/src/ramps.ts) for audible changes.
-Audio starts behind a closed output gate. The default playback policy opens it while
-a session is active, quiet, or waiting, and leaves time for the completion cue and
-its tail. When no lane qualifies, the mix fades to silence over six seconds.
+Audio starts behind a closed output gate. In the default activity-only mode, a working
+or waiting session keeps the gate open. Once only quiet or inactive lanes remain, the
+mix fades to silence over two seconds and resumes when work returns. A quiet lane
+still plays at reduced presence if another lane keeps the gate open. Continuous mode
+keeps the ambient mix playing.
+
+When a turn completes, its ambient voice starts fading immediately. The gate stays
+open for four seconds to let the rolled piano cue play before the two-second fade.
 Manual start and stop use a one-second ramp. Disconnects mute the local graph.
 See the [playback policy](../apps/web/src/playback-policy.ts) and
 [output gate](../packages/audio/src/output-gate.ts).

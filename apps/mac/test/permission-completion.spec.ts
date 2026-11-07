@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { _electron as electron, expect, test } from "@playwright/test";
 
-test("a normal Codex Stop clears the prior permission label and waiting tray", async () => {
+test("a Codex permission alert clears when work resumes or the turn completes", async () => {
   const dir = await mkdtemp(join(tmpdir(), "hearable-permission-stop-"));
   const config = join(dir, "config.json");
   await writeFile(config, JSON.stringify({ port: 0, dataDir: dir }));
@@ -35,24 +35,37 @@ test("a normal Codex Stop clears the prior permission label and waiting tray", a
       };
     });
     const origin = new URL(popover.url()).origin;
-    async function post(hook_event_name: string) {
-      await fetch(`${origin}/events`, {
+    async function post(hook_event_name: string, command?: string) {
+      const response = await fetch(`${origin}/events`, {
         method: "POST",
         headers: { "x-hearable-agent": "codex", "content-type": "application/json" },
         body: JSON.stringify({
           hook_event_name,
           session_id: "permission-completion",
           turn_id: "normal-turn",
+          cwd: "/tmp/demo",
           last_assistant_message: "The one-minute check is complete.",
+          ...(command ? { tool_name: "Bash", tool_input: { command } } : {}),
         }),
       });
+      expect(response.ok).toBe(true);
     }
+    const working = popover.getByText("Working", { exact: true });
+    const approval = popover.getByText("May need approval", { exact: true });
     await post("UserPromptSubmit");
-    await post("PermissionRequest");
-    await expect(popover.getByText("Waiting for you: permission", { exact: true })).toBeVisible();
+    await expect(working).toBeVisible();
+    await post("PermissionRequest", "git status");
+    await expect(working).toBeVisible();
+    await expect(approval).toBeVisible();
+    await post("PreToolUse", "pwd");
+    await expect(working).toBeVisible();
+    await expect(approval).toHaveCount(0);
+
+    await post("PermissionRequest", "git diff");
+    await expect(approval).toBeVisible();
     await post("Stop");
     await expect(popover.getByText("Done", { exact: true })).toBeVisible();
-    await expect(popover.getByText("Waiting for you: permission", { exact: true })).toHaveCount(0);
+    await expect(approval).toHaveCount(0);
     await expect
       .poll(() =>
         shell.evaluate(

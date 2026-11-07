@@ -273,12 +273,8 @@ export function sceneRendersForAudio(
   });
 }
 
-/**
- * Fade to exact silence when playback stops wanting sound (owner direction
- * 2026-10-29): long enough to hear the room settle after the last agent,
- * short enough to be silence within a few breaths.
- */
-export const AUTO_SILENCE_FADE_S = 6;
+/** Automatic output release after quiet or after the completion cue. */
+export const AUTO_SILENCE_FADE_S = 2;
 
 /** Creates a live graph only after the caller's Start audio gesture. */
 export async function createLiveAudio(
@@ -328,13 +324,14 @@ export async function createLiveAudio(
       // Summed over the three tuned seats, never the padded frame length:
       // the empty fourth seat must not dilute the world (p7b-t03).
       const presence = macroPresence(renders);
-      const params = renderWithMacro(renders, calm, {
-        nowSeconds: serverTime / 1000,
-        seed,
-        presence,
+      const params = renderWithMacro(
+        renders,
         calm,
-        applyWorld: true,
-      });
+        { nowSeconds: serverTime / 1000, seed, presence, calm, applyWorld: true },
+        // Target silence for completed textures. The graph ramps the release
+        // while the piano cue continues on its own bus.
+        renders.map((lane) => (lane.lifecycle === "turn_complete" ? 1 : 0)),
+      );
       cueHarmony = params.macro;
       const elapsed =
         previousTime === undefined ? 0 : Math.max(0, serverTime - previousTime) / 1000;

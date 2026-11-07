@@ -30,11 +30,15 @@ describe("complete-mix output gate", () => {
     expect(gain.linearRampTo).not.toHaveBeenCalled();
     gate.setOpen(true);
     gate.setOpen(true, 10.2);
-    gate.setOpen(false, 10.4);
-    expect(gain.cancelAndHoldAtTime.mock.calls).toEqual([[10], [10.4]]);
+    gate.setOpen(false, 10.4, 2);
+    gate.setOpen(false, 10.5, 2);
+    gate.setOpen(false, 10.6);
+    gate.setOpen(false, 10.7);
+    expect(gain.cancelAndHoldAtTime.mock.calls).toEqual([[10], [10.4], [10.6]]);
     expect(gain.linearRampTo.mock.calls).toEqual([
       [1, 1, 10],
-      [0, 1, 10.4],
+      [0, 2, 10.4],
+      [0, 1, 10.6],
     ]);
     gate.dispose();
     expect(dispose).toHaveBeenCalledOnce();

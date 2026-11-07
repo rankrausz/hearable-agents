@@ -251,8 +251,11 @@ describe("lifecycle transitions", () => {
         lifecycle: { reason: "permission", confidence: "inferred" },
       }),
     );
-    expect(permissioned.lifecycle).toBe("waiting");
-    expect(permissioned.lifecycleConfidence).toBe("inferred");
+    expect(advance(permissioned, T0 + 2499).lifecycle).toBe("active");
+    const waiting = advance(permissioned, T0 + 2500);
+    expect(waiting.lifecycle).toBe("waiting");
+    expect(waiting.waitingReason).toBe("permission");
+    expect(waiting.lifecycleConfidence).toBe("inferred");
     const questioned = applyEvent(
       startTurn(lane(), T0),
       event("question.asked", T0 + 1000, {
@@ -261,6 +264,90 @@ describe("lifecycle transitions", () => {
     );
     expect(questioned.lifecycle).toBe("waiting");
     expect(questioned.lifecycleConfidence).toBe("inferred");
+  });
+
+  it("clears a fast unconfirmed request before it enters waiting", () => {
+    const tool = { name: "Bash", category: "exec", fingerprint: "requested" };
+    const started = applyEvent(startTurn(lane(), T0), event("tool.start", T0 + 100, { tool }));
+    const pending = applyEvent(
+      started,
+      event("permission.request", T0 + 200, {
+        tool,
+        lifecycle: { reason: "permission", confidence: "inferred" },
+      }),
+    );
+    const result = applyEvent(
+      pending,
+      event("tool.end", T0 + 500, { tool: { ...tool, outcome: { ok: true } } }),
+    );
+    expect(advance(result, T0 + 2500).lifecycle).toBe("active");
+  });
+
+  it("recovers only on newer parent tool starts or a matching result", () => {
+    const tool = { name: "Bash", category: "exec", fingerprint: "requested" };
+    const meta = { turnId: "current" };
+    const pending = applyEvent(
+      startTurn(lane(), T0),
+      event("permission.request", T0 + 1000, {
+        lifecycle: { reason: "permission", confidence: "inferred" },
+        tool,
+        meta,
+      }),
+    );
+    const waiting = advance(pending, T0 + 2500);
+    for (const ignored of [
+      event("tool.start", T0 + 900, { meta }),
+      event("tool.start", T0 + 2600, { tool, meta }),
+      event("tool.start", T0 + 2600, { meta: { turnId: "previous" } }),
+      event("tool.start", T0 + 2600, { sessionId: "child", parentSessionId: "s1", meta }),
+      event("tool.end", T0 + 2600, { meta }),
+    ]) {
+      expect(applyEvent(waiting, ignored).lifecycle).toBe("waiting");
+    }
+    const working = applyEvent(waiting, event("tool.start", T0 + 2600, { meta }));
+    expect(working.lifecycle).toBe("active");
+    expect(working.lifecycleConfidence).toBe("inferred");
+    expect(working.waitingReason).toBeUndefined();
+    expect(advance(working, T0 + 5000).lifecycle).toBe("active");
+  });
+
+  it("does not replace a confirmed prompt with an unconfirmed request", () => {
+    for (const kind of ["permission.request", "question.asked"] as const) {
+      const waiting = applyEvent(startTurn(lane(), T0), event(kind, T0 + 1000));
+      const pending = applyEvent(
+        waiting,
+        event("permission.request", T0 + 2000, {
+          lifecycle: { reason: "permission", confidence: "inferred" },
+        }),
+      );
+      const state = applyEvent(pending, event("tool.start", T0 + 3000));
+      expect(advance(state, T0 + 5000)).toMatchObject({
+        lifecycle: "waiting",
+        waitingReason: waiting.waitingReason,
+        lifecycleConfidence: "observed",
+      });
+    }
+  });
+
+  it("clears an unconfirmed wait when the turn ends with a question or is interrupted", () => {
+    const pending = applyEvent(
+      startTurn(lane(), T0),
+      event("permission.request", T0 + 1000, {
+        lifecycle: { reason: "permission", confidence: "inferred" },
+      }),
+    );
+    const waiting = advance(pending, T0 + 2500);
+    const question = applyEvent(
+      waiting,
+      event("turn.end", T0 + 3000, { lifecycle: { reason: "question", confidence: "inferred" } }),
+    );
+    expect(question.waitingReason).toBe("question");
+    const interrupted = applyEvent(
+      waiting,
+      event("turn.end", T0 + 3000, { lifecycle: { reason: "cancelled", confidence: "observed" } }),
+    );
+    expect(interrupted.lifecycle).toBe("idle");
+    expect(interrupted.waitingReason).toBeUndefined();
   });
 
   it("returns to active from waiting on turn.start and clears the reason", () => {

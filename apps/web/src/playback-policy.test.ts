@@ -22,13 +22,23 @@ const signal = (lifecycle: LaneSignal["lifecycle"]): LaneSignal => ({
   gestures: [],
 });
 describe("activity-only playback", () => {
-  it.each(["active", "quiet", "waiting"] as const)(
+  it.each(["active", "waiting"] as const)(
     "keeps %s audible even without tool activity",
     (state) => {
       expect(ongoing(signal(state))).toBe(true);
       expect(playbackWanted([signal(state)], "activity", true, 20_000)).toBe(true);
     },
   );
+  it("lets quiet-only playback rest and resumes when work returns", () => {
+    const quiet = signal("quiet");
+    expect(ongoing(quiet)).toBe(true);
+    expect(playbackWanted([quiet], "activity", true, 20_000)).toBe(false);
+    expect(playbackWanted([quiet], "continuous", true, 20_000)).toBe(true);
+    expect(
+      playbackWanted([quiet, { ...signal("active"), laneId: 1 }], "activity", true, 20_000),
+    ).toBe(true);
+  });
+
   it.each(["idle", "stale"] as const)("does not treat %s as ongoing work", (state) => {
     expect(playbackWanted([signal(state)], "activity", true, 20_000)).toBe(false);
   });
@@ -48,10 +58,10 @@ describe("activity-only playback", () => {
       gestures: [{ gesture: "resolve" as const, at: 121_000 }],
     };
     expect(playbackWanted([completed], "activity", true, 121_000)).toBe(true);
-    expect(playbackWanted([{ ...completed, lifecycle: "idle" }], "activity", true, 127_000)).toBe(
+    expect(playbackWanted([{ ...completed, lifecycle: "idle" }], "activity", true, 124_999)).toBe(
       true,
     );
-    expect(playbackWanted([{ ...completed, lifecycle: "idle" }], "activity", true, 129_000)).toBe(
+    expect(playbackWanted([{ ...completed, lifecycle: "idle" }], "activity", true, 125_000)).toBe(
       false,
     );
     expect(playbackWanted([{ ...completed, lifecycle: "idle" }], "activity", true, 120_000)).toBe(

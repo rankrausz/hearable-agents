@@ -2,7 +2,8 @@
 import type { LaneSignal } from "./protocol.js";
 
 export type PlaybackMode = "continuous" | "activity";
-export const COMPLETION_TAIL_MS = 8_000;
+// The rolled piano notes release within four seconds. The room fades after that.
+export const COMPLETION_TAIL_MS = 4_000;
 
 export function ongoing(signal: Pick<LaneSignal, "lifecycle">): boolean {
   return ["active", "quiet", "waiting"].includes(signal.lifecycle);
@@ -18,7 +19,8 @@ export function playbackWanted(
   if (mode === "continuous") return true;
   return signals.some(
     (signal) =>
-      ongoing(signal) ||
+      signal.lifecycle === "active" ||
+      signal.lifecycle === "waiting" ||
       (signal.lifecycle === "turn_complete" &&
         now >= signal.lastEventAt &&
         now - signal.lastEventAt < COMPLETION_TAIL_MS) ||

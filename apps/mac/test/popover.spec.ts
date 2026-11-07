@@ -107,6 +107,16 @@ test("shows live lanes within one second and controls the hidden console", async
     });
     await popover.getByRole("slider", { name: "Volume", exact: true }).fill("0.4");
     await expect(popover.locator("output").nth(1)).toHaveText("40%");
+    await expect
+      .poll(() =>
+        popover.evaluate(async () => {
+          const { hearableShell } = window as unknown as {
+            hearableShell: { audioState(): Promise<{ volume: number }> };
+          };
+          return (await hearableShell.audioState()).volume;
+        }),
+      )
+      .toBe(0.4);
     await popover.getByRole("button", { name: "Audio On", exact: true }).click();
     await expect(popover.getByText("Audio is off", { exact: true })).toBeVisible();
     await expect(popover.getByRole("button", { name: "Open console" })).toHaveCount(0);
@@ -129,6 +139,60 @@ test("renders live lanes and Calm in a browser without shell controls", async ({
     await expect(page.getByRole("slider", { name: "Calm", exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "Open console" })).toHaveCount(0);
     await expect(page.getByRole("slider", { name: "Volume", exact: true })).toHaveCount(0);
+  } finally {
+    await daemon.stop();
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("volume follows a drag while audio reports lag behind", async ({ page }) => {
+  const dir = await mkdtemp(join(tmpdir(), "hearable-popover-volume-"));
+  const daemon = await startDaemon({
+    config: { host: "127.0.0.1", port: 0, lanes: 4, laneReleaseAfterMs: 300_000, dataDir: dir },
+    adapters: [],
+    webRoot: resolve("apps/mac/dist/web"),
+  });
+  try {
+    await page.addInitScript(() => {
+      Object.assign(window, {
+        hearableShell: {
+          audioState: async () => ({ enabled: true, volume: 0.8, status: "Audio is running" }),
+          loginState: async () => ({ available: false, enabled: false, status: "" }),
+          resize: async () => {},
+          commandAudio: async () => {},
+          onAudioState: (callback: (audio: unknown) => void) => {
+            const report = (event: Event) => callback((event as CustomEvent).detail);
+            window.addEventListener("test:audio-state", report);
+            return () => window.removeEventListener("test:audio-state", report);
+          },
+        },
+      });
+    });
+    await page.goto(`${daemon.url}/?view=popover`);
+    const slider = page.getByRole("slider", { name: "Volume", exact: true });
+    const percentage = page.locator("output").nth(1);
+    await expect(slider).toHaveValue("0.8");
+    const bounds = await slider.boundingBox();
+    if (!bounds) throw new Error("The volume slider did not render");
+    const y = bounds.y + bounds.height / 2;
+    await page.mouse.move(bounds.x + bounds.width * 0.8, y);
+    await page.mouse.down();
+    await page.mouse.move(bounds.x + bounds.width * 0.4, y, { steps: 8 });
+    await expect.poll(() => slider.inputValue().then(Number)).toBeLessThan(0.5);
+    const volume = Number(await slider.inputValue());
+    await expect(percentage).toHaveText(`${Math.round(volume * 100)}%`);
+    await page.mouse.up();
+
+    await page.evaluate(() => {
+      window.dispatchEvent(
+        new CustomEvent("test:audio-state", {
+          detail: { enabled: false, volume: 0.7, status: "Audio is off" },
+        }),
+      );
+    });
+    await expect(page.getByText("Audio is off", { exact: true })).toBeVisible();
+    await expect(slider).toHaveValue(String(volume));
+    await expect(percentage).toHaveText(`${Math.round(volume * 100)}%`);
   } finally {
     await daemon.stop();
     await rm(dir, { recursive: true, force: true });
