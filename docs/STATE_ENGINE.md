@@ -111,6 +111,10 @@ idle ──turn.start──▶ active ──(no events 90 s)──▶ quiet ─�
 - `turn.end` with `reason = completed` → `turn_complete`, which triggers the `resolve`
   gesture and then decays to `idle` after 20 s. If a `turn.start` arrives during
   `turn_complete`, go straight to `active` (skip `arrive`).
+- `turn.end(cancelled)` immediately returns the lane to `idle` and clears waiting and
+  pending approvals. A cancellation with a different turn ID from the latest observed
+  turn start is ignored. Late hooks carrying the most recently cancelled turn ID
+  cannot revive the lane or affect the next turn.
 - `quiet` means "still working, currently silent" (long model thinking, compaction). It is
   a texture-thinning hint, not an alert. `compaction` events set `quiet` immediately with
   `reasons` saying so.

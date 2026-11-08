@@ -95,6 +95,9 @@ export type WorkingMemory = {
    * value so decay can never net-decrease it (invariant 1).
    */
   readonly lastFailKey: string | null;
+  /** Most recent explicit turn start and cancellation, when the source identifies them. */
+  readonly startedTurnId: string | null;
+  readonly cancelledTurnId: string | null;
   /** Fingerprint of the tool named by the latest permission request. */
   readonly permissionFingerprint: string | null;
   /** An unconfirmed request, tracked before and during its inferred wait. */
@@ -181,6 +184,8 @@ export function createLane(args: CreateLaneArgs): LaneState {
       lastTestFailures: {},
       recentActions: [],
       lastFailKey: null,
+      startedTurnId: null,
+      cancelledTurnId: null,
       permissionFingerprint: null,
       inferredPermission: null,
     },

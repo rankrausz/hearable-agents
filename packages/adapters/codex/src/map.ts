@@ -466,6 +466,7 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
           ),
           kind: "turn.end",
           lifecycle: { reason: "cancelled", confidence: "observed" },
+          ...(codex.turnId !== null ? { meta: { turnId: codex.turnId } } : {}),
         },
       ];
     }
@@ -473,6 +474,10 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
       if (codex.agentId === null) {
         return [unknownNotification(sessionId, eventName, ts, ctx.receivedAt)];
       }
+      const meta = {
+        ...(codex.agentType !== null ? { agentType: codex.agentType } : {}),
+        ...(codex.turnId !== null ? { turnId: codex.turnId } : {}),
+      };
       return [
         {
           ...baseEvent(
@@ -483,7 +488,7 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
           ),
           kind: "subagent.start",
           parentSessionId: sessionId,
-          ...(codex.agentType !== null ? { meta: { agentType: codex.agentType } } : {}),
+          ...(Object.keys(meta).length > 0 ? { meta } : {}),
         },
       ];
     }
@@ -491,6 +496,10 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
       if (codex.agentId === null) {
         return [unknownNotification(sessionId, eventName, ts, ctx.receivedAt)];
       }
+      const meta = {
+        ...(codex.agentType !== null ? { agentType: codex.agentType } : {}),
+        ...(codex.turnId !== null ? { turnId: codex.turnId } : {}),
+      };
       return [
         {
           ...baseEvent(
@@ -501,7 +510,7 @@ export function mapCodexPayload(raw: unknown, ctx: MapContext): readonly Normali
           ),
           kind: "subagent.end",
           parentSessionId: sessionId,
-          ...(codex.agentType !== null ? { meta: { agentType: codex.agentType } } : {}),
+          ...(Object.keys(meta).length > 0 ? { meta } : {}),
         },
       ];
     }

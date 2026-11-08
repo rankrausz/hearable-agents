@@ -620,8 +620,51 @@ describe("illegal transitions", () => {
     }
   });
 
-  it("ignores error, cancelled and unknown turn ends for lifecycle purposes", () => {
-    for (const reason of ["error", "cancelled", "unknown"] as const) {
+  it.each(["active", "quiet", "stale", "waiting"] as const)(
+    "returns a %s lane to idle on cancellation, including events without a turn id",
+    (lifecycle) => {
+      const start = startTurn(lane({ lifecycle }), T0);
+      const interrupted = applyEvent(
+        {
+          ...start,
+          lifecycle,
+          ...(lifecycle === "waiting" ? { waitingReason: "permission" as const } : {}),
+        },
+        event("turn.end", T0 + 1000, {
+          lifecycle: { reason: "cancelled", confidence: "observed" },
+        }),
+      );
+      expect(interrupted).toMatchObject({ lifecycle: "idle", lifecycleConfidence: "observed" });
+      expect(interrupted.turnStartedAt).toBeUndefined();
+      expect(interrupted.waitingReason).toBeUndefined();
+      expect(startTurn(interrupted, T0 + 2000).lifecycle).toBe("active");
+    },
+  );
+
+  it("ignores late hooks from the interrupted turn and preserves a newer turn", () => {
+    const meta = { turnId: "first" };
+    const started = applyEvent(lane(), event("turn.start", T0, { meta }));
+    const interrupt = event("turn.end", T0 + 3000, {
+      meta,
+      lifecycle: { reason: "cancelled", confidence: "observed" },
+    });
+    const nextTurn = event("turn.start", T0 + 2000, { meta: { turnId: "second" } });
+    const resumedEarly = applyEvent(started, nextTurn);
+    expect(applyEvent(resumedEarly, interrupt)).toBe(resumedEarly);
+
+    const interrupted = applyEvent(started, interrupt);
+    expect(interrupted.lifecycle).toBe("idle");
+    const lateResult = event("tool.end", T0 + 4000, { meta });
+    const lateSubagent = event("subagent.end", T0 + 4000, { meta });
+    expect(applyEvent(interrupted, lateResult)).toBe(interrupted);
+    expect(applyEvent(interrupted, lateSubagent)).toBe(interrupted);
+    const resumed = applyEvent(interrupted, { ...nextTurn, ts: T0 + 5000 });
+    expect(resumed.lifecycle).toBe("active");
+    expect(applyEvent(resumed, lateResult)).toBe(resumed);
+  });
+
+  it("ignores error and unknown turn ends for lifecycle purposes", () => {
+    for (const reason of ["error", "unknown"] as const) {
       const state = applyEvent(
         startTurn(lane(), T0),
         event("turn.end", T0 + 1000, {

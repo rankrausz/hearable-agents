@@ -74,6 +74,17 @@ export function applyEvent(
 ): LaneState {
   const caps = effectiveCapabilities(state, capabilities);
   const at = event.ts;
+  const turnId = typeof event.meta?.turnId === "string" ? event.meta.turnId : null;
+  const cancelled = event.kind === "turn.end" && event.lifecycle.reason === "cancelled";
+  const { startedTurnId, cancelledTurnId } = state.internal;
+  // A late hook from the interrupted turn cannot revive work or end a new turn.
+  if (
+    turnId !== null &&
+    (turnId === cancelledTurnId ||
+      (cancelled && startedTurnId !== null && turnId !== startedTurnId))
+  ) {
+    return state;
+  }
 
   // Activity: decay the rate EMA to the event time, then bump it once per
   // tool event. One tool event per 4 s settles at rate ≈ 0.28/s, which the
@@ -125,6 +136,9 @@ export function applyEvent(
       lastTestFailures: signals.internal.lastTestFailures,
       recentActions: signals.internal.recentActions,
       lastFailKey: signals.internal.lastFailKey,
+      startedTurnId:
+        event.kind === "turn.start" ? turnId : event.kind === "session.end" ? null : startedTurnId,
+      cancelledTurnId: cancelled ? (turnId ?? startedTurnId) : cancelledTurnId,
       permissionFingerprint: next.internal.permissionFingerprint,
       inferredPermission: next.internal.inferredPermission,
     },
@@ -309,7 +323,7 @@ type Transition = Pick<
  * diagram plus §Capability-aware inference. `idle → waiting` never happens
  * directly; `waiting` exits only on `turn.start`, a `permission_replied`
  * notification, `session.end`, a completed turn resolving a permission wait,
- * or a tool event resolving the request. Unconfirmed requests can also
+ * a cancelled turn, or a tool event resolving the request. Unconfirmed requests can also
  * end on newer parent tool starts. `turn_complete` is entered from
  * `active`/`quiet` or permission waiting via `turn.end(completed)`,
  * or — with `turnEnd = "none"`
@@ -466,15 +480,26 @@ function transition(
       };
 
     case "turn.end": {
+      if (event.lifecycle.reason === "cancelled") {
+        return {
+          ...idle,
+          lifecycle: "idle",
+          lifecycleConfidence: event.lifecycle.confidence,
+          turnStartedAt: undefined,
+          waitingReason: undefined,
+          internal: { ...clearPermission, seenActivity: false },
+          reasons: withReason(state.reasons, {
+            at,
+            signal: "lifecycle",
+            text: "Turn interrupted: lane is idle.",
+          }),
+        };
+      }
       if (state.internal.inferredPermission === null) {
         return transitionTurnEnd(state, event, at, idle, capabilities);
       }
       const settled = { ...idle, internal: clearPermission };
-      if (event.lifecycle.reason === "cancelled") {
-        settled.lifecycle = "idle";
-        settled.lifecycleConfidence = event.lifecycle.confidence;
-        settled.waitingReason = undefined;
-      } else if (state.lifecycle === "waiting") {
+      if (state.lifecycle === "waiting") {
         settled.lifecycle = "active";
         settled.waitingReason = undefined;
       }
@@ -707,7 +732,7 @@ function transitionTurnEnd(
       }),
     };
   }
-  // Error, cancelled and unknown endings carry no lifecycle meaning yet;
+  // Error and unknown endings carry no lifecycle meaning yet;
   // the turn is over but the lane keeps its state.
   return { ...idle, turnStartedAt: undefined };
 }

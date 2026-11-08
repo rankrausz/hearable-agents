@@ -249,8 +249,8 @@ https://developers.openai.com/codex/hooks.
 | `PreToolUse` / `PostToolUse` | `tool.start` / `tool.end` or `tool.fail` | failure detected from tool result exit code where present; `tool.fail` carries `errorClass`: exit 127 → `not_found`, any other failure → `other` (output text never read) |
 | `PermissionRequest` | `permission.request` | `inferred` confidence because the hook runs before the decision. Carries the classified `tool` so its result can clear the request. |
 | `Stop` | `turn.end` | `reason` from `last_assistant_message` heuristics; `confidence: inferred` for question vs completed; a trailing question enters inferred waiting even though Codex has no explicit question event |
-| `Interrupt` | `turn.end` with `reason: cancelled` | v0.150+ |
-| `SubagentStart` / `SubagentStop` | `subagent.start` / `subagent.end` | |
+| `Interrupt` | `turn.end` with `reason: cancelled` | v0.150+. Observed interruption of the active main turn. `turn_id` → `meta.turnId` when present. |
+| `SubagentStart` / `SubagentStop` | `subagent.start` / `subagent.end` | `turn_id` → `meta.turnId` when present. |
 | `PreCompact` / `PostCompact` | `compaction` | |
 | anything else | `notification` (`meta.kind = unknown`) | |
 

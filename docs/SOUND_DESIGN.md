@@ -50,6 +50,8 @@ keeps the ambient mix playing.
 
 When a turn completes, its ambient voice starts fading immediately. The gate stays
 open for four seconds to let the rolled piano cue play before the two-second fade.
+An interrupted turn returns to idle without a resolve cue. If no other lane holds
+the activity-only gate open, the existing two-second fade starts immediately.
 Manual start, stop, loss of the audio lease, and disconnect use a one-second ramp.
 A lease transfer waits 1.3 seconds for the outgoing graph and audio scheduling lookahead.
 See the [playback policy](../apps/web/src/playback-policy.ts) and

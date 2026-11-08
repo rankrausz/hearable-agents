@@ -210,7 +210,7 @@ function encodeWavFloat(left, right, sampleRate) {
 globalThis.__playbackMetrics = async () => {
   // Keep the offline context current while live audio reads Tone.now() on each frame.
   const original = getContext();
-  const context = new OfflineContext(2, 34, original.sampleRate);
+  const context = new OfflineContext(2, 40, original.sampleRate);
   setContext(context);
   const seed = 161;
   const serverStartMs = Date.UTC(2026, 0, 1);
@@ -236,7 +236,7 @@ globalThis.__playbackMetrics = async () => {
     for (const [atS, lifecycle] of [
       [0, "idle"], [3, "active"], [10, "quiet"], [10.5, "quiet"], [14, "active"],
       [20, "turn_complete"], [23.5, "turn_complete"], [24, "turn_complete"],
-      [24.5, "turn_complete"], [29, "active"],
+      [24.5, "turn_complete"], [29, "active"], [35, "idle"],
     ]) {
       context.setTimeout(() => {
         const now = serverStartMs + atS * 1000;
@@ -258,7 +258,7 @@ globalThis.__playbackMetrics = async () => {
     const left = buffer.getChannelData(0);
     const right = buffer.getChannelData(1);
     return {
-      windows: [[0, 2], [6, 9], [12.1, 13.5], [17, 19], [20.1, 21.1], [26.1, 28], [31, 33]]
+      windows: [[0, 2], [6, 9], [12.1, 13.5], [17, 19], [20.1, 21.1], [26.1, 28], [31, 33], [37.1, 39]]
         .map(([a, b]) => Math.max(
           windowRmsDb(left, sampleRate, a, b), windowRmsDb(right, sampleRate, a, b),
         )),
@@ -1453,23 +1453,25 @@ async function writeReplayArtifacts(tag: string, extra: Record<string, unknown>,
 test.describe("audio qa", () => {
   test.setTimeout(600_000);
 
-  test("activity-only playback fades promptly after quiet and completion", async ({ page }) => {
+  test("activity-only playback fades after quiet, completion and interruption", async ({
+    page,
+  }) => {
     const qa = await openScenarioPage(page);
     const { failures, check } = collectFailures();
     try {
       const playback = await qa.playbackMetrics();
       await writeFile(
-        join(ARTIFACT_DIR, "activity-playback-quiet-and-completion.wav"),
+        join(ARTIFACT_DIR, "activity-playback-quiet-completion-and-interruption.wav"),
         Buffer.from(playback.wavBase64, "base64"),
       );
       await writeFile(
-        join(ARTIFACT_DIR, "activity-playback-quiet-and-completion.json"),
+        join(ARTIFACT_DIR, "activity-playback-quiet-completion-and-interruption.json"),
         JSON.stringify({ ...playback, wavBase64: undefined }),
       );
       console.log(
-        `qa activity-playback-quiet-and-completion: ${JSON.stringify({ ...playback, wavBase64: undefined })}`,
+        `qa activity-playback-quiet-completion-and-interruption: ${JSON.stringify({ ...playback, wavBase64: undefined })}`,
       );
-      for (const index of [0, 2, 5])
+      for (const index of [0, 2, 5, 7])
         check(
           (playback.windows[index] ?? 0) <= -100,
           `activity-playback: silent window ${index} must stay below -100 dBFS`,

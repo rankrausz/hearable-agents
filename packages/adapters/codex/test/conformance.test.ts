@@ -253,6 +253,7 @@ function expectedFor(name: string): {
             sessionId: "s1",
             kind: "turn.end",
             lifecycle: { reason: "cancelled", confidence: "observed" },
+            meta: { turnId: "t1" },
           }),
         ],
       };
@@ -270,7 +271,7 @@ function expectedFor(name: string): {
             sessionId: "sub1",
             parentSessionId: "s1",
             kind: "subagent.start",
-            meta: { agentType: "Explore" },
+            meta: { agentType: "Explore", turnId: "t1" },
           }),
         ],
       };
@@ -288,7 +289,7 @@ function expectedFor(name: string): {
             sessionId: "sub1",
             parentSessionId: "s1",
             kind: "subagent.end",
-            meta: { agentType: "Explore" },
+            meta: { agentType: "Explore", turnId: "t1" },
           }),
         ],
       };
