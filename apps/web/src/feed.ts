@@ -47,7 +47,7 @@ export function connectFeed(options: {
   reconnectDelayMs?: number;
 }): {
   close(): void;
-  claimAudio(takeover?: boolean): void;
+  claimAudio(takeover?: boolean, temporary?: boolean): void;
   heartbeatAudio(): void;
   releaseAudio(): void;
 } {
@@ -173,8 +173,11 @@ export function connectFeed(options: {
   open();
 
   return {
-    claimAudio(takeover = false) {
-      if (socket?.readyState === 1) socket.send(JSON.stringify({ type: "audio-claim", takeover }));
+    claimAudio(takeover = false, temporary = false) {
+      if (socket?.readyState !== 1) return;
+      socket.send(
+        JSON.stringify({ type: "audio-claim", takeover, ...(temporary ? { temporary } : {}) }),
+      );
     },
     heartbeatAudio() {
       if (socket?.readyState === 1) socket.send(JSON.stringify({ type: "audio-heartbeat" }));

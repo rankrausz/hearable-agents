@@ -50,7 +50,8 @@ keeps the ambient mix playing.
 
 When a turn completes, its ambient voice starts fading immediately. The gate stays
 open for four seconds to let the rolled piano cue play before the two-second fade.
-Manual start and stop use a one-second ramp. Disconnects mute the local graph.
+Manual start, stop, loss of the audio lease, and disconnect use a one-second ramp.
+A lease transfer waits 1.3 seconds for the outgoing graph and audio scheduling lookahead.
 See the [playback policy](../apps/web/src/playback-policy.ts) and
 [output gate](../packages/audio/src/output-gate.ts).
 

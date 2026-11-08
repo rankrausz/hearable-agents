@@ -1,4 +1,5 @@
 // Owns the hidden Mac audio endpoint; must not expose developer views or infer agent state.
+import { RAMP_TIMES } from "@hearable/audio";
 import { useEffect, useRef, useState } from "react";
 import * as tone from "tone";
 import { createLiveAudio } from "./audio.js";
@@ -39,7 +40,10 @@ export function AudioHost(): React.ReactElement {
         state.queued.map((session) => session.sessionId),
         serverTime,
       );
-      audio.setAudible(wanted && ownsAudio);
+      audio.setAudible(
+        wanted && ownsAudio,
+        ownsAudio && state.connection === "live" ? undefined : RAMP_TIMES.master.seconds,
+      );
     },
   );
   const audioState =

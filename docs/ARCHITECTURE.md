@@ -44,7 +44,11 @@ changes the shared Calm setting. The authoritative transport implementations are
 `packages/daemon/src/server.ts`, `broadcast.ts`, `audio-election.ts`, and the runtime guards
 in `apps/web/src/protocol.ts`. Each connection receives a snapshot before incremental
 frames. One endpoint holds the audio lease; heartbeat, release, and explicit takeover
-prevent duplicate playback across renderers. Disconnects mute the local graph.
+prevent duplicate playback across renderers. A claim with `takeover: true` and
+`temporary: true` preserves the previous owner. The daemon returns the lease after
+release or disconnect if the previous owner is still heartbeating and has not
+released its claim. An ordinary takeover supersedes this return. Each transfer
+allows the outgoing graph to fade before enabling the incoming owner.
 
 ## Mac lifetime
 

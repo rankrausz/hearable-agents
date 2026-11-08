@@ -99,7 +99,7 @@ export type LiveAudio = {
     serverTime: number,
     isolation?: Isolation,
   ): void;
-  setAudible(audible: boolean): void;
+  setAudible(audible: boolean, fadeSeconds?: number): void;
   dispose(): void;
 };
 
@@ -448,10 +448,9 @@ export async function createLiveAudio(
         options.onSound?.({ kind: "overflow", serverTime, heard });
       }
     },
-    setAudible(audible) {
-      // Opening stays quick so an agent is heard at once; going silent
-      // fades over AUTO_SILENCE_FADE_S so the room settles, not cuts.
-      if (!disposed) gate.setOpen(audible, tone.now(), audible ? undefined : AUTO_SILENCE_FADE_S);
+    setAudible(audible, fadeSeconds = AUTO_SILENCE_FADE_S) {
+      // Activity-only uses the longer fade. Lease loss uses the master ramp.
+      if (!disposed) gate.setOpen(audible, tone.now(), audible ? undefined : fadeSeconds);
     },
     dispose() {
       if (disposed) return;

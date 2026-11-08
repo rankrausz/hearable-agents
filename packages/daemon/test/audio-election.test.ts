@@ -15,11 +15,11 @@ type FakeSocket = { id: string };
 
 function setup() {
   let now = 0;
-  const timers: (() => void)[] = [];
+  const timers = new Map<() => void, number>();
   const scheduler: Scheduler = {
-    schedule(fn) {
-      timers.push(fn);
-      return () => {};
+    schedule(fn, ms) {
+      timers.set(fn, now + ms);
+      return () => timers.delete(fn);
     },
   };
   const messages: { socket: FakeSocket; message: AudioElectionMessage }[] = [];
@@ -35,8 +35,16 @@ function setup() {
       return { id } as unknown as import("ws").WebSocket;
     },
     advance(ms: number) {
-      now += ms;
-      timers.shift()?.();
+      const end = now + ms;
+      for (;;) {
+        const next = [...timers].sort(([, left], [, right]) => left - right)[0];
+        if (next === undefined || next[1] > end) break;
+        const [callback, due] = next;
+        timers.delete(callback);
+        now = due;
+        callback();
+      }
+      now = end;
     },
   };
 }
@@ -51,9 +59,91 @@ describe("audio endpoint election", () => {
     test.election.claim(second, false);
     expect(test.messages.at(-1)?.message.ownerId).toBe(first);
     test.election.claim(second, true);
+    test.advance(AUDIO_HANDOFF_MS - 1);
+    expect(test.election.owner()).toBeNull();
+    test.advance(1);
+    expect(test.election.owner()).toBe(second);
+  });
+
+  it.each(["release", "disconnect"] as const)(
+    "returns a temporary takeover after %s and the fade interval",
+    (end) => {
+      const test = setup();
+      const first = test.election.connect(test.socket("first"));
+      const second = test.election.connect(test.socket("second"));
+      const third = test.election.connect(test.socket("third"));
+      test.election.claim(first, false);
+      test.election.claim(second, true, true);
+      test.election.claim(third, false);
+      expect(test.election.owner()).toBeNull();
+      test.advance(AUDIO_HANDOFF_MS);
+      expect(test.election.owner()).toBe(second);
+
+      test.election[end](second);
+      test.election.heartbeat(first);
+      test.advance(AUDIO_HANDOFF_MS - 1);
+      expect(test.election.owner()).toBeNull();
+      test.advance(1);
+      expect(test.election.owner()).toBe(first);
+    },
+  );
+
+  it("returns the lease when the temporary owner cancels before it acquires it", () => {
+    const test = setup();
+    const first = test.election.connect(test.socket("first"));
+    const second = test.election.connect(test.socket("second"));
+    test.election.claim(first, false);
+    test.election.claim(second, true, true);
+    test.election.disconnect(second);
     test.advance(AUDIO_HANDOFF_MS);
+    expect(test.election.owner()).toBe(first);
+  });
+
+  it("keeps the prior owner when a new temporary claim interrupts its return", () => {
+    const test = setup();
+    const first = test.election.connect(test.socket("first"));
+    const second = test.election.connect(test.socket("second"));
+    test.election.claim(first, false);
+    test.election.claim(second, true, true);
     test.advance(AUDIO_HANDOFF_MS);
-    expect(test.messages.at(-1)?.message.ownerId).toBe(second);
+    test.election.release(second);
+    const third = test.election.connect(test.socket("third"));
+    test.election.claim(third, true, true);
+    test.advance(AUDIO_HANDOFF_MS);
+    expect(test.election.owner()).toBe(third);
+    test.election.heartbeat(first);
+    test.election.disconnect(third);
+    test.advance(AUDIO_HANDOFF_MS);
+    expect(test.election.owner()).toBe(first);
+  });
+
+  it("does not restore a prior owner that explicitly released while displaced", () => {
+    const test = setup();
+    const first = test.election.connect(test.socket("first"));
+    const second = test.election.connect(test.socket("second"));
+    test.election.claim(first, false);
+    test.election.claim(second, true, true);
+    test.election.release(first);
+    test.advance(AUDIO_HANDOFF_MS);
+    test.election.disconnect(second);
+    test.election.heartbeat(first);
+    test.advance(AUDIO_HANDOFF_MS);
+    expect(test.election.owner()).toBeNull();
+  });
+
+  it("does not restore after an ordinary takeover supersedes a temporary claim", () => {
+    const test = setup();
+    const first = test.election.connect(test.socket("first"));
+    const second = test.election.connect(test.socket("second"));
+    const third = test.election.connect(test.socket("third"));
+    test.election.claim(first, false);
+    test.election.claim(second, true, true);
+    test.election.claim(third, true);
+    test.advance(AUDIO_HANDOFF_MS);
+    expect(test.election.owner()).toBe(third);
+    test.election.disconnect(third);
+    test.election.heartbeat(first);
+    expect(test.election.owner()).toBeNull();
   });
 
   it("releases an owner that misses the heartbeat lease", () => {

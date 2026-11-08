@@ -40,7 +40,8 @@ export class AudioElection {
    */
   private lapsedOwnerId: string | null = null;
   private sweepCancel: (() => void) | null = null;
-  private handoffCancel: (() => void) | null = null;
+  private handoff: { endpointId: string; restoring: boolean; cancel(): void } | null = null;
+  private returnOwnerId: string | null = null;
   private nextId = 0;
 
   constructor(
@@ -60,38 +61,51 @@ export class AudioElection {
 
   disconnect(endpointId: string): void {
     this.peers.delete(endpointId);
-    if (this.lapsedOwnerId === endpointId) {
-      this.lapsedOwnerId = null;
-    }
-    if (this.ownerId === endpointId) {
-      this.ownerId = null;
-      this.broadcastState();
-    }
+    this.release(endpointId);
   }
 
-  claim(endpointId: string, takeover: boolean): void {
+  claim(endpointId: string, takeover: boolean, temporary = false): void {
     if (!this.peers.has(endpointId)) return;
-    if (this.ownerId !== null && this.ownerId !== endpointId && !takeover) {
+    const current = this.ownerId ?? this.handoff?.endpointId ?? null;
+    if (current === endpointId || (current !== null && !takeover)) {
       this.sendState(endpointId);
       return;
     }
-    if (takeover && this.ownerId !== null && this.ownerId !== endpointId) {
-      this.ownerId = null;
-      this.lapsedOwnerId = null;
-      this.broadcastState();
-      this.handoffCancel?.();
-      this.handoffCancel = this.scheduler.schedule(() => {
-        this.handoffCancel = null;
-        if (this.peers.has(endpointId)) {
-          this.ownerId = endpointId;
-          this.broadcastState();
-        }
-      }, AUDIO_HANDOFF_MS);
+    const returning = this.handoff?.restoring ? this.handoff.endpointId : null;
+    this.returnOwnerId =
+      temporary && takeover ? (this.returnOwnerId ?? this.ownerId ?? returning) : null;
+    if (this.returnOwnerId === endpointId) this.returnOwnerId = null;
+    if (current !== null) {
+      this.handoffTo(endpointId);
       return;
     }
     this.ownerId = endpointId;
     this.lapsedOwnerId = null;
     this.broadcastState();
+  }
+
+  private handoffTo(endpointId: string, restoring = false): void {
+    this.handoff?.cancel();
+    this.ownerId = null;
+    this.lapsedOwnerId = null;
+    const cancel = this.scheduler.schedule(() => {
+      this.handoff = null;
+      const peer = this.peers.get(endpointId);
+      if (peer === undefined) return;
+      if (restoring && this.clock() - peer.lastHeartbeat >= AUDIO_LEASE_TIMEOUT_MS) return;
+      this.ownerId = endpointId;
+      this.broadcastState();
+    }, AUDIO_HANDOFF_MS);
+    this.handoff = { endpointId, restoring, cancel };
+    this.broadcastState();
+  }
+
+  private restorePreviousOwner(): boolean {
+    const previous = this.returnOwnerId;
+    this.returnOwnerId = null;
+    if (previous === null || !this.peers.has(previous)) return false;
+    this.handoffTo(previous, true);
+    return true;
   }
 
   /**
@@ -119,10 +133,15 @@ export class AudioElection {
   }
 
   release(endpointId: string): void {
-    if (this.lapsedOwnerId === endpointId) {
-      this.lapsedOwnerId = null;
+    if (this.lapsedOwnerId === endpointId) this.lapsedOwnerId = null;
+    if (this.returnOwnerId === endpointId) this.returnOwnerId = null;
+    if (this.handoff?.endpointId === endpointId) {
+      this.handoff.cancel();
+      this.handoff = null;
+      this.restorePreviousOwner();
     }
     if (this.ownerId !== endpointId) return;
+    if (this.restorePreviousOwner()) return;
     this.ownerId = null;
     this.broadcastState();
   }
@@ -137,6 +156,7 @@ export class AudioElection {
     if (this.ownerId === null) return;
     const owner = this.peers.get(this.ownerId);
     if (owner !== undefined && now - owner.lastHeartbeat < AUDIO_LEASE_TIMEOUT_MS) return;
+    if (this.restorePreviousOwner()) return;
     this.lapsedOwnerId = owner === undefined ? null : this.ownerId;
     this.ownerId = null;
     this.broadcastState();
@@ -144,9 +164,10 @@ export class AudioElection {
 
   dispose(): void {
     this.sweepCancel?.();
-    this.handoffCancel?.();
+    this.handoff?.cancel();
     this.sweepCancel = null;
-    this.handoffCancel = null;
+    this.handoff = null;
+    this.returnOwnerId = null;
     this.peers.clear();
     this.ownerId = null;
     this.lapsedOwnerId = null;

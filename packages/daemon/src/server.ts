@@ -196,7 +196,8 @@ export async function startDaemon(options: StartOptions): Promise<DaemonRuntime>
       if (typeof message !== "object" || message === null || !("type" in message)) return;
       const type = (message as { type?: unknown }).type;
       if (type === "audio-claim") {
-        audioElection.claim(endpointId, (message as { takeover?: unknown }).takeover === true);
+        const claim = message as { takeover?: unknown; temporary?: unknown };
+        audioElection.claim(endpointId, claim.takeover === true, claim.temporary === true);
       } else if (type === "audio-heartbeat") {
         audioElection.heartbeat(endpointId);
       } else if (type === "audio-release") {
