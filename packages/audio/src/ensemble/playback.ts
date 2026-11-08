@@ -10,6 +10,7 @@
 // import Tone at module scope — Tone loads inside renderQaScenario.
 
 import type { EnsembleQaSchedule } from "../qa/scenarios.js";
+import { RAMP_TIMES } from "../ramps.js";
 import {
   AB_CALM,
   AB_SEED,
@@ -73,31 +74,57 @@ export function ensemblePlaybackPlan(
  * the mix carries the full scene graph). Returns a stop handle; the
  * caller stops on unmount or version switch.
  */
-export async function playEnsemblePlan(plan: EnsemblePlaybackPlan): Promise<{ stop(): void }> {
+export async function playEnsemblePlan(
+  plan: EnsemblePlaybackPlan,
+  options: { signal?: AbortSignal; volume?: () => number } = {},
+): Promise<{ stop(): void; setVolume(volume: number): void }> {
+  const { signal, volume } = options;
+  signal?.throwIfAborted();
   const [{ renderQaScenario }] = await Promise.all([import("../qa/render.js")]);
   const rendered = await renderQaScenario(plan.scenario, plan.seed, "mix", 0, plan.schedule);
+  signal?.throwIfAborted();
   const context = new AudioContext();
-  await context.resume();
-  const buffer = context.createBuffer(2, rendered.left.length, rendered.sampleRate);
-  buffer.copyToChannel(new Float32Array(rendered.left), 0);
-  buffer.copyToChannel(new Float32Array(rendered.right), 1);
-  const source = context.createBufferSource();
-  source.buffer = buffer;
-  source.connect(context.destination);
-  source.start();
-  let stopped = false;
-  return {
-    stop() {
-      if (stopped) return;
-      stopped = true;
-      try {
-        source.stop();
-      } catch {
-        // Already ended — the slice is finite, stop is idempotent.
-      }
-      void context.close().catch(() => undefined);
-    },
-  };
+  try {
+    await context.resume();
+    signal?.throwIfAborted();
+    const buffer = context.createBuffer(2, rendered.left.length, rendered.sampleRate);
+    buffer.copyToChannel(new Float32Array(rendered.left), 0);
+    buffer.copyToChannel(new Float32Array(rendered.right), 1);
+    const source = context.createBufferSource();
+    const output = context.createGain();
+    output.gain.value = Math.max(0, Math.min(1, volume?.() ?? 1));
+    source.buffer = buffer;
+    source.connect(output);
+    output.connect(context.destination);
+    source.start();
+    let stopped = false;
+    function rampVolume(value: number): void {
+      const now = context.currentTime;
+      output.gain.cancelAndHoldAtTime(now);
+      output.gain.linearRampToValueAtTime(
+        Math.max(0, Math.min(1, value)),
+        now + RAMP_TIMES.master.seconds,
+      );
+    }
+    return {
+      setVolume(value) {
+        if (!stopped) rampVolume(value);
+      },
+      stop() {
+        if (stopped) return;
+        stopped = true;
+        rampVolume(0);
+        source.stop(context.currentTime + RAMP_TIMES.master.seconds);
+        setTimeout(
+          () => void context.close().catch(() => undefined),
+          RAMP_TIMES.master.seconds * 1_000,
+        );
+      },
+    };
+  } catch (error) {
+    void context.close().catch(() => undefined);
+    throw error;
+  }
 }
 
 /** Re-export for the slice comment: the timeline both versions share. */
