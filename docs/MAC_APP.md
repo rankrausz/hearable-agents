@@ -13,6 +13,13 @@ The app adopts an existing daemon when possible and stops only a daemon it owns.
 starts off on a fresh install; a remembered choice may restart it. Audio is gated by
 activity and endpoint ownership, and parameter changes retain the existing ramps.
 
+For a separate test daemon, put a `daemon.json` in
+`~/Library/Application Support/Hearable/` before opening the app. Use the daemon's
+normal config fields and choose both an unused loopback `port` and a separate absolute
+`dataDir`. The app uses this file instead of `~/.config/hearable/config.json` when
+present. `HEARABLE_MAC_CONFIG` takes precedence over both. This changes only the Mac
+app's daemon; installed hooks and the CLI keep their own settings.
+
 Security: sandboxed renderer, context isolation, no Node integration, restricted
 navigation, strict CSP, and sender/schema checks on IPC. See `src/main/policy.ts`,
 `windows.ts`, `bridge.ts`, and the focused native tests.

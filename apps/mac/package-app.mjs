@@ -9,6 +9,9 @@ if (process.platform !== "darwin") throw new Error("Build Hearable.app on macOS.
 const root = fileURLToPath(new URL("../..", import.meta.url));
 const stage = mkdtempSync(join(tmpdir(), "hearable-package-"));
 const electron = JSON.parse(readFileSync(join(root, "node_modules/electron/package.json"), "utf8"));
+const checksums = JSON.parse(
+  readFileSync(join(root, "node_modules/electron/checksums.json"), "utf8"),
+);
 try {
   cpSync(new URL("./dist", import.meta.url), join(stage, "dist"), {
     recursive: true,
@@ -31,6 +34,7 @@ try {
     platform: "darwin",
     arch: process.arch,
     electronVersion: electron.version,
+    download: { checksums },
     appBundleId: "org.hearable.agents",
     appCategoryType: "public.app-category.developer-tools",
     icon: join(root, "apps/mac/assets/Hearable.icns"),

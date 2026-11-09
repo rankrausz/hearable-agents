@@ -1,5 +1,5 @@
 // Composes the menu bar shell; must not contain engine, adapter mapping, or sound logic.
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "@hearable/daemon";
@@ -25,9 +25,15 @@ else {
     .whenReady()
     .then(async () => {
       app.setActivationPolicy("accessory");
-      mkdirSync(app.getPath("userData"), { recursive: true });
-      const prefs = preferences(join(app.getPath("userData"), "preferences.json"));
-      const config = loadConfig({ configFile: process.env.HEARABLE_MAC_CONFIG });
+      const profile = app.getPath("userData");
+      mkdirSync(profile, { recursive: true });
+      const prefs = preferences(join(profile, "preferences.json"));
+      const profileConfig = join(profile, "daemon.json");
+      const config = loadConfig({
+        configFile:
+          process.env.HEARABLE_MAC_CONFIG ??
+          (existsSync(profileConfig) ? profileConfig : undefined),
+      });
       const daemon = await hostDaemon(config, join(directory, "../web"));
       const origin = new URL(daemon.url).origin;
       const consoleWindow = createConsole(origin, join(directory, "../preload/index.cjs"));

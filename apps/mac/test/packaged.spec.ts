@@ -9,24 +9,25 @@ test("installed app serves its own assets, registers login, and stops its daemon
   const executable = process.env.HEARABLE_MAC_EXECUTABLE;
   if (!executable) throw new Error("Set HEARABLE_MAC_EXECUTABLE to the installed Hearable binary.");
   const dir = await mkdtemp(join(tmpdir(), "hearable-installed-"));
-  const config = join(dir, "config.json");
-  await mkdir(join(dir, "app"));
-  await writeFile(config, JSON.stringify({ port: 0, dataDir: dir }));
+  const profile = join(dir, "app");
+  await mkdir(profile);
+  await writeFile(join(profile, "daemon.json"), JSON.stringify({ port: 0, dataDir: dir }));
+  const env = { ...process.env };
+  delete env.HEARABLE_MAC_CONFIG;
   const shell = await electron.launch({
     executablePath: executable,
     args: ["--mute-audio"],
     cwd: dir,
     env: {
-      ...process.env,
+      ...env,
       HEARABLE_MAC_TEST: "1",
-      HEARABLE_MAC_CONFIG: config,
-      HEARABLE_MAC_DATA_DIR: join(dir, "app"),
+      HEARABLE_MAC_DATA_DIR: profile,
     },
   });
   let originalLogin: boolean | undefined;
   try {
     const consolePage = await findConsole(shell);
-    await expect(consolePage.getByText("live", { exact: true })).toBeVisible();
+    await expect(consolePage.getByText("live", { exact: true })).toBeAttached();
     const identity = await shell.evaluate(({ app, BrowserWindow }) => ({
       packaged: app.isPackaged,
       path: app.getAppPath(),
@@ -40,6 +41,8 @@ test("installed app serves its own assets, registers login, and stops its daemon
     expect(identity.visible).toBe(false);
     originalLogin = identity.login;
     const url = new URL(consolePage.url()).origin;
+    const lock = JSON.parse(await readFile(join(dir, "daemon.lock"), "utf8"));
+    expect(lock.pid).toBe(shell.process().pid);
     const index = await (await fetch(url)).text();
     expect(index).toContain('id="root"');
     const script = index.match(/src="([^"]+\.js)"/u)?.[1];
@@ -47,6 +50,12 @@ test("installed app serves its own assets, registers login, and stops its daemon
     expect((await fetch(`${url}${script}`)).ok).toBe(true);
     const icon = await fetch(`${url}/hearable-icon.svg`);
     expect(icon.ok).toBe(true);
+    const popover = shell.windows().find((page) => page.url().includes("view=popover"));
+    if (!popover) throw new Error("The installed popover did not load");
+    await shell.evaluate(() =>
+      (globalThis as unknown as { hearableTray: Electron.Tray }).hearableTray.emit("click"),
+    );
+    await expect(popover.getByText("Connected", { exact: true })).toBeVisible();
     const at = Date.now();
     await fetch(`${url}/events`, {
       method: "POST",
@@ -57,8 +66,6 @@ test("installed app serves its own assets, registers login, and stops its daemon
         cwd: "/test/installed-smoke",
       }),
     });
-    const popover = shell.windows().find((page) => page.url().includes("view=popover"));
-    if (!popover) throw new Error("The installed popover did not load");
     await expect(popover.getByText("Claude Code", { exact: true })).toBeVisible();
     expect(Date.now() - at).toBeLessThan(1000);
     await consolePage.evaluate(() =>
@@ -70,7 +77,7 @@ test("installed app serves its own assets, registers login, and stops its daemon
         }
       ).hearableShell.commandAudio({ type: "enabled", enabled: true }),
     );
-    await expect(consolePage.getByText("Audio is running", { exact: true })).toBeVisible({
+    await expect(consolePage.getByRole("status")).toHaveText("Audio is running", {
       timeout: 15_000,
     });
     const login = await shell.evaluate(({ app }) => {
