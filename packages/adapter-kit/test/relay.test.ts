@@ -235,6 +235,43 @@ describe("the hearable-hook relay", () => {
   );
 
   it(
+    "delivers when late Node startup consumes the usual request deadline",
+    async () => {
+      const stub = await startStub(204);
+      try {
+        const startup = encodeURIComponent(
+          "const until = performance.now() + 28; while (performance.now() < until) {}",
+        );
+        const run = await runLocalDelivery(stub, () =>
+          runRelayCommand(
+            [
+              process.execPath,
+              "--import",
+              `data:text/javascript,${startup}`,
+              relayPath,
+              "--agent",
+              "claude-code",
+              "--url",
+              stub.url,
+            ],
+            payload,
+            false,
+          ),
+        );
+        expect(run.code).toBe(0);
+        expect(run.stdout).toBe("");
+        expect(
+          stub.requests.map((request) => request.body),
+          run.stderr,
+        ).toEqual([payload]);
+      } finally {
+        await stub.close();
+      }
+    },
+    generousTimeoutMs,
+  );
+
+  it(
     "runs when launched directly as the exposed bin, proving the checked-in executable mode survives",
     async () => {
       const stub = await startStub(204);

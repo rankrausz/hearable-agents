@@ -27,6 +27,10 @@ const BUNDLED_MAC_RELAY = process.env.HEARABLE_MAC_BUNDLED_RELAY === "1";
 // The read may not spend the whole budget: a producer that never closes
 // stdin must not starve the POST of its slice of the deadline.
 const READ_BUDGET_MS = 6;
+// Reserve enough time for a ready pipe and a queued loopback write to run
+// when Node startup consumes the nominal process-clock deadline.
+const MIN_READ_MS = 2;
+const MIN_POST_MS = 4;
 
 function remainingBudgetMs() {
   return Math.max(1, DELIVERY_DEADLINE_MS - performance.now());
@@ -81,7 +85,7 @@ function readStdin() {
         process.stdin.destroy();
         finish();
       },
-      Math.min(remainingBudgetMs(), READ_BUDGET_MS),
+      Math.min(Math.max(MIN_READ_MS, remainingBudgetMs()), READ_BUDGET_MS),
     ).unref();
   });
 }
@@ -118,16 +122,7 @@ function post(flags, body) {
       }
     };
     let request;
-    // An explicit timer on whatever remains of the shared budget — not only
-    // a socket timeout — so the process ends inside the budget even if the
-    // connection itself stalls.
-    let timer = setTimeout(() => {
-      decide("TimeoutError");
-      if (request !== undefined) {
-        request.destroy();
-      }
-    }, remainingBudgetMs());
-    timer.unref();
+    let timer;
     try {
       const target = new URL("/events", flags.url);
       request = httpRequest(
@@ -180,6 +175,16 @@ function post(flags, body) {
         resolve(outcome);
       });
       request.end(body);
+      // Node can initialize its HTTP client synchronously during setup. Arm
+      // the timer once the write is queued so this work can't expire it
+      // before the socket gets a turn. Normally the process deadline wins.
+      timer = setTimeout(
+        () => {
+          decide("TimeoutError");
+          request.destroy();
+        },
+        Math.max(MIN_POST_MS, remainingBudgetMs()),
+      ).unref();
     } catch (error) {
       clearTimeout(timer);
       resolve(reasonFor(error));

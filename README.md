@@ -65,9 +65,9 @@ Install Claude Code or Codex before connecting it to Hearable.
 3. Turn on **Audio** and start a new session in the agent you connected. If Codex asks you
    to trust the hooks, review them in `/hooks`.
 
-The app bundles everything Hearable needs for setup. It uses ad hoc signing and has no
-Apple notarization. If macOS blocks the first launch, follow
-[Apple’s Open Anyway instructions](https://support.apple.com/en-us/102445).
+The app bundles everything Hearable needs for setup. Apple hasn’t notarized this preview,
+so macOS may block the first launch. After trying to open Hearable, go to
+**System Settings → Privacy & Security** and click **Open Anyway** for Hearable.
 
 ### Run from source
 

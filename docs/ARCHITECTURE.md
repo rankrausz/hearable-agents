@@ -27,7 +27,9 @@ to the audio graph. All renderer clients see the same daemon-owned state.
 The relay exits zero and writes nothing to stdout, including daemon outages. The wall-clock
 budget is 50 ms, including startup. Reading stdin and delivering the event share a
 deadline measured from Node's process start, with time reserved for launch overhead
-and teardown. The 50 ms budget remains a target under varying system load.
+and teardown. Once the request is queued, the relay starts its network timer.
+A short minimum scheduling window lets ready input and a queued write proceed after
+a slow startup. The 50 ms budget remains a target under varying system load.
 
 ## Time and determinism
 
