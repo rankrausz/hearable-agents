@@ -61,7 +61,7 @@ describe("the Codex installer", () => {
       entries.map((entry: { hooks: { command: string }[] }) => entry.hooks[0]?.command),
     ).toEqual([
       "hearable-hook --agent codex --url http://127.0.0.1:4949",
-      `"${mounted.relayPath}" --agent codex --url ${DAEMON_URL}`,
+      `[ -x "${mounted.relayPath}" ] && "${mounted.relayPath}" --agent codex --url ${DAEMON_URL} || true`,
     ]);
     expect((await installCodex(mounted)).changed).toBe(false);
     expect((await installCodex(opts)).changed).toBe(false);

@@ -1,5 +1,5 @@
 // Exercises a copied application from outside the checkout; must restore the OS login setting.
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { type AddressInfo, createServer } from "node:net";
 import { tmpdir } from "node:os";
@@ -210,6 +210,20 @@ test("connects both agents using only the packaged app", async () => {
       });
       console.log(`${name} packaged hook: ${elapsed.toFixed(1)} ms`);
       await expect(popover.getByText(name, { exact: true })).toBeVisible();
+
+      const missing = command.replaceAll("hook-runtime/hearable-hook", "hook-runtime/missing-hook");
+      const skipped = spawnSync("/bin/sh", ["-c", missing], {
+        cwd: dir,
+        env: { PATH: "/usr/bin:/bin" },
+        input: "ignored",
+        encoding: "utf8",
+        timeout: 1000,
+      });
+      expect({ status: skipped.status, stdout: skipped.stdout, stderr: skipped.stderr }).toEqual({
+        status: 0,
+        stdout: "",
+        stderr: "",
+      });
     }
   } finally {
     await shell.close();

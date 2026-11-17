@@ -12,7 +12,6 @@ import { CLAUDE_CODE_CAPABILITIES } from "./capabilities.js";
 import { doctorClaudeCode } from "./doctor.js";
 import { installClaudeCode, uninstallClaudeCode } from "./install.js";
 import { mapClaudeCode } from "./map.js";
-import { defaultRelayPath } from "./relay-path.js";
 
 /** Options install accepts beyond the kit's InstallOptions. */
 export type ClaudeCodeInstallOptions = InstallOptions;
@@ -25,8 +24,7 @@ export const claudeCodeAdapter: Adapter = {
     return mapClaudeCode(raw, ctx);
   },
   async install(opts: InstallOptions): Promise<InstallResult> {
-    const relayPath = opts.relayPath ?? defaultRelayPath();
-    return installClaudeCode({ ...opts, relayPath });
+    return installClaudeCode(opts);
   },
   async uninstall(opts: InstallOptions): Promise<void> {
     await uninstallClaudeCode(opts);

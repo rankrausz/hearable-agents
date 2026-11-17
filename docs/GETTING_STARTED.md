@@ -23,7 +23,8 @@ user-level hooks. Start a new session in that agent. If Codex asks you to trust 
 review them in `/hooks`.
 
 The app includes the hook relay and its runtime. If you move the app, use **Connect an agent**
-again so the hooks point to the new location. A custom daemon configuration needs a fixed port.
+again so the hooks point to the new location. Hooks skip delivery while the app is absent.
+A custom daemon configuration needs a fixed port.
 
 ## Agent hooks
 

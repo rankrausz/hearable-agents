@@ -11,7 +11,13 @@
 
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { type InstallOptions, type InstallResult, quoteHookArgument } from "@hearable/adapter-kit";
+import {
+  guardHookCommand,
+  type InstallOptions,
+  type InstallResult,
+  quoteHookArgument,
+} from "@hearable/adapter-kit";
+import { defaultRelayPath } from "./relay-path.js";
 
 /** The settings file, relative to the config dir (Claude Code's `~/.claude`). */
 export const SETTINGS_FILE = "settings.json";
@@ -72,15 +78,16 @@ export type HookEntry = {
  * documented argv flags (adapter id, daemon URL). Shell form (no `args`)
  * because the command is one string with flags.
  */
-export function hookCommand(relayPath: string, daemonUrl: string): string {
-  return `${quoteHookArgument(relayPath)} --agent claude-code --url ${quoteHookArgument(daemonUrl)}`;
+export function hookCommand(relayPath: string, daemonUrl: string, guard = false): string {
+  const args = ` --agent claude-code --url ${quoteHookArgument(daemonUrl)}`;
+  return guard ? guardHookCommand(relayPath, args) : quoteHookArgument(relayPath) + args;
 }
 
 /** One managed entry per event: match-all, running the relay. */
-export function managedEntry(relayPath: string, daemonUrl: string): HookEntry {
+export function managedEntry(relayPath: string, daemonUrl: string, guard = false): HookEntry {
   return {
     matcher: "",
-    hooks: [{ type: "command", command: hookCommand(relayPath, daemonUrl) }],
+    hooks: [{ type: "command", command: hookCommand(relayPath, daemonUrl, guard) }],
     [MANAGED_FLAG]: MANAGED_MARKER,
   };
 }
@@ -154,9 +161,7 @@ async function removePristine(settingsFilePath: string): Promise<void> {
  * is created; pre-existing user content (including their own hooks) is kept
  * untouched — Hearable entries merge into the `hooks` object alongside them.
  */
-export async function installClaudeCode(
-  opts: InstallOptions & { relayPath: string },
-): Promise<InstallResult> {
+export async function installClaudeCode(opts: InstallOptions): Promise<InstallResult> {
   const path = settingsPath(opts.configDir);
   await mkdir(opts.configDir, { recursive: true });
   let existing: string | null = null;
@@ -165,7 +170,11 @@ export async function installClaudeCode(
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
   }
-  const wanted = managedEntry(opts.relayPath, opts.daemonUrl);
+  const wanted = managedEntry(
+    opts.relayPath ?? defaultRelayPath(),
+    opts.daemonUrl,
+    opts.relayPath !== undefined,
+  );
   const wantedJson = JSON.stringify(wanted);
   if (existing === null) {
     // No baseline: the created file holds only Hearable entries. Marker it

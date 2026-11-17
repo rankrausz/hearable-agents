@@ -11,7 +11,12 @@
 
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { type InstallOptions, type InstallResult, quoteHookArgument } from "@hearable/adapter-kit";
+import {
+  guardHookCommand,
+  type InstallOptions,
+  type InstallResult,
+  quoteHookArgument,
+} from "@hearable/adapter-kit";
 
 /** The config file the installer owns entries in, relative to configDir. */
 export const CODEX_HOOKS_FILE = "hooks.json";
@@ -62,12 +67,15 @@ function relayArguments(daemonUrl: string): string {
  * The marker lives in a field Codex ignores so hook semantics are
  * untouched.
  */
-export function hearableMatcherEntry(daemonUrl: string, relayPath = "hearable-hook") {
+export function hearableMatcherEntry(daemonUrl: string, relayPath?: string) {
+  const args = relayArguments(daemonUrl);
+  const command =
+    relayPath === undefined ? `hearable-hook${args}` : guardHookCommand(relayPath, args);
   return {
     hooks: [
       {
         type: "command",
-        command: quoteHookArgument(relayPath) + relayArguments(daemonUrl),
+        command,
         timeout: 10,
       },
     ] as const,
@@ -157,7 +165,10 @@ export async function installCodex(opts: InstallOptions): Promise<InstallResult>
   const hasCommand = (candidate: unknown) =>
     isHearableEntry(candidate, (value) => value === command);
   const targetsDaemon = (candidate: unknown) =>
-    isHearableEntry(candidate, (value) => value.endsWith(suffix));
+    isHearableEntry(
+      candidate,
+      (value) => value.endsWith(suffix) || value.endsWith(`${suffix} || true`),
+    );
   let changed = false;
   for (const event of CODEX_HOOK_EVENTS) {
     const current = hooks[event];

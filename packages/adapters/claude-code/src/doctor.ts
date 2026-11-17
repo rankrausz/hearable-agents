@@ -8,7 +8,7 @@
 import { execFile } from "node:child_process";
 import { access, constants, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import { type Diagnostic, firstHookArgument } from "@hearable/adapter-kit";
+import { type Diagnostic, firstHookArgument, hookExecutable } from "@hearable/adapter-kit";
 import { CLAUDE_CODE_CAPABILITIES } from "./capabilities.js";
 import { MANAGED_EVENTS, MANAGED_MARKER, SETTINGS_FILE } from "./install.js";
 
@@ -77,7 +77,7 @@ export function daemonUrlFromCommand(command: string): string | null {
 
 /** Relay path: the first token of the installed hook command. */
 export function relayFromCommand(command: string): string | null {
-  return firstHookArgument(command);
+  return hookExecutable(command);
 }
 
 async function relayIsExecutable(relayPath: string): Promise<boolean> {

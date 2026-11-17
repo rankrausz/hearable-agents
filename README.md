@@ -56,32 +56,31 @@ fit together as one piece.
 
 ## Try it
 
-The preview DMG requires an Apple Silicon Mac with macOS 13 or later.
-[Download Hearable 0.1.0](https://github.com/rankrausz/hearable-agents/releases/download/v0.1.0/Hearable-0.1.0-macos-arm64.dmg)
+[Download Hearable for Apple Silicon](https://github.com/rankrausz/hearable-agents/releases/download/v0.1.1/Hearable-0.1.1-macos-arm64.dmg) (macOS 13 or later).
+Install Claude Code or Codex before connecting it to Hearable.
 
-Open the DMG and drag **Hearable** into **Applications**. Launch it from Applications,
-then turn on **Audio** in the menu bar popover. This preview has no Apple notarization.
-If macOS blocks the first launch, follow [Apple’s Open Anyway instructions](https://support.apple.com/en-us/102445).
+1. Open the DMG, drag **Hearable** into **Applications**, and launch it from there.
+2. From the menu bar, choose **Connect an agent**, then select **Claude Code** or **Codex**
+   to install its hooks.
+3. Turn on **Audio** and start a new session in the agent you connected. If Codex asks you
+   to trust the hooks, review them in `/hooks`.
 
-### Connect an agent
+The app bundles everything Hearable needs for setup. It uses ad hoc signing and has no
+Apple notarization. If macOS blocks the first launch, follow
+[Apple’s Open Anyway instructions](https://support.apple.com/en-us/102445).
 
-Current packaged builds offer **Connect an agent** in the menu bar popover. Choose
-Claude Code or Codex and start a new agent session. The v0.1.0 download above
-requires you to install hooks from source.
+### Run from source
 
-Clone this repository to run that installer. You’ll need Node **22.12+** and pnpm **11.25.0**.
-From the repository root, install dependencies and run the hook installer.
+You’ll need Node **22.12+** and pnpm **11.25.0**. From the repository root:
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm --filter @hearable/cli hearable install
+pnpm mac
 ```
 
-The installer detects Claude Code and Codex on your `PATH` and asks before updating their
-local hook configuration. If Codex prompts you to trust the hooks, review them in `/hooks`.
-Start a new session in the agent you connected to hear it in the mix.
+Use the [source hook installer](docs/GETTING_STARTED.md#agent-hooks) to connect an agent
+when running from source.
 
-To run Hearable from source, use `pnpm mac` after installing dependencies.
 See [Getting started](docs/GETTING_STARTED.md) for fixture replay, standalone builds, and troubleshooting.
 See [privacy and recording](docs/PRIVACY.md) for what Hearable processes and stores locally.
 
