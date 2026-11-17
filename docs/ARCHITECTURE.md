@@ -25,8 +25,9 @@ The daemon broadcasts snapshots and frames over `/ws`. The renderer applies thos
 to the audio graph. All renderer clients see the same daemon-owned state.
 
 The relay exits zero and writes nothing to stdout, including daemon outages. The wall-clock
-budget is 50 ms, including startup; recorded load-sensitive failures remain open. This is
-a requirement, not a claim that every measured invocation currently meets it.
+budget is 50 ms, including startup. Reading stdin and delivering the event share a
+deadline measured from Node's process start, with time reserved for launch overhead
+and teardown. The 50 ms budget remains a target under varying system load.
 
 ## Time and determinism
 

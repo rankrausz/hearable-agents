@@ -17,23 +17,18 @@
 const { request: httpRequest } =
   process.getBuiltinModule?.("node:http") ?? (await import("node:http"));
 
-// The whole delivery — reading stdin and posting it — shares one deadline,
-// measured from process start, because the agent's per-event budget also
-// carries Node's own start-up and process teardown (together ~30 ms
-// measured). The deadline only bounds pathological cases: a producer that
-// never closes stdin, a daemon that accepts and hangs. Whatever it cannot
-// cover is dropped with a stderr note — the agent's time outranks the
-// event, and a healthy local delivery needs only a few milliseconds of the
-// budget.
-const DELIVERY_BUDGET_MS = 10;
-const deliveryDeadlineAt = performance.now() + DELIVERY_BUDGET_MS;
+// Reading stdin and posting it share a deadline on Node's process clock.
+// Reserve the rest of the 50 ms wall-clock target for launch overhead and
+// teardown. A fast startup leaves more time for localhost delivery, while
+// a slow startup spends that time before the relay begins reading.
+const DELIVERY_DEADLINE_MS = 33;
 
 // The read may not spend the whole budget: a producer that never closes
 // stdin must not starve the POST of its slice of the deadline.
 const READ_BUDGET_MS = 6;
 
 function remainingBudgetMs() {
-  return Math.max(1, deliveryDeadlineAt - performance.now());
+  return Math.max(1, DELIVERY_DEADLINE_MS - performance.now());
 }
 
 /**
