@@ -65,7 +65,8 @@ test("opens an agent from its portrait and explains missing or remote window inf
       probe,
       `// Isolated focus probe; must not connect to owner sessions.
 import { spawnSync } from "node:child_process";
-spawnSync(process.execPath, [process.argv[2], "--agent", "codex", "--url", process.argv[3]], {
+// The parent belongs to Electron. Run the relay in standalone Node, as installed hooks do.
+spawnSync(process.argv[4], [process.argv[2], "--agent", "codex", "--url", process.argv[3]], {
   input: JSON.stringify({ session_id: "native-probe", cwd: "/repo/native-probe", hook_event_name: "UserPromptSubmit" }),
   stdio: ["pipe", "ignore", "ignore"]
 });
@@ -73,15 +74,20 @@ setInterval(() => {}, 1000);
 `,
     );
     await shell.evaluate(
-      async (_electron, { probe, relay, origin }) => {
+      async (_electron, { probe, relay, origin, node }) => {
         const { spawn } = process.getBuiltinModule("node:child_process");
-        const child = spawn(process.execPath, [probe, relay, origin], {
+        const child = spawn(process.execPath, [probe, relay, origin, node], {
           env: { ...process.env, ELECTRON_RUN_AS_NODE: "1", SSH_CONNECTION: "", SSH_TTY: "" },
           stdio: "ignore",
         });
         Object.assign(globalThis, { focusProbe: child });
       },
-      { probe, relay: resolve("packages/adapter-kit/src/relay/hearable-hook.mjs"), origin },
+      {
+        probe,
+        relay: resolve("packages/adapter-kit/src/relay/hearable-hook.mjs"),
+        origin,
+        node: process.execPath,
+      },
     );
     try {
       const nativeOpen = popover.getByRole("button", {
