@@ -56,18 +56,20 @@ fit together as one piece.
 
 ## Try it
 
-This is an early macOS preview. You’ll need Node **22.12+** and pnpm **11.25.0**.
-From the repository root, install dependencies and start Hearable.
+The preview DMG requires an Apple Silicon Mac with macOS 13 or later.
+[Download Hearable 0.1.0](https://github.com/rankrausz/hearable-agents/releases/download/v0.1.0/Hearable-0.1.0-macos-arm64.dmg)
+
+Open the DMG and drag **Hearable** into **Applications**. Launch it from Applications,
+then turn on **Audio** in the menu bar popover. This preview has no Apple notarization.
+If macOS blocks the first launch, follow [Apple’s Open Anyway instructions](https://support.apple.com/en-us/102445).
+
+### Connect an agent
+
+Clone this repository to set up the hooks. You’ll need Node **22.12+** and pnpm **11.25.0**.
+From the repository root, install dependencies and run the hook installer.
 
 ```sh
 pnpm install --frozen-lockfile
-pnpm mac
-```
-
-Open Hearable from the menu bar and turn on audio. In a second terminal at the repository
-root, run the hook installer.
-
-```sh
 pnpm --filter @hearable/cli hearable install
 ```
 
@@ -75,6 +77,7 @@ The installer detects Claude Code and Codex on your `PATH` and asks before updat
 local hook configuration. If Codex prompts you to trust the hooks, review them in `/hooks`.
 Start a new session in the agent you connected to hear it in the mix.
 
+To run Hearable from source, use `pnpm mac` after installing dependencies.
 See [Getting started](docs/GETTING_STARTED.md) for fixture replay, standalone builds, and troubleshooting.
 See [privacy and recording](docs/PRIVACY.md) for what Hearable processes and stores locally.
 
