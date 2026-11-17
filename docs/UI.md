@@ -13,7 +13,8 @@ Opening a session does not imply work. A hidden quiet portrait stays hidden thro
 resume and returns when a real prompt/tool event indicates work. Open actions only target
 verified local hosts; unavailable or partial focus has a plain-language explanation.
 
-Controls include Calm, audio on/off, volume, Open at login, and Quit. The volume
+Controls include Calm, audio on/off, volume, Open at login, and Quit. In packaged builds
+with a fixed daemon port, **Connect an agent** opens a native hook setup dialog. The volume
 thumb and percentage follow input immediately while audio fades to the selected level.
 Errors say what happened and what to do. No console, timeline, replay picker,
 sandbox, or Sound Lab ships publicly. The hidden renderer exists solely to own

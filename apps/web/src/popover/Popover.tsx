@@ -33,6 +33,7 @@ export function Popover() {
   const [requestedVolume, setRequestedVolume] = useState<{ volume: number }>();
   const [login, setLogin] = useState<LoginState>({ available: false, enabled: false, status: "" });
   const [opening, setOpening] = useState(false);
+  const [canConnectAgent, setCanConnectAgent] = useState(false);
   const [focusMessage, setFocusMessage] = useState("");
   const [error, setError] = useState("");
   const [colors, setColors] = useState<ReadonlyMap<string, number>>(() => new Map());
@@ -82,6 +83,11 @@ export function Popover() {
       .loginState()
       .then(setLogin)
       .catch(() => setError("The login setting is unavailable. Reopen Hearable."));
+    if (shell.connectAgent)
+      void shell
+        .preferences()
+        .then(({ canConnectAgent }) => setCanConnectAgent(canConnectAgent === true))
+        .catch(() => {});
     return shell.onAudioState(setAudio);
   }, []);
   useEffect(() => {
@@ -112,6 +118,7 @@ export function Popover() {
       setError("Hearable could not apply that change. Try again.");
     });
   };
+  const connectAgent = canConnectAgent ? shell?.connectAgent : undefined;
   // Playback reports can arrive after a newer input. The popover owns the slider once edited.
   const volume = requestedVolume?.volume ?? audio.volume;
   const sessions = [
@@ -287,6 +294,11 @@ export function Popover() {
       )}
       {shell && (
         <footer>
+          {connectAgent && (
+            <button type="button" onClick={() => control(connectAgent())}>
+              Connect an agent
+            </button>
+          )}
           <button type="button" onClick={() => control(shell.quit())}>
             Quit Hearable
           </button>

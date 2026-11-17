@@ -11,7 +11,7 @@
 
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { InstallOptions, InstallResult } from "@hearable/adapter-kit";
+import { type InstallOptions, type InstallResult, quoteHookArgument } from "@hearable/adapter-kit";
 
 /** The config file the installer owns entries in, relative to configDir. */
 export const CODEX_HOOKS_FILE = "hooks.json";
@@ -52,8 +52,8 @@ function backupFilePath(configDir: string): string {
   return join(configDir, CODEX_HOOKS_BACKUP_FILE);
 }
 
-function relayCommand(daemonUrl: string): string {
-  return `hearable-hook --agent codex --url ${daemonUrl}`;
+function relayArguments(daemonUrl: string): string {
+  return ` --agent codex --url ${quoteHookArgument(daemonUrl)}`;
 }
 
 /**
@@ -62,20 +62,20 @@ function relayCommand(daemonUrl: string): string {
  * The marker lives in a field Codex ignores so hook semantics are
  * untouched.
  */
-export function hearableMatcherEntry(daemonUrl: string): Record<string, unknown> {
+export function hearableMatcherEntry(daemonUrl: string, relayPath = "hearable-hook") {
   return {
     hooks: [
       {
         type: "command",
-        command: relayCommand(daemonUrl),
+        command: quoteHookArgument(relayPath) + relayArguments(daemonUrl),
         timeout: 10,
       },
-    ],
+    ] as const,
     hearable: HEARABLE_HOOK_MARKER,
   };
 }
 
-function isHearableEntry(entry: unknown, daemonUrl?: string): boolean {
+function isHearableEntry(entry: unknown, commandMatches?: (command: string) => boolean): boolean {
   if (entry === null || typeof entry !== "object" || Array.isArray(entry)) {
     return false;
   }
@@ -83,7 +83,7 @@ function isHearableEntry(entry: unknown, daemonUrl?: string): boolean {
   if (record.hearable !== HEARABLE_HOOK_MARKER) {
     return false;
   }
-  if (daemonUrl === undefined) {
+  if (commandMatches === undefined) {
     return true;
   }
   const hooks = record.hooks;
@@ -94,7 +94,8 @@ function isHearableEntry(entry: unknown, daemonUrl?: string): boolean {
     if (hook === null || typeof hook !== "object" || Array.isArray(hook)) {
       return false;
     }
-    return (hook as Record<string, unknown>).command === relayCommand(daemonUrl);
+    const command = (hook as Record<string, unknown>).command;
+    return typeof command === "string" && commandMatches(command);
   });
 }
 
@@ -150,7 +151,13 @@ export async function installCodex(opts: InstallOptions): Promise<InstallResult>
   }
   const config = existing === null ? {} : parseConfig(existing);
   const hooks = hooksOf(config);
-  const entry = hearableMatcherEntry(opts.daemonUrl);
+  const entry = hearableMatcherEntry(opts.daemonUrl, opts.relayPath);
+  const suffix = relayArguments(opts.daemonUrl);
+  const command = entry.hooks[0].command;
+  const hasCommand = (candidate: unknown) =>
+    isHearableEntry(candidate, (value) => value === command);
+  const targetsDaemon = (candidate: unknown) =>
+    isHearableEntry(candidate, (value) => value.endsWith(suffix));
   let changed = false;
   for (const event of CODEX_HOOK_EVENTS) {
     const current = hooks[event];
@@ -160,10 +167,15 @@ export async function installCodex(opts: InstallOptions): Promise<InstallResult>
         "The Codex hooks file holds a hook event that is not a list. Move it aside or fix it, then install again.",
       );
     }
-    if (entries.some((candidate) => isHearableEntry(candidate, opts.daemonUrl))) {
+    const matching = entries.filter(targetsDaemon);
+    if (
+      opts.relayPath === undefined
+        ? matching.length > 0
+        : matching.length === 1 && hasCommand(matching[0])
+    )
       continue;
-    }
-    hooks[event] = [...entries, entry];
+    // Moving the app or switching from the CLI replaces only this daemon's hooks.
+    hooks[event] = [...entries.filter((candidate) => !targetsDaemon(candidate)), entry];
     changed = true;
   }
   if (existing !== null && !changed) {

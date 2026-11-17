@@ -4,10 +4,13 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { packager } from "@electron/packager";
+import { stageRelay } from "./package-relay.mjs";
 
 if (process.platform !== "darwin") throw new Error("Build Hearable.app on macOS.");
 const root = fileURLToPath(new URL("../..", import.meta.url));
-const stage = mkdtempSync(join(tmpdir(), "hearable-package-"));
+const workspace = mkdtempSync(join(tmpdir(), "hearable-package-"));
+const stage = join(workspace, "app");
+const manifest = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
 const electron = JSON.parse(readFileSync(join(root, "node_modules/electron/package.json"), "utf8"));
 const checksums = JSON.parse(
   readFileSync(join(root, "node_modules/electron/checksums.json"), "utf8"),
@@ -22,7 +25,7 @@ try {
     JSON.stringify({
       name: "hearable",
       productName: "Hearable",
-      version: "0.1.0",
+      version: manifest.version,
       type: "module",
       main: "dist/main/index.mjs",
     }),
@@ -41,6 +44,7 @@ try {
     asar: true,
     overwrite: true,
     prune: false,
+    extraResource: [await stageRelay(workspace, root, process.arch)],
     extendInfo: {
       LSUIElement: true,
       NSAppleEventsUsageDescription:
@@ -49,5 +53,5 @@ try {
   });
   for (const path of paths) console.log(`Built ${path}/Hearable.app`);
 } finally {
-  rmSync(stage, { recursive: true, force: true });
+  rmSync(workspace, { recursive: true, force: true });
 }

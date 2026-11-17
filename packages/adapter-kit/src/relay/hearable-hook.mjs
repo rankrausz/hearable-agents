@@ -22,6 +22,7 @@ const { request: httpRequest } =
 // teardown. A fast startup leaves more time for localhost delivery, while
 // a slow startup spends that time before the relay begins reading.
 const DELIVERY_DEADLINE_MS = 33;
+const BUNDLED_MAC_RELAY = process.env.HEARABLE_MAC_BUNDLED_RELAY === "1";
 
 // The read may not spend the whole budget: a producer that never closes
 // stdin must not starve the POST of its slice of the deadline.
@@ -120,7 +121,7 @@ function post(flags, body) {
     // An explicit timer on whatever remains of the shared budget — not only
     // a socket timeout — so the process ends inside the budget even if the
     // connection itself stalls.
-    const timer = setTimeout(() => {
+    let timer = setTimeout(() => {
       decide("TimeoutError");
       if (request !== undefined) {
         request.destroy();
@@ -131,7 +132,7 @@ function post(flags, body) {
       const target = new URL("/events", flags.url);
       request = httpRequest(
         {
-          hostname: target.hostname,
+          hostname: target.hostname.replace(/^\[|\]$/g, ""),
           port: target.port === "" ? undefined : Number(target.port),
           path: `${target.pathname}${target.search}`,
           method: "POST",
@@ -157,6 +158,20 @@ function post(flags, body) {
           response.resume();
         },
       );
+      if (BUNDLED_MAC_RELAY) {
+        // Keep the full send budget. After the OS takes the complete request,
+        // give loopback a moment to respond without waiting on daemon work.
+        request.once("finish", () => {
+          clearTimeout(timer);
+          timer = setTimeout(
+            () => {
+              decide();
+              request?.destroy();
+            },
+            Math.min(remainingBudgetMs(), 2),
+          ).unref();
+        });
+      }
       request.on("error", (error) => {
         decide(reasonFor(error));
       });

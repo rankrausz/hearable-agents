@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { loadConfig } from "@hearable/daemon";
 import { app, dialog, nativeImage, Tray } from "electron";
 import { installBridge } from "./bridge.js";
+import { agentConnector } from "./connect-agent.js";
 import { hostDaemon } from "./daemon-host.js";
 import { loginSettings } from "./login.js";
 import { createPopover } from "./popover.js";
@@ -50,6 +51,7 @@ else {
         resize: popover.resize,
         prefs,
         login: loginSettings(app, app.isPackaged),
+        connectAgent: app.isPackaged && config.port !== 0 ? agentConnector(origin) : undefined,
       });
       let stopping = false;
       app.on("before-quit", (event) => {

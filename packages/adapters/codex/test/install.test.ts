@@ -47,6 +47,27 @@ describe("the Codex installer", () => {
     expect(await readFile(join(configDir, "hooks.json"), "utf8")).toBe(before);
   });
 
+  it("switches only this daemon's hooks to a bundled relay", async () => {
+    const configDir = await throwawayDir();
+    const opts = { configDir, daemonUrl: DAEMON_URL };
+    await installCodex(opts);
+    await installCodex({ ...opts, daemonUrl: "http://127.0.0.1:4949" });
+    const mounted = { ...opts, relayPath: "/Applications/Hearable Preview.app/hearable-hook" };
+    expect((await installCodex(mounted)).changed).toBe(true);
+    const path = join(configDir, "hooks.json");
+    const text = await readFile(path, "utf8");
+    const entries = JSON.parse(text).hooks.UserPromptSubmit;
+    expect(
+      entries.map((entry: { hooks: { command: string }[] }) => entry.hooks[0]?.command),
+    ).toEqual([
+      "hearable-hook --agent codex --url http://127.0.0.1:4949",
+      `"${mounted.relayPath}" --agent codex --url ${DAEMON_URL}`,
+    ]);
+    expect((await installCodex(mounted)).changed).toBe(false);
+    expect((await installCodex(opts)).changed).toBe(false);
+    expect(await readFile(path, "utf8")).toBe(text);
+  });
+
   it("preserves pre-existing user content through install and uninstall", async () => {
     const configDir = await throwawayDir();
     const pristine = `{\n  "description": "mine",\n  "hooks": {\n    "Stop": [\n      {\n        "matcher": "",\n        "hooks": [\n          {\n            "type": "command",\n            "command": "echo done",\n            "timeout": 5\n          }\n        ]\n      }\n    ]\n  }\n}\n`;

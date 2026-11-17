@@ -1,6 +1,6 @@
 // Bundles the shell and existing daemon for Electron; never installs hooks or runs the app.
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,7 +37,8 @@ await build({
   external: ["electron"],
 });
 mkdirSync(out, { recursive: true });
-writeFileSync(`${out}package.json`, JSON.stringify({ version: "0.1.0" }));
+const manifest = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
+writeFileSync(`${out}package.json`, JSON.stringify({ version: manifest.version }));
 // Replacing renderer assets prevents retired developer bundles surviving incremental builds.
 rmSync(`${out}web`, { recursive: true, force: true });
 rmSync(`${out}assets`, { recursive: true, force: true });

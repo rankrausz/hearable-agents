@@ -57,6 +57,10 @@ The [Mac host](MAC_APP.md) adopts a healthy existing daemon or starts its own. Q
 only an owned daemon. The popover and hidden audio endpoint use isolated renderer windows
 served by the daemon. Native actions cross a validated, sender-checked preload bridge.
 Node integration is disabled. Navigation and CSP remain restricted to the daemon origin.
+The opt-in Mac hook installer calls the same adapters as the CLI. Its bundled relay uses
+the same committed script and a separate standalone Node executable. On the Mac path,
+the relay gives the loopback daemon a short response window after the operating system
+takes the complete request. The send budget remains the same.
 
 ## Scope
 

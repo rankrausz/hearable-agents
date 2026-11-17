@@ -9,7 +9,8 @@ export type LoginState = { available: boolean; enabled: boolean; status: string 
 export type ShellBridge = {
   loginState(): Promise<LoginState>;
   setOpenAtLogin(enabled: boolean): Promise<LoginState>;
-  preferences(): Promise<{ audioEnabled: boolean }>;
+  preferences(): Promise<{ audioEnabled: boolean; canConnectAgent?: boolean }>;
+  connectAgent?(): Promise<void>;
   rememberAudio(enabled: boolean): Promise<void>;
   openAgent?(
     agent: string,

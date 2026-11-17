@@ -65,7 +65,11 @@ If macOS blocks the first launch, follow [Apple’s Open Anyway instructions](ht
 
 ### Connect an agent
 
-Clone this repository to set up the hooks. You’ll need Node **22.12+** and pnpm **11.25.0**.
+Current packaged builds offer **Connect an agent** in the menu bar popover. Choose
+Claude Code or Codex and start a new agent session. The v0.1.0 download above
+requires you to install hooks from source.
+
+Clone this repository to run that installer. You’ll need Node **22.12+** and pnpm **11.25.0**.
 From the repository root, install dependencies and run the hook installer.
 
 ```sh

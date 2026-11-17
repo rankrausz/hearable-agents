@@ -11,7 +11,7 @@
 
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { InstallOptions, InstallResult } from "@hearable/adapter-kit";
+import { type InstallOptions, type InstallResult, quoteHookArgument } from "@hearable/adapter-kit";
 
 /** The settings file, relative to the config dir (Claude Code's `~/.claude`). */
 export const SETTINGS_FILE = "settings.json";
@@ -73,7 +73,7 @@ export type HookEntry = {
  * because the command is one string with flags.
  */
 export function hookCommand(relayPath: string, daemonUrl: string): string {
-  return `${relayPath} --agent claude-code --url ${daemonUrl}`;
+  return `${quoteHookArgument(relayPath)} --agent claude-code --url ${quoteHookArgument(daemonUrl)}`;
 }
 
 /** One managed entry per event: match-all, running the relay. */
@@ -162,8 +162,8 @@ export async function installClaudeCode(
   let existing: string | null = null;
   try {
     existing = await readFile(path, "utf8");
-  } catch {
-    existing = null;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
   }
   const wanted = managedEntry(opts.relayPath, opts.daemonUrl);
   const wantedJson = JSON.stringify(wanted);

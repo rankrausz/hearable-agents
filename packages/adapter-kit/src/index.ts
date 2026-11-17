@@ -59,3 +59,5 @@ export { findToolStart, forgetToolStart, rememberToolStart } from "./tool-starts
 
 /** The version of this contract, so adapters can pin the surface they built against. */
 export const ADAPTER_KIT_VERSION = 1 as const;
+
+export { firstHookArgument, quoteHookArgument } from "./hook-command.js";

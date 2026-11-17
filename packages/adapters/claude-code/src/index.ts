@@ -15,10 +15,7 @@ import { mapClaudeCode } from "./map.js";
 import { defaultRelayPath } from "./relay-path.js";
 
 /** Options install accepts beyond the kit's InstallOptions. */
-export type ClaudeCodeInstallOptions = InstallOptions & {
-  /** Relay file the hook command executes; defaults to the kit's committed file. */
-  readonly relayPath?: string;
-};
+export type ClaudeCodeInstallOptions = InstallOptions;
 
 /** The reference adapter for Claude Code hook events. */
 export const claudeCodeAdapter: Adapter = {
@@ -28,7 +25,7 @@ export const claudeCodeAdapter: Adapter = {
     return mapClaudeCode(raw, ctx);
   },
   async install(opts: InstallOptions): Promise<InstallResult> {
-    const relayPath = (opts as ClaudeCodeInstallOptions).relayPath ?? defaultRelayPath();
+    const relayPath = opts.relayPath ?? defaultRelayPath();
     return installClaudeCode({ ...opts, relayPath });
   },
   async uninstall(opts: InstallOptions): Promise<void> {

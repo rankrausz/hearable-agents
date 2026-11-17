@@ -8,7 +8,7 @@
 import { execFile } from "node:child_process";
 import { access, constants, readFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { Diagnostic } from "@hearable/adapter-kit";
+import { type Diagnostic, firstHookArgument } from "@hearable/adapter-kit";
 import { CLAUDE_CODE_CAPABILITIES } from "./capabilities.js";
 import { MANAGED_EVENTS, MANAGED_MARKER, SETTINGS_FILE } from "./install.js";
 
@@ -71,14 +71,13 @@ function readManagedCommands(settings: Record<string, unknown>): string[] {
  * is not in the shape this adapter installs.
  */
 export function daemonUrlFromCommand(command: string): string | null {
-  const match = /--url\s+(\S+)/.exec(command);
-  return match?.[1] === undefined || match[1] === "" ? null : match[1];
+  const url = / --agent claude-code --url (.+)$/s.exec(command)?.[1];
+  return url === undefined ? null : firstHookArgument(url);
 }
 
 /** Relay path: the first token of the installed hook command. */
 export function relayFromCommand(command: string): string | null {
-  const first = command.split(/\s+/)[0];
-  return first === undefined || first === "" ? null : first;
+  return firstHookArgument(command);
 }
 
 async function relayIsExecutable(relayPath: string): Promise<boolean> {

@@ -26,6 +26,7 @@ const Action = z.discriminatedUnion("type", [
     sessionId: z.string().min(1).max(512),
   }),
   z.strictObject({ type: z.literal("quit") }),
+  z.strictObject({ type: z.literal("connect-agent") }),
   z.strictObject({ type: z.literal("audio-state") }),
   z.strictObject({ type: z.literal("report-audio"), audio: Audio }),
   z.strictObject({ type: z.literal("audio-command"), command: Command }),
@@ -39,6 +40,7 @@ export function installBridge(options: {
   resize(height: number): void;
   prefs: ReturnType<typeof preferences>;
   login: ReturnType<typeof loginSettings>;
+  connectAgent: (() => Promise<void>) | undefined;
 }) {
   const openAgent = sessionFocuser(options.origin);
   let audio = { enabled: false, volume: 1, status: "Audio is off" };
@@ -57,7 +59,10 @@ export function installBridge(options: {
       case "set-login":
         return options.login.set(action.enabled);
       case "preferences":
-        return { audioEnabled: audioMayAutostart(isConsole, options.prefs.get().audioEnabled) };
+        return {
+          audioEnabled: audioMayAutostart(isConsole, options.prefs.get().audioEnabled),
+          canConnectAgent: !isConsole && options.connectAgent !== undefined,
+        };
       case "remember-audio":
         if (isConsole) options.prefs.audio(action.enabled);
         return;
@@ -79,6 +84,9 @@ export function installBridge(options: {
           }
           return result;
         });
+      case "connect-agent":
+        if (isConsole || !options.connectAgent) throw new Error("Agent setup is unavailable.");
+        return options.connectAgent();
       case "quit":
         app.quit();
         return;

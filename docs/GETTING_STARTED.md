@@ -15,7 +15,19 @@ Open the tray popover. Audio starts off on a fresh installation. Enable it there
 remembers that choice. Volume, Calm, session portraits, Open at login, and Quit are also
 available there.
 
+## Connect an agent from the Mac app
+
+After copying a current packaged build of Hearable into Applications, open its menu bar
+popover and choose **Connect an agent**. Pick Claude Code or Codex to approve installing its
+user-level hooks. Start a new session in that agent. If Codex asks you to trust the new hooks,
+review them in `/hooks`.
+
+The app includes the hook relay and its runtime. If you move the app, use **Connect an agent**
+again so the hooks point to the new location. A custom daemon configuration needs a fixed port.
+
 ## Agent hooks
+
+Use the CLI for a source build or for the v0.1.0 disk image.
 
 ```sh
 pnpm --filter @hearable/cli hearable install codex

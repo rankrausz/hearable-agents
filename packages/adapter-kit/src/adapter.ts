@@ -128,6 +128,9 @@ export type InstallOptions = {
    * commands, HTTP hook configs or plugin code.
    */
   readonly daemonUrl: string;
+
+  /** Optional absolute path to a bundled command-hook relay. */
+  readonly relayPath?: string;
 };
 
 /** What `install` reports back to the caller. */

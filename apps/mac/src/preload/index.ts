@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld("hearableShell", {
   openAgent: (agent: string, sessionId: string) =>
     ipcRenderer.invoke("hearable", { type: "open-agent", agent, sessionId }),
   quit: () => ipcRenderer.invoke("hearable", { type: "quit" }),
+  connectAgent: () => ipcRenderer.invoke("hearable", { type: "connect-agent" }),
   audioState: () => ipcRenderer.invoke("hearable", { type: "audio-state" }),
   reportAudio: (audio: unknown) => ipcRenderer.invoke("hearable", { type: "report-audio", audio }),
   commandAudio: (command: unknown) =>

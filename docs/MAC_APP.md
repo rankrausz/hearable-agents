@@ -20,6 +20,11 @@ normal config fields and choose both an unused loopback `port` and a separate ab
 present. `HEARABLE_MAC_CONFIG` takes precedence over both. This changes only the Mac
 app's daemon; installed hooks and the CLI keep their own settings.
 
+The packaged app can install user-level Claude Code or Codex hooks through **Connect an
+agent**. A native dialog requires the user's choice before changing settings. The hooks point
+at the relay inside the installed app and deliver to the app's configured loopback daemon.
+Packaging includes a checksum-pinned standalone Node runtime for that relay.
+
 Security: sandboxed renderer, context isolation, no Node integration, restricted
 navigation, strict CSP, and sender/schema checks on IPC. See `src/main/policy.ts`,
 `windows.ts`, `bridge.ts`, and the focused native tests.
