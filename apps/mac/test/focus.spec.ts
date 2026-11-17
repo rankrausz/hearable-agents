@@ -25,16 +25,17 @@ test("opens an agent from its portrait and explains missing or remote window inf
     if (!popover) throw new Error("The popover did not load");
     await expect(popover.getByText("Connected", { exact: true })).toBeVisible();
     const origin = new URL(popover.url()).origin;
-    async function post(headers = {}) {
-      await fetch(`${origin}/events`, {
+    async function post(headers = {}, sessionId = "focus-smoke", cwd = "/repo/focus-project") {
+      const response = await fetch(`${origin}/events`, {
         method: "POST",
         headers: { "x-hearable-agent": "codex", ...headers },
         body: JSON.stringify({
-          session_id: "focus-smoke",
-          cwd: "/repo/focus-project",
+          session_id: sessionId,
+          cwd,
           hook_event_name: "UserPromptSubmit",
         }),
       });
+      expect(response.ok).toBe(true);
     }
     await post();
     await shell.evaluate(({ BrowserWindow }) => {
@@ -58,38 +59,25 @@ test("opens an agent from its portrait and explains missing or remote window inf
     await popover.keyboard.press("Enter");
     await expect(popover.getByRole("status").filter({ hasText: "remote machine" })).toBeVisible();
     await expect(open).toBeEnabled();
-    // A synthetic agent runs under this isolated Electron app. The real relay
-    // captures its ancestry; native activation must not escape to the test runner's host.
-    const probe = join(dir, "focus-probe.mjs");
-    await writeFile(
-      probe,
-      `// Isolated focus probe; must not connect to owner sessions.
-import { spawnSync } from "node:child_process";
-// The parent belongs to Electron. Run the relay in standalone Node, as installed hooks do.
-spawnSync(process.argv[4], [process.argv[2], "--agent", "codex", "--url", process.argv[3]], {
-  input: JSON.stringify({ session_id: "native-probe", cwd: "/repo/native-probe", hook_event_name: "UserPromptSubmit" }),
-  stdio: ["pipe", "ignore", "ignore"]
-});
-setInterval(() => {}, 1000);
-`,
-    );
-    await shell.evaluate(
-      async (_electron, { probe, relay, origin, node }) => {
-        const { spawn } = process.getBuiltinModule("node:child_process");
-        const child = spawn(process.execPath, [probe, relay, origin, node], {
-          env: { ...process.env, ELECTRON_RUN_AS_NODE: "1", SSH_CONNECTION: "", SSH_TTY: "" },
-          stdio: "ignore",
-        });
-        Object.assign(globalThis, { focusProbe: child });
-      },
-      {
-        probe,
-        relay: resolve("packages/adapter-kit/src/relay/hearable-hook.mjs"),
-        origin,
-        node: process.execPath,
-      },
-    );
+    // Use a live child of this isolated Electron instance for the native focus
+    // check. Relay transport and parent capture are exercised by relay.test.ts.
+    const probePid = await shell.evaluate(() => {
+      const { spawn } = process.getBuiltinModule("node:child_process");
+      const child = spawn("/bin/sleep", ["30"], { stdio: "ignore" });
+      Object.assign(globalThis, { focusProbe: child });
+      return child.pid;
+    });
     try {
+      if (probePid === undefined) throw new Error("The isolated focus probe did not start.");
+      await post(
+        {
+          "x-hearable-focus": Buffer.from(
+            JSON.stringify({ pid: probePid, remote: false }),
+          ).toString("base64url"),
+        },
+        "native-probe",
+        "/repo/native-probe",
+      );
       const nativeOpen = popover.getByRole("button", {
         name: "Open Codex, native-probe",
         exact: true,
