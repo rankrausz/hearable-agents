@@ -67,12 +67,10 @@ export function ensemblePlaybackPlan(
 }
 
 /**
- * Renders the playback plan to a stereo buffer through the browser QA
- * entry and plays it. Must be called from a user gesture: the Oceans of
- * dynamic imports keep Tone out of the initial bundle, and playback
- * starts on the created context (no fresh-AudioContext raw buffer —
- * the mix carries the full scene graph). Returns a stop handle; the
- * caller stops on unmount or version switch.
+ * Renders the full mix through the browser QA graph, then plays the stereo
+ * buffer. Call from a user gesture. A signal can prevent playback while
+ * preparation is in flight. Use the returned handle to change volume or
+ * stop an active slice with a fade.
  */
 export async function playEnsemblePlan(
   plan: EnsemblePlaybackPlan,
@@ -80,7 +78,7 @@ export async function playEnsemblePlan(
 ): Promise<{ stop(): void; setVolume(volume: number): void }> {
   const { signal, volume } = options;
   signal?.throwIfAborted();
-  const [{ renderQaScenario }] = await Promise.all([import("../qa/render.js")]);
+  const { renderQaScenario } = await import("../qa/render.js");
   const rendered = await renderQaScenario(plan.scenario, plan.seed, "mix", 0, plan.schedule);
   signal?.throwIfAborted();
   const context = new AudioContext();
@@ -96,15 +94,20 @@ export async function playEnsemblePlan(
     source.buffer = buffer;
     source.connect(output);
     output.connect(context.destination);
-    source.start();
     let stopped = false;
-    function rampVolume(value: number): void {
+    function closeContext(): void {
+      stopped = true;
+      void context.close().catch(() => undefined);
+    }
+    source.addEventListener("ended", closeContext, { once: true });
+    source.start();
+
+    function rampVolume(value: number): number {
       const now = context.currentTime;
+      const end = now + RAMP_TIMES.master.seconds;
       output.gain.cancelAndHoldAtTime(now);
-      output.gain.linearRampToValueAtTime(
-        Math.max(0, Math.min(1, value)),
-        now + RAMP_TIMES.master.seconds,
-      );
+      output.gain.linearRampToValueAtTime(Math.max(0, Math.min(1, value)), end);
+      return end;
     }
     return {
       setVolume(value) {
@@ -113,12 +116,12 @@ export async function playEnsemblePlan(
       stop() {
         if (stopped) return;
         stopped = true;
-        rampVolume(0);
-        source.stop(context.currentTime + RAMP_TIMES.master.seconds);
-        setTimeout(
-          () => void context.close().catch(() => undefined),
-          RAMP_TIMES.master.seconds * 1_000,
-        );
+        if (context.state === "running") {
+          source.stop(rampVolume(0));
+        } else {
+          source.removeEventListener("ended", closeContext);
+          closeContext();
+        }
       },
     };
   } catch (error) {
